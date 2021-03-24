@@ -14,3 +14,4 @@ all: ${DAYS}
 clean:
 	rm -f Bin/*
 	@echo "Removed all binaries!"
+	
