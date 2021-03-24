@@ -3,8 +3,8 @@
 #include "util.h"
 #include <functional>
 
-vector<int> readInts(){
-	fstream file("input");
+vector<int> readInts(int day){
+	fstream file("Day "+to_string(day)+"/input");
 	string line;
 	getline(file, line);
 	stringstream ss(line);

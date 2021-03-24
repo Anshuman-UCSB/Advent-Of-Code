@@ -21,7 +21,7 @@ int p2mass(int inp){
 
 void p1(){
 	int p1 = 0;
-	auto inp = readInput();
+	auto inp = readInput(1);
 	for(auto& s: inp){
 		p1+=p1mass(stoi(s));
 	}
@@ -30,7 +30,7 @@ void p1(){
 
 void p2(){
 	int p2 = 0;
-	auto inp = readInput();
+	auto inp = readInput(1);
 	for(auto& s: inp){
 		p2+=p2mass(stoi(s));
 	}

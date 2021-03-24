@@ -1,7 +1,7 @@
 #include "../util.h"
 
 int main(){
-	auto raw = readInput();
+	auto raw = readInput(3);
 
 	map<pair<int, int>, pair<int, int>> visited;
 	int x(0), y(0), step(0);

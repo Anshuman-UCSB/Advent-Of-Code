@@ -1,7 +1,7 @@
 #include "../intcode.h"
 
 void part2(){
-	vector<int> raw = readInts();
+	vector<int> raw = readInts(2);
 	for(int i = 0;i<100;i++){
 		for(int j = 0;j<100;j++){
 			raw[1] = i;
@@ -16,16 +16,16 @@ void part2(){
 }
 
 int main(){
-	vector<int> raw = readInts();
+	vector<int> raw = readInts(2);
 	raw[1] = 12;
 	raw[2] = 2;
 	intCode comp(raw);
-	comp.print();
+	// comp.print();
 	while(comp.done == false){
 		comp.step();
-		comp.print();
+		// comp.print();
 	}
-	comp.print();
+	// comp.print();
 	part2();
 }
 

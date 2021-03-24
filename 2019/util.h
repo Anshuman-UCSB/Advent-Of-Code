@@ -11,9 +11,9 @@
 
 using namespace std;
 
-vector<string> readInput(){
+vector<string> readInput(int day){
 	vector<string> out;
-	fstream file("input");
+	fstream file("Day "+to_string(day)+"/input");
 	string line;
 	while(getline(file, line)){
 		if(line.back() == '\r'){
