@@ -6,15 +6,19 @@
 vector<int> readInts(int day){
 	fstream file("Day "+to_string(day)+"/input");
 	string line;
-	getline(file, line);
-	stringstream ss(line);
 	vector<int> out;
 	int temp;
 	char trash;
+	string build;
+	while(getline(file, line)){
+		build+=line;
+	}
+	stringstream ss(build);
 	while(ss>>temp>>trash){
 		out.push_back(temp);
 	}
 	out.push_back(temp);
+	
 	return out;
 }
 
@@ -218,12 +222,21 @@ class intCode{
 
 	void step(){
 		int& opcode = regs[ind];
+		if(debug){
+			cout<<"Running "<<opcode<<" at "<<ind<<endl;
+		}
 		m[opcode]();	
 	}
 
 	void run(){
 		while(!done){
 			step();
+			if(debug){
+				print();
+			}
+		}
+		if(debug){
+			cout<<"FINISHED\n    Outputs: "<<output<<endl;
 		}
 	}
 
