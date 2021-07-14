@@ -52,20 +52,8 @@ int main(){
 		parents[b] = a;
 		orbits[a].emplace_back(b);
 	}
-	
-	
-	// for(auto& v: orbits){
-	// 	cout<<v.first<<": [ ";
-	// 	for(auto &c: v.second){
-	// 		cout<<c<<" ";
-	// 	}cout<<"]"<<endl;
-	// }
 
 	cout<<"P1: "<<p1(orbits, depth, "COM")<<endl;
-	// for(auto& p: parents){
-	// 	cout<<p.first<<" orbits" <<p.second<<endl;
-	// }
-
 
 	stack<string> san = getParentTree(parents, "SAN");
 	stack<string> you = getParentTree(parents, "YOU");
@@ -74,5 +62,4 @@ int main(){
 		san.pop();
 	}
 	cout<<"P2: "<<you.size() + san.size() - 2<<endl;
-
 }
