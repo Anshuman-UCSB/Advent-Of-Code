@@ -8,6 +8,7 @@ $(DAYS):
 	@echo "\nDAY $@"
 	@/usr/bin/time --format="Took %E to compile." ${CXX} ${CXXFLAGS} Day\ $@/main.cpp -o Bin/day$@
 	@millisecond-time ./Bin/day$@
+
 all: ${DAYS}
 
 clean:
