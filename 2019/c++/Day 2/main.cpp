@@ -20,12 +20,15 @@ int main(){
 	raw[1] = 12;
 	raw[2] = 2;
 	intCode comp(raw);
+	comp.debug=true;
 	// comp.print();
 	while(comp.done == false){
+		comp.print();
 		comp.step();
-		// comp.print();
 	}
+	// cout<<"part 1: "<<comp.regs[0]<<endl;
+	cout<<comp.regs<<endl;
 	// comp.print();
-	part2();
+	// part2();
 }
 
