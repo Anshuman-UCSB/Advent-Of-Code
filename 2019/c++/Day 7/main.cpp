@@ -3,77 +3,64 @@
 
 using namespace std;
 
-int tryConfig(vector<int>& instr, vector<int>& inps){
-	vector<intCode> amps;
+int tryConfig(string instr, vector<int>& inps){
+	vector<IntCode> amps;
 	for(int i =0 ;i<5;i++){
-		amps.emplace_back(instr);
-		amps.back().input.push(inps[i]);
-		// amps.back().print(); // for debugging
+		amps.emplace_back(instr, false);
+		amps.back().push(inps[i]);
 	}
 	int lastOutput = 0;
 	for(int i =0 ;i<5;i++){
-		// amps[i].debug = true;
-		amps[i].input.push(lastOutput);
-		
-		// amps[i].print();
-		while(amps[i].output.empty()){
+		amps[i].push(lastOutput);
+		while(amps[i].out.empty()){
 			amps[i].step();
-			// amps[i].print();
 		}
-		lastOutput = amps[i].output.back();
-		// cout<<"output "<<lastOutput<<endl<<endl;
+		lastOutput = amps[i].pop();
 	}
 	return lastOutput;
 }
 
-int tryConfig2(vector<int>& instr, vector<int>& inps){
-	vector<intCode> amps;
+int tryConfig2(string instr, vector<int>& inps){
+	vector<IntCode> amps;
 	for(int i =0 ;i<5;i++){
-		amps.emplace_back(instr);
-		amps.back().input.push(inps[i]);
-		// amps.back().print(); // for debugging
+		amps.emplace_back(instr, false);
+		amps.back().push(inps[i]);
 	}
 	int lastOutput = 0;
-	int p2 = 0;
+	int ampEOut;
 	while(true){
 		for(int i =0 ;i<5;i++){
-			// amps[i].debug = true;
-			amps[i].input.push(lastOutput);
-			
-			// amps[i].print();
-			while(amps[i].output.empty()){
+			amps[i].push(lastOutput);
+			while(amps[i].out.empty()){
 				amps[i].step();
-				// amps[i].print();
-				if(amps[i].done){
-					//if done cycle
-					return p2;
-				}
+				if(amps[i].done)
+					return ampEOut;
 			}
-			lastOutput = amps[i].output.back();
+			lastOutput = amps[i].pop();
 			if(i == 4){
-				p2 = lastOutput;
+				ampEOut = lastOutput;
 			}
-			amps[i].output.pop_back();
-			// cout<<"output "<<lastOutput<<endl<<endl;
 		}
 	}
 }
+
+
 int main(){
-	vector<int> instr = readInts(7);
+	fstream file("Day 7/input");
+	string line;
+	getline(file, line);
 	vector<int> phases = {0,1,2,3,4};
 	int p1 = 0;
 	do {
-		p1 = max(p1, tryConfig(instr, phases));
+		p1 = max(p1, tryConfig(line, phases));
 	} while(next_permutation(phases.begin(), phases.end()));
-	cout<<"P1: "<<p1<<endl;
-
-	instr = readInts(7);
+	cout<<"[P1] "<<p1<<endl;
 	phases = {5,6,7,8,9};
 	int p2 = 0;
 	do {
-		p2 = max(p2, tryConfig2(instr, phases));
+		p2 = max(p2, tryConfig2(line, phases));
 	} while(next_permutation(phases.begin(), phases.end()));
-	cout<<"P2: "<<p2<<endl;
+	cout<<"[P2] "<<p2<<endl;
 
 	
 }
