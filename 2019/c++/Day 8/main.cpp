@@ -55,7 +55,7 @@ int main(){
 		layers.push_back(line.substr(0,dim));
 		line = line.substr(dim);
 	}
-	cout<<"P1: "<<p1(layers)<<endl;
-	cout<<"P2: "<<endl;
+	cout<<"[P1] "<<p1(layers)<<endl;
+	cout<<"[P2] "<<endl;
 	p2(layers);
 }

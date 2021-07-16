@@ -19,7 +19,12 @@ void tests(){
 int main(){
 	// tests();
 	IntCode c(9);
+	c.push(1);
+	c.run();
+	cout<<"[P1] "<<c.pop()<<endl;
+	c = IntCode(9);
 	c.push(2);
 	c.run();
-	c.print();
+	cout<<"[P2] "<<c.pop()<<endl;
+	// c.print();
 }

@@ -25,7 +25,7 @@ void p1(){
 	for(auto& s: inp){
 		p1+=p1mass(stoi(s));
 	}
-	cout<<p1<<endl;
+	cout<<"[P1] "<<p1<<endl;
 }
 
 void p2(){
@@ -34,6 +34,6 @@ void p2(){
 	for(auto& s: inp){
 		p2+=p2mass(stoi(s));
 	}
-	cout<<p2<<endl;
+	cout<<"[P2] "<<p2<<endl;
 }
 

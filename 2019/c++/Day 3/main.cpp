@@ -43,6 +43,6 @@ int main(){
 		p2 = min(p2, v[2]);
 	}
 
-	cout<<"Part 1: "<<p1<<endl;
-	cout<<"Part 2: "<<p2<<endl;
+	cout<<"[P1] "<<p1<<endl;
+	cout<<"[P2] "<<p2<<endl;
 }
