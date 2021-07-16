@@ -1,11 +1,14 @@
 #pragma once
+
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <cassert>
 #include <fstream>
-#include "util.h"
+#include "prints.h"
 using namespace std;
+
+#define ll long long
 
 
 bool testOutput(string inp, const vector<ll>& out);

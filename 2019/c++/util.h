@@ -10,32 +10,52 @@
 #include <map>
 #include <utility>
 
-#define ll long long
-#define RED "\033[31m"
-#define YELLOW "\033[33m"
-#define CYAN "\033[36m"
-#define GREEN "\033[32m"
-#define RESET "\033[0m"
-#define BOLD "\033[1m"
 using namespace std;
 
-template <class T>
-ostream& operator<<(ostream& os, const vector<T>& v){
-	cout<<"[";
-	string delim = "";
-	for(auto& val: v){
-		cout<<delim<<val;
-		delim = ", ";
-	}cout<<"]";
-	return os;
+vector<string> readInput(int day){
+	vector<string> out;
+	fstream file("Day "+to_string(day)+"/input");
+	string line;
+	while(getline(file, line)){
+		if(line.back() == '\r'){
+			line.pop_back();
+		}
+		out.emplace_back(line);
+	}
+	return out;
+}
+
+bool isIn(const char &a,const string &b){
+	for(auto c: b){
+		if(a == c){
+			return true;
+		}
+	}
+	return false;
 }
 
 template <class T>
-ostream& operator<<(ostream& os, const pair<T, T>& p){
-	os<<"("<<p.first<<", "<<p.second<<")";
-	return os;
+bool isIn(const T &a,const vector<T> &b){
+	for(auto c: b){
+		if(a == c){
+			return true;
+		}
+	}
+	return false;
 }
 
+vector<string> tokenize(string& inp, string delims){
+	vector<string> out;
+	out.emplace_back();
+	for(auto& c: inp){
+		if (isIn(c, delims)){
+			out.emplace_back();
+		}else{
+			out.back().push_back(c);
+		}
+	}
+	return out;
+}
 
 
 #endif

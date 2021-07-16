@@ -1,5 +1,6 @@
 #include "../util.h"
 
+
 int main(){
 	auto raw = readInput(3);
 
