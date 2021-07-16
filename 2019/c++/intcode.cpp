@@ -19,6 +19,28 @@ IntCode::IntCode(string input, bool debug){
 		log("debug turned on!");
 	}
 }
+
+IntCode::IntCode(int day, bool debug){
+	fstream file("Day "+to_string(day)+"/input");
+	string line;
+	getline(file, line);
+	regs = vector<ll>();
+	stringstream ss(line);
+	ll temp;
+	char trash;
+	while(ss>>temp>>trash){
+		regs.push_back(temp);
+	}
+	regs.push_back(temp);
+
+	ind = 0;
+	rel = 0;
+	done = false;
+	this->debug = debug;
+	if(debug){
+		log("debug turned on!");
+	}
+}
 	
 IntCode::IntCode(const vector<ll>& inputRegs, bool debug){
 	regs = vector<ll>(inputRegs);
@@ -34,6 +56,7 @@ IntCode::IntCode(){
 	done = false;
 	debug = false;
 }
+
 
 void IntCode::step(){
 	ll opc = regs[ind]%100;
@@ -54,13 +77,15 @@ void IntCode::step(){
 			ind+=4;
 			break;
 		case 3:	//input
+			assert(!inp.empty());
 			setParam(1, inp[0]);
 			log("Reading "+to_string(inp[0])+" as input.");
+			assert(!inp.empty());
 			inp.erase(inp.begin());
 			ind+=2;
 			break;
 		case 4: //output
-			out.push_back(getParam(1));
+			out.emplace_back(getParam(1));
 			log("Pushing output "+to_string(getParam(1)));
 			ind+=2;
 			break;
@@ -92,6 +117,11 @@ void IntCode::step(){
 			setParam(3, a==b);
 			ind+=4;
 			break;
+		case 9: //change rel pointer 
+			a = getParam(1);
+			rel+=a;
+			ind+=2;
+			break;
 		case 99: //exit
 			done = true;
 			break;
@@ -111,7 +141,7 @@ void IntCode::run(bool print){
 
 void IntCode::print(){
 	cout<<endl<<RED<<BOLD<<" + "<<RESET;
-	cout <<RED<<BOLD<<"Registers:"<<RESET<<endl;
+	cout <<RED<<BOLD<<"Registers:	"<<GREEN<<"("<<ind<<", "<<rel<<")"<<RESET<<endl;
 	cout<<"	";
 	for(int i = max(0, ind-1);i<min(int(regs.size()),ind+8);i++){
 		if(i == ind)
@@ -119,6 +149,7 @@ void IntCode::print(){
 		else
 			cout<<regs[i]<<" ";
 	}cout<<endl;
+	cout<<"	Size: "<<regs.size()<<endl;
 	if(!inp.empty()){
 		cout<<CYAN<<BOLD<<" + Inputs:"<<RESET<<endl;
 		cout<<"	"<<inp<<endl;
@@ -170,9 +201,36 @@ ll IntCode::getParam(int pos){
 void IntCode::setParam(int pos, ll val){
 	int type = getType(pos);
 
+	while(ind+pos >= regs.size())
+		regs.push_back(0);
 	switch(type){
-		case 0: regs[regs[ind+pos]] = val; break;
-		case 1: regs[ind+pos] = val; break;
-		case 2: regs[rel + regs[ind+pos]] = val; break;
+		case 0: 
+			assert(ind+pos >=0);
+			assert(regs[ind+pos] >=0);
+			while(regs[ind+pos] >= regs.size())
+				regs.push_back(0);
+			regs[regs[ind+pos]] = val; break;
+		case 1: 
+			assert(ind+pos >=0);
+			regs[ind+pos] = val; break;
+		case 2: 
+			while(rel + regs[ind+pos] >= regs.size())
+				regs.push_back(0);
+			assert(ind+pos >=0);
+			assert(rel + regs[ind+pos] >0);
+			regs[rel + regs[ind+pos]] = val; break;
 	}
+}
+
+bool testOutput(string inp, const vector<ll>& out){
+	IntCode c(inp);
+	c.run();
+	return c.out == out;
+}
+
+bool testOutput(string inp, const vector<ll>& out, const vector<ll>& inputs){
+	IntCode c(inp);
+	c.inp = vector<ll>(inputs);
+	c.run();
+	return c.out == out;
 }

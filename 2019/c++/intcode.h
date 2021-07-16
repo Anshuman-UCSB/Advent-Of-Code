@@ -25,6 +25,9 @@ ostream& operator<<(ostream& os, const vector<T>& v){
 	return os;
 }
 
+bool testOutput(string inp, const vector<ll>& out);
+bool testOutput(string inp, const vector<ll>& out, const vector<ll>& inputs);
+
 class IntCode{
 	public:
 		vector<ll> regs;		//registers
@@ -32,9 +35,11 @@ class IntCode{
 		vector<ll> inp, out;	//inputs, outputs
 		bool done, debug;		//finished, debug prints or not
 
+		IntCode(int day, bool debug = false);
 		IntCode(string input, bool debug = false);
 		IntCode(const vector<ll>& inputRegs, bool debug = false);
 		IntCode();
+
 
 		void push(ll val);		//push an input
 		ll pop();				//pop an output
