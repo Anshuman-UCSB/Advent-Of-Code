@@ -102,19 +102,25 @@ int main(){
 	}
 	cout<<"[P1] "<<p1<<endl;
 
-	unsigned long long cycles[3];
+	vector<ll> cycles(3);
 	// cout<<hashState(moons,0)<<endl;
-	for(int state = 0;state<3;state++){
-		map<string, int> seen;
-		string hash;
-		for(int i = 0;;i++){
+	
+	map<string, int> seen[3];
+	string hash;
+	for(int i = 0;;i++){
+		for(int state = 0;state<3;state++){
 			hash = hashState(moons, state);
-			if(seen.insert(make_pair(hash, i)).second == false){
-				cycles[state] = i-seen[hash];
-				break;
+			if(cycles[i] == 0 && seen[state].insert(make_pair(hash, i)).second == false){
+				cycles[state] = i-seen[state][hash];
+				if(cycles[0] != 0 &&
+				   cycles[1] != 0 &&
+				   cycles[2] != 0){
+					goto p2;
+				}
 			}
-			updateMoons(moons);				
 		}
+		updateMoons(moons);
 	}
+	p2:
 	cout<<"[P2] "<<lcm(cycles[0], lcm(cycles[1], cycles[2]))<<endl;
 }
