@@ -6,6 +6,19 @@
 
 using namespace std;
 
+unsigned long long gcd(unsigned long long int a, unsigned long long int b)
+{
+  if (b == 0)
+    return a;
+  return gcd(b, a % b);
+}
+ 
+// Function to return LCM of two numbers
+unsigned long long lcm(unsigned long long a, unsigned long long b)
+{
+    return (a / gcd(a, b)) * b;
+}
+
 struct Moon{
 	int x, y, z;
 	int dx, dy, dz;
@@ -52,12 +65,24 @@ string hashState(vector<Moon>& moons, int var){
 	string out = "";
 	for(auto& m: moons){
 		switch(var){
-			case 0:out+=m.x+"_"+m.dx+",";break;
-			case 1:out+=m.y+"_"+m.dy+",";break;
-			case 2:out+=m.z+"_"+m.dz+",";break;
+			case 0:out+=to_string(m.x)+"_"+to_string(m.dx)+",";break;
+			case 1:out+=to_string(m.y)+"_"+to_string(m.dy)+",";break;
+			case 2:out+=to_string(m.z)+"_"+to_string(m.dz)+",";break;
 		}
 	}
 	return out;
+}
+
+void updateMoons(vector<Moon>& moons){
+	for(auto& m: moons){
+		for(auto& n: moons){
+			m.updateGravity(n);
+		}
+	}
+	for(auto& m: moons){
+		m.updatePos();
+		// cout<<"	"<<m<<endl;
+	}
 }
 
 int main(){
@@ -69,15 +94,7 @@ int main(){
 	
 	for(int it = 1;it<=1000;it++){
 		// cout<<BOLD<<RED<<"Step "<<it<<RESET<<endl;
-		for(auto& m: moons){
-			for(auto& n: moons){
-				m.updateGravity(n);
-			}
-		}
-		for(auto& m: moons){
-			m.updatePos();
-			// cout<<"	"<<m<<endl;
-		}
+		updateMoons(moons);
 	}
 	ll p1 = 0;
 	for(auto& m : moons){
@@ -85,6 +102,19 @@ int main(){
 	}
 	cout<<"[P1] "<<p1<<endl;
 
-	ll xCycle;
-	for()
+	unsigned long long cycles[3];
+	// cout<<hashState(moons,0)<<endl;
+	for(int state = 0;state<3;state++){
+		map<string, int> seen;
+		string hash;
+		for(int i = 0;;i++){
+			hash = hashState(moons, state);
+			if(seen.insert(make_pair(hash, i)).second == false){
+				cycles[state] = i-seen[hash];
+				break;
+			}
+			updateMoons(moons);				
+		}
+	}
+	cout<<"[P2] "<<lcm(cycles[0], lcm(cycles[1], cycles[2]))<<endl;
 }
