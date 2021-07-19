@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 #define RED "\033[31m"
@@ -20,3 +21,10 @@ ostream& operator<<(ostream& os, const vector<T>& v){
 	}cout<<"]";
 	return os;
 }
+
+template <class T1, class T2>
+ostream& operator<<(ostream& os, const pair<T1, T2>& p){
+	cout<<"("<<p.first<<", "<<p.second<<")";
+	return os;
+}
+
