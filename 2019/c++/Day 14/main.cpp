@@ -1,88 +1,103 @@
 #include "../prints.h"
-#include <utility>
+#include <vector>
+#include <map>
 #include <sstream>
 #include <fstream>
-#include <map>
-#define reagent pair<string, int>
 
-string upTo(string& inp, string pattern){
-	string out = inp.substr(0, inp.find(pattern));
-	inp=inp.substr(inp.find(pattern) + pattern.size());
-	return out;
-}
-
-struct Recipie{
-	vector<reagent> components;
-	reagent output;
-	Recipie(){
-		output = make_pair("-1",-1);
-	}
-	Recipie(string inp){
-		string left = upTo(inp, " => ");
+struct reagent{
+	string item;
+	int amt;
+	reagent(){}
+	reagent(string inp){
 		stringstream ss(inp);
-		ss>>output.second>>output.first;
-		
-		while(left.find(",")!=string::npos){
-			string temp = upTo(left, ", ");
-			components.emplace_back();
-			ss = stringstream(temp);
-			ss>>components.back().second>>components.back().first;
+		ss>>amt>>item;
+	}
+	reagent(string item, int amt):item(item), amt(amt){
+		if(item.back() == ','){
+			this->item.pop_back();
 		}
-		ss = stringstream(left);
-		components.emplace_back();
-		ss>>components.back().second>>components.back().first;
+	}
+
+	bool operator<(const reagent& r) const {
+		if(item<r.item){
+			return true;
+		}
+		if(item == r.item && amt<r.amt){
+			return true;
+		}
+		return false;
+	}
+
+};
+
+struct recipie{
+	reagent out;
+	vector<reagent> inp;
+	recipie(){}
+	string a;
+	int b;
+	recipie(string line){
+		a = ",";
+		stringstream ss(line);
+		while(a.back() == ','){
+			ss>>b>>a;
+			inp.emplace_back(a, b);
+		}
+		ss>>a>>b>>a;
+		out = reagent(a,b);
 	}
 };
 
-ostream& operator<<(ostream& os, Recipie& r){
-	cout<<r.components<<" => "<<r.output;
+ostream& operator<<(ostream& os, const reagent& r){
+	os<<r.amt<<" "<<r.item;
 	return os;
 }
-int level = 0;
-void create(map<string, Recipie>& recipies, map<string, int>& needs, const reagent& make){
-	if(make.first == "ORE"){
-		needs["ORE"] += make.second;
-		return;
+
+ostream& operator<<(ostream& os, const recipie& r){
+	cout<<r.inp<<" => "<<r.out;
+	return os;
+}
+
+
+
+map<string, recipie> recipies;
+void initRecipies(){
+	fstream file("Day 14/input");
+	string line;
+	string a;
+	int b;
+	while(getline(file, line)){
+		recipie r(line);
+		// cout<<r.end<<endl;
+		recipies[r.out.item] = r;
 	}
-	// in needs:
-	// positive means how much there is surplus
-	// negative means how much needed
-	// Recipie r = recipies[make.first];
-	needs[make.first]-=make.second;
-	for(auto& p: needs){
-		if(p.second < 0){
-			for(int i = 0;i<level;i++){cout<<"	";}
-			cout<<"Needs more "<<p.first<<endl;
-			Recipie r = recipies[make.first];
-			while(p.second<0){
-				p.second+=r.output.second;
-				for(auto& reg: r.components){
-					level++;
-					create(recipies, needs, reg);
-					level--;
-				}
-			}
-			for(auto& n: needs){
-				for(int i = 0;i<level;i++){cout<<"	";}
-				cout<<" + "<<n.first<<", "<<n.second<<endl;
-			}
+}
+
+map<string, int> counts;
+void printCounts(){
+	for(auto p: counts){
+		cout<<p.first<<", "<<p.second<<endl;
+	}
+}
+
+void make(const reagent& r){
+	// cout<<"make called on "<<r<<endl;
+	counts[r.item] -= r.amt; //use up r.amt of r.item
+	while(r.item != "ORE" && counts[r.item]<0){
+		counts[r.item] += recipies[r.item].out.amt;
+		for(auto& reg: recipies[r.item].inp){
+			make(reg);
 		}
 	}
 }
 
+void p1(){
+	// counts["FUEL"] = -1; //request 1 fuel to be made
+	make(reagent("FUEL", 1));
+	cout<<"[P1] "<<-counts["ORE"]<<endl;
+}
+
 int main(){
-	fstream file("Day 14/input");
-	string line;
-	map<string, Recipie> m;
-	while(getline(file, line)){
-		Recipie r(line);
-		m[r.output.first] = r;
-	}
-	// for(auto& p: m){
-	// 	cout<<p.first<<" => "<<p.second<<endl;
-	// }
-	map<string, int> needs;
-	reagent fuel = make_pair("FUEL", 1);
-	create(m, needs, fuel);
-	cout<<needs["ORE"]<<endl;
+	initRecipies();
+	p1();
 }
