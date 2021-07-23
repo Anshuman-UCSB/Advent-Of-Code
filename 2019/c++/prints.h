@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <map>
 #include <vector>
 using namespace std;
 
@@ -28,3 +29,19 @@ ostream& operator<<(ostream& os, const pair<T1, T2>& p){
 	return os;
 }
 
+// void cls(){
+// 	cout<<"\033[2J";
+// }
+
+template <class T, class M>
+std::ostream & operator <<(std::ostream &os, const std::map<T, M> &m)
+{
+    for (const auto &p : m)
+    {
+        os << p.first << ": ";
+		os << p.second;
+        os << std::endl;
+    }
+
+    return os;
+}
