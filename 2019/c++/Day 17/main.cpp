@@ -116,14 +116,16 @@ void hand(){
 	}
 	comp.push(int('n'));
 	comp.push(int('\n'));
-	cout<<comp.inp<<endl;
 	comp.run();
 	cout<<"[P2] "<<comp.out.back()<<endl;
 	exit(1);
 }
 
+void p2Algorithmic(string& inp){
+
+}
+
 int main(){
-	hand();
 	IntCode c(17);
 	vector<string> m;
 	// c.regs[0] = 2;
@@ -145,9 +147,9 @@ int main(){
 	// cout<<start<<endl;
 	
 
-	for(auto& r: m){
-		cout<<r<<endl;
-	}
+	// for(auto& r: m){
+	// 	cout<<r<<endl;
+	// }
 	long long p1=0;
 	
 	for(int y=1;y<m.size()-1;y++){
@@ -164,7 +166,10 @@ int main(){
 	}
 
 	cout<<"[P1] "<<p1<<endl;
+	hand();
 	string totalInstr = solvePath(m, start);
+	p2Algorithmic(totalInstr);
+	exit(1);
 	cout<<"[P2] "<<totalInstr<<endl;
 	//L,12,L,8,R,12,L,10,L,8,L,12,R,12,L,12,L,8,R,12,R,12,L,8,L,10,L,12,L,8,R,12,L,12,L,8,R,12,R,12,L,8,L,10,L,10,L,8,L,12,R,12,R,12,L,8,L,10,L,10,L,8,L,12,R,12
 	stringstream ss(totalInstr);
