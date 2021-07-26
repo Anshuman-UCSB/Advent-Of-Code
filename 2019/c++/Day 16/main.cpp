@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <cassert>
 #include "../prints.h"
 
 using namespace std;
@@ -31,19 +32,43 @@ void phase(vector<int>& regs){
 	regs = out;
 }
 
+void phase2(vector<int>& regs){
+	for(int i = regs.size()-2;i>regs.size()/2;i--){
+		regs[i] = (regs[i]+regs[i+1])%10;
+	}
+}
+
 int main(){
 	fstream file("Day 16/input");
 	string line;
 	getline(file,line);
+	int loc = stoi(line.substr(0,7));
 	vector<int> regs(line.size());
 	for(int i =0 ;i<line.size();i++){
 		regs[i] = line[i]-'0';
 	}
+	assert(loc > regs.size()*5000);
+	vector<int> regs2;
+	// for(int i =0;i<1;i++){
+	for(int i =0;i<10000;i++){
+		regs2.insert(regs2.end(), regs.begin(), regs.end());
+	}
 	for(int i =0 ;i<100;i++){
 		phase(regs);
+		phase2(regs2);
+		// cout<<i+1<<": ";
+		// for(auto& c: regs2){
+		// 	cout<<c;
+		// }cout<<endl;
 	}
 	cout<<"[P1] ";
 	for(int i =0;i<8;i++){
 		cout<<regs[i];
+	}cout<<endl;
+	cout<<"[P2] ";
+	// cout<<regs2.size()<<endl;
+	// cout<<loc<<endl;
+	for(int i =loc;i<loc+8;i++){
+		cout<<regs2[i];
 	}cout<<endl;
 }
