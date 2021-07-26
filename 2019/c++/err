@@ -1,0 +1,9 @@
+g++ -std=c++11 -O3 -pg intcode.cpp -c -o Bin/intcode.o
+
+DAY 16
+Took 0:00.29 to compile.
+[Timer] Took 770.758 ms.
+770.758
+[P1] 85726502
+[P2] 92768399
+Time taken: 798 milliseconds

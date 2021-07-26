@@ -3,9 +3,12 @@
 #include <fstream>
 #include <cassert>
 #include "../prints.h"
+#include "../timing.h"
+#include <chrono>
 
 using namespace std;
 vector<int> basePattern = {0,1,0,-1};
+// Timer t;
 
 int calcPattern(vector<int>& regs, int ind){
 	int remaining=ind;
@@ -31,14 +34,18 @@ void phase(vector<int>& regs){
 	}
 	regs = out;
 }
-
-void phase2(vector<int>& regs){
-	for(int i = regs.size()-2;i>regs.size()/2;i--){
+unsigned int r2Size =0;
+void phase2(vector<int>& regs, int& loc){
+	if(r2Size == 0){
+		r2Size = regs.size();
+	}
+	for(int i = r2Size-2;i>=loc;i--){
 		regs[i] = (regs[i]+regs[i+1])%10;
 	}
 }
 
 int main(){
+
 	fstream file("Day 16/input");
 	string line;
 	getline(file,line);
@@ -49,26 +56,21 @@ int main(){
 	}
 	assert(loc > regs.size()*5000);
 	vector<int> regs2;
-	// for(int i =0;i<1;i++){
+	regs2.reserve(regs.size()*10000);
 	for(int i =0;i<10000;i++){
 		regs2.insert(regs2.end(), regs.begin(), regs.end());
 	}
 	for(int i =0 ;i<100;i++){
 		phase(regs);
-		phase2(regs2);
-		// cout<<i+1<<": ";
-		// for(auto& c: regs2){
-		// 	cout<<c;
-		// }cout<<endl;
+		phase2(regs2, loc);
 	}
 	cout<<"[P1] ";
 	for(int i =0;i<8;i++){
 		cout<<regs[i];
 	}cout<<endl;
 	cout<<"[P2] ";
-	// cout<<regs2.size()<<endl;
-	// cout<<loc<<endl;
 	for(int i =loc;i<loc+8;i++){
 		cout<<regs2[i];
 	}cout<<endl;
+	// t.total();
 }
