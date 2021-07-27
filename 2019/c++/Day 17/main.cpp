@@ -1,4 +1,5 @@
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include <map>
 #include <vector>
@@ -121,8 +122,89 @@ void hand(){
 	exit(1);
 }
 
-void p2Algorithmic(string& inp){
+map<string, int> genCounts(vector<string>& tok, int size){
+	map<string, int> out;
+	if(size > tok.size()){
+		return out;
+	}
+	for(int i = 0;i<tok.size()-size;i++){
+		string build;
+		string delim = "";
+		for(int j = i;j<i+size;j++){
+			build+=delim;
+			build+=tok[j];
+			delim = ",";
+		}
+		out[build]++;
+	}
 
+	return out;
+}
+
+vector<string> tokenize(string inp){
+	const string comma = ",";
+	stringstream ss(inp);
+	char trash, dir;
+	int dist;
+	vector<string> tok;
+	while(ss>>dir>>trash>>dist){
+		ss>>trash;
+		tok.emplace_back(dir+comma+to_string(dist));
+	}
+	return tok;
+}
+
+void replace(string& str, string fstring, string repl){
+	std::string::size_type n = 0;
+	while ( ( n = str.find( fstring, n ) ) != std::string::npos )
+	{
+		str.replace( n, fstring.size(), repl );
+		n += repl.size();
+	}
+}
+
+void p2Algorithmic(string inp, int level){
+	for(int _ = 0;_<level;_++){
+		// cout<<" ";
+	}
+	// cout<<level<<": "<<inp<<endl;
+	vector<string> tok = tokenize(inp);
+	if(level == 3){
+		if(inp.size() < 20){
+			// cout<<"SOLUTION FOUND"<<endl;
+			cout<<inp<<endl;
+		}
+		return;
+	}
+	char temp = 'A'+level;
+	string build;
+	build+=temp;
+	// const string t = build;
+	const string t = "";
+	auto cnt = genCounts(tok, 4-level);
+	// cout<<cnt<<endl;
+	for(auto& p :cnt){
+		if(p.first.size() <= 19){
+			// cout<<" > "<<p.first<<", "<<p.second<<endl;
+			string copy = inp;
+			replace(copy, p.first, "");
+			replace(copy, ",,", ",");
+			replace(copy, ",,", ",");
+			replace(copy, ",,", ","); //don't look at me
+			
+			if(copy.back() == ','){
+				copy.pop_back();
+			}			
+			if(copy.front() == ','){
+				copy.erase(copy.begin());
+			}
+
+			p2Algorithmic(copy, level+1);
+		}else{
+			// cout<<p<<" wasn't enough"<<endl;
+		}
+	}
+	
 }
 
 int main(){
@@ -167,23 +249,17 @@ int main(){
 
 	cout<<"[P1] "<<p1<<endl;
 	hand();
-	string totalInstr = solvePath(m, start);
-	p2Algorithmic(totalInstr);
-	exit(1);
+	string totalInstr = solvePath(m, start)+",";
+	// p2Algorithmic(totalInstr,0);
+	// exit(1);
+	smatch match;
+	regex r("^(.{1,21})\1*(.{1,21})(?:\1|\2)*(.{1,21})(?:\1|\2|\3)*$");
+	if(regex_search(totalInstr, match, r)) {
+		for(int i = 1;i<match.size();i++){
+			cout<<match[i]<<endl;
+		}
+    }
 	cout<<"[P2] "<<totalInstr<<endl;
 	//L,12,L,8,R,12,L,10,L,8,L,12,R,12,L,12,L,8,R,12,R,12,L,8,L,10,L,12,L,8,R,12,L,12,L,8,R,12,R,12,L,8,L,10,L,10,L,8,L,12,R,12,R,12,L,8,L,10,L,10,L,8,L,12,R,12
-	stringstream ss(totalInstr);
-	char dir, trash;
-	int dist;
-	vector<string> tokens;
-	while(ss>>dir>>trash>>dist){
-		tokens.emplace_back(dir+to_string(dist));
-		ss>>trash;
-	}
-
-	map<string, int> counter;
-	for(int i =0;i<tokens.size()-1;i++){
-		counter[tokens[i]+tokens[i+1]]++;
-	}
 	
 }
