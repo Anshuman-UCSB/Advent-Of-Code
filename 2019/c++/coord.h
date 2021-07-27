@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <map>
 using namespace std;
 
 struct Coord{
@@ -27,6 +28,8 @@ struct Coord{
 		y-=c.y;
 	}
 };
+
+vector<Coord> dirMod = {Coord(0,1),Coord(1,0),Coord(0,-1),Coord(-1,0)};
 
 template <class T>
 void printGrid(const map<Coord, T>& m, map<T, string>& mapping){
@@ -59,3 +62,8 @@ ostream& operator<<(ostream& os, const Coord& c){
 	os<<"("<<c.x<<", "<<c.y<<")";
 	return os;
 }
+
+// template <class T>
+// T& operator[](map<Coord, T>& v, const Coord& c){
+// 	return v[c.y][c.x];
+// }
