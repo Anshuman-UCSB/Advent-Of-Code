@@ -61,6 +61,7 @@ IntCode::IntCode(){
 void IntCode::step(){
 	ll opc = regs[ind]%100;
 	ll a, b;
+	log("OPC: "+to_string(opc));
 	switch(opc){
 		case 1: //add opc
 			a = getParam(1);
