@@ -1,76 +1,64 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
 #include "../prints.h"
+#include <vector>
+#include <fstream>
+#include <utility>
 #include <sstream>
-#define DECKSIZE 10007
-using namespace std;
 
-enum instr{reverse, cut, deal, err};
-struct command{
-	instr instruction;
-	int param;
-	command():instruction(err), param(-1){};
-	command(string& line){
+#define ll long long
+#define func pair<ll, ll>
+
+void funcBuild(func& eq, func inst, ll size){
+	eq.first*=inst.first;
+	eq.first%=size;
+	eq.second*=inst.first;
+	eq.second+=inst.second;
+	eq.second%=size;
+}
+
+ll apply(func& eq, ll size, ll inp){
+	inp*=eq.first;
+	inp%=size;
+	if(inp<0)inp+=size;
+	inp+=eq.second;
+	inp%=size;
+	if(inp<0)inp+=size;
+	return inp;
+}
+
+func makeFunction(ll size){
+	func eq(1,0); //ax+b
+	fstream file("Day 22/input");
+	string line;
+	func tfunc;
+	while(getline(file, line)){
+		// cout<<eq<<endl;
 		stringstream ss(line);
 		string temp;
+		int n;
 		ss>>temp;
-		if(temp == "cut"){
-			instruction = cut;
-			ss>>param;
-		}else if(temp == "deal"){
+		if(temp == "cut"){ //cut
+			tfunc=make_pair(1,0);
+			ss>>tfunc.second;
+			tfunc.second*=-1;
+		}else{
 			ss>>temp;
-			if(temp == "into"){
-				instruction = reverse;
-			}else{
-				instruction = deal;
-				ss>>temp>>param;
+			if(temp == "into"){ //reverse
+				tfunc=make_pair(-1,-1);
+			}else{				//deal
+				tfunc=make_pair(0, 0);
+				ss>>temp>>tfunc.first;
+				// cout<<"."<<tfunc<<endl;
 			}
 		}
+		funcBuild(eq, tfunc, size);
 	}
 
-	string str(){
-		switch(instruction){
-			case reverse:
-				return "Reverse deck";
-			case cut:
-				return "Cut deck with size "+to_string(param); 
-			case deal:
-				return "Deal with step "+to_string(param);
-			default:
-				return "ERR";
-		}
-	}
-};
-vector<command> instructions;
-
-void p1(){
-	int pos = 2019;
-	for(auto& ins: instructions){
-		switch(ins.instruction){
-			case reverse:
-				pos = DECKSIZE-1-pos;break;
-			case cut:
-				pos -= ins.param;
-				if(pos<0){
-					pos+=DECKSIZE;
-				}
-				pos%=DECKSIZE;
-				break;
-			case deal:
-				pos = (pos*ins.param)%DECKSIZE;
-				break;
-		}
-	}
-	cout<<"[P1] "<<pos<<endl;
+	return eq;
 }
 
 int main(){
-	fstream file("Day 22/input");
-	string line;
-	while(getline(file, line)){
-		instructions.emplace_back(line);
-	}
-	// for(auto& v: instructions)cout<<v.str()<<endl;
-	p1();
+	const ll size = 10007;
+	func eq = makeFunction(size);
+	// cout<<eq<<endl;
+	cout<<"[P1] "<<apply(eq, size, 2019)<<endl;
 }

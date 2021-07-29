@@ -1,0 +1,43 @@
+cut (c)	is ind = ind-c 		mod size
+reverse	is ind = size-ind-1	mod size
+deal(s)	is ind = ind*s		mod size
+
+cut -9531					i=i+9531%size
+deal into new stack			i=size-i%size
+deal with increment 38		i=38*i	%size
+cut -8776					i=i+8776%size
+deal with increment 18		i=18*i	%size
+cut 1410					i=i-1410%size
+
+or simpler example
+
+cut 6						i=i-6		%size
+deal with increment 7		i=i*7		%size
+deal into new stack			i=size-i-1	%size
+
+
+
+deal into new stack			i=size-i%size
+cut -2						i=i+2	%size
+deal with increment 7		i=i*7	%size
+cut 8						i=i-8	%size
+cut -4						i=i+4	%size
+deal with increment 7		i=i*7	%size
+cut 3						i=i-3	%size
+deal with increment 9		i=i*9 	%size
+deal with increment 3		i=i*3 	%size
+cut -1						i=i+1	%size
+
+for ax+b format				1x+0
+cut 6						1x-6
+deal with increment 7		7x-42
+deal into new stack			size-1-(7x-42)
+							-7x+(42-1-size)
+
+cut n		b-=n;
+deal n		a*=n; b*=n;
+reverse		a*=-1; b=size-1-b;
+
+deal with increment 7
+deal into new stack
+deal into new stack
