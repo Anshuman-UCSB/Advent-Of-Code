@@ -1,0 +1,48 @@
+For part 1:
+
+.................
+.................
+@................
+#####.#.#.##..###
+ ABCDEFGHI
+
+can jump 4 squares
+
+if A B C all 0, have to jump
+J = not (0 or A or B or C)
+
+if E F G all 0, have to jump now to align later
+J = not (A or B or C) or not (E or F or G)
+J = A'B'C'+E'F'G'
+J = (A+B+C)'+(E+F+G)'
+J = ((A+B+C)(E+F+G))'
+
+if DEI then jump
+or if DH then jump
+or if DEF
+
+.................
+.................
+@................
+##$##.$.#.#$..###
+ ABCDEFGHI
+ 
+.................
+.................
+@................
+##$##.$.#...#.###
+ ABCDEFGHI
+
+Cannot make perfect algorithm
+
+Current Formula:
+J = E'H + A'
+
+ABCDEFGHI | J | Eq
+------------------
+111101111 | 1 | E'H
+011111111 | 1 | A'
+111101101 | 0 | 
+111100101 | 0 | 
+111001011 | 1 | (D+E+G)'
+100101111 | 1 | (B+C+E)'

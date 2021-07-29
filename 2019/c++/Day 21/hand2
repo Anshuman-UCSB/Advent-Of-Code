@@ -1,0 +1,29 @@
+P1: 
+D(A'+B'+C')
+D(ABC)'
+
+P2:
+D(ABC)' fails on
+.................
+.................
+@................
+#####.#.##...####
+ ABCDEFGHI
+
+.................
+....^...v^...v...
+@................
+#####.#.##...####
+   ABCDEFGHI
+
+Current strat: jump if any hole
+and can land
+
+D(ABC)'(E+I+H)
+
+if ABC have a hole:
+	if D is ground:
+		if H or EI or EF:
+			jump
+
+((H+E(I+F))D)(ABC)'
