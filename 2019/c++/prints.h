@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <map>
+#include <set>
 #include <vector>
 using namespace std;
 
@@ -11,12 +12,11 @@ using namespace std;
 #define GREEN "\033[32m"
 #define RESET "\033[0m"
 #define BOLD "\033[1m"
-
 template <class T>
 ostream& operator<<(ostream& os, const vector<T>& v){
 	cout<<"[";
 	string delim = "";
-	for(auto& val: v){
+	for(auto val: v){
 		cout<<delim<<val;
 		delim = ", ";
 	}cout<<"]";
@@ -26,6 +26,16 @@ ostream& operator<<(ostream& os, const vector<T>& v){
 template <class T1, class T2>
 ostream& operator<<(ostream& os, const pair<T1, T2>& p){
 	cout<<"("<<p.first<<", "<<p.second<<")";
+	return os;
+}
+template <class T>
+ostream& operator<<(ostream& os, const set<T>& s){
+	cout<<"{";
+	string delim = "";
+	for(auto& val: s){
+		cout<<delim<<val;
+		delim = ", ";
+	}cout<<"}";
 	return os;
 }
 
