@@ -135,10 +135,10 @@ int p2(vector<vector<char>>& m, Coord& start){
 	int b=p1(m, bStart);
 	int c=p1(m, cStart);
 	int d=p1(m, dStart);
-	cout<<"A: "<<a<<endl;
-	cout<<"B: "<<b<<endl;
-	cout<<"C: "<<c<<endl;
-	cout<<"D: "<<d<<endl;
+	// cout<<"A: "<<a<<endl;
+	// cout<<"B: "<<b<<endl;
+	// cout<<"C: "<<c<<endl;
+	// cout<<"D: "<<d<<endl;
 	return a + b + c + d;
 }
 

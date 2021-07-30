@@ -22,10 +22,12 @@ struct Coord{
 	Coord operator+=(const Coord& c){
 		x+=c.x;
 		y+=c.y;
+		return *this;
 	}
 	Coord operator-=(const Coord& c){
 		x-=c.x;
 		y-=c.y;
+		return *this;
 	}
 };
 
