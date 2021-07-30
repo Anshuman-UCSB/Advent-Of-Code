@@ -39,6 +39,20 @@ static inline ll exp(ll a, ll b){
 	return res;	
 }
 
+static func compose(func a, func b){
+	return func(mult(a.first, b.first), add(mult(a.second, b.first), b.second));
+}
+
+static func powCompose(func a, ll n){
+	func g(1,0);
+	while(n>0){
+		if(n&1) g = compose(g, a);
+		n>>=1;
+		a = compose(a, a);
+	}
+	return g;
+}
+
 func read(){
 	fstream file("Day 22/input");
 	string line;
@@ -70,7 +84,12 @@ void p1(){
 }
 
 void p2(){
-
+	MOD = 119315717514047;
+	const ll SHUFFLES = 101741582076661;
+	func f = read();
+	cout<<f<<endl;
+	f = powCompose(f, SHUFFLES);
+	cout<<f<<endl;
 }
 int main(){
 	p1();
