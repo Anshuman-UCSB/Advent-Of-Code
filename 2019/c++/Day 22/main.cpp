@@ -89,6 +89,10 @@ void p2(){
 	func f = read();
 	cout<<f<<endl;
 	f = powCompose(f, SHUFFLES);
+	ll a, b;
+	a = f.first;
+	b = f.second;
+	
 	cout<<f<<endl;
 }
 int main(){
