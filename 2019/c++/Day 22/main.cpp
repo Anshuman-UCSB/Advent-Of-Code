@@ -87,13 +87,12 @@ void p2(){
 	MOD = 119315717514047;
 	const ll SHUFFLES = 101741582076661;
 	func f = read();
-	cout<<f<<endl;
 	f = powCompose(f, SHUFFLES);
 	ll a, b;
 	a = f.first;
 	b = f.second;
 	
-	cout<<f<<endl;
+	cout<<"[P2] Plug "<<f.first<<"x + "<<f.second<<" mod "<<MOD<<" = 2020 into wolfram alpha lol"<<endl;
 }
 int main(){
 	p1();
