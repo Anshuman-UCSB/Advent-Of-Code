@@ -7,12 +7,25 @@
 #define ll long long
 #define func pair<ll, ll>
 
-void funcBuild(func& eq, func inst, ll size){
+void funcBuild(func& eq, func inst, ll mod){
 	eq.first*=inst.first;
-	eq.first%=size;
+	eq.first%=mod;
 	eq.second*=inst.first;
 	eq.second+=inst.second;
-	eq.second%=size;
+	eq.second%=mod;
+}
+
+func recursiveBuild(func eq, ll k, ll mod){
+	func g(1,0);
+
+	while (k>0){
+		if(k%2)
+			funcBuild(g, eq, mod);
+		k/=2;
+		funcBuild(eq, eq, mod);
+	}
+
+	return g;
 }
 
 ll apply(func& eq, ll size, ll inp){
@@ -56,9 +69,33 @@ func makeFunction(ll size){
 	return eq;
 }
 
+// ll modularInverse(func& eq, const ll size){
+
+// }
+
+ll solveInverse(func& eq, const ll size, ll spot){
+	return 1;
+}
+
+void p2(){
+	const ll SIZE = 119315717514047;
+	const ll SHUFFLES = 101741582076661;
+	func eq = makeFunction(SIZE);
+	cout<<eq<<endl;
+	eq = recursiveBuild(eq, SHUFFLES, SIZE);
+	cout<<eq<<endl;
+	cout<<"[P2] "<<solveInverse(eq, SIZE, 2020)<<endl;
+}
+
+
+
 int main(){
 	const ll size = 10007;
 	func eq = makeFunction(size);
 	// cout<<eq<<endl;
 	cout<<"[P1] "<<apply(eq, size, 2019)<<endl;
+	p2();
 }
+
+//57481683403608 too low
+//7035538574573 

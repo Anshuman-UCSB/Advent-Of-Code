@@ -1,5 +1,5 @@
 cut (c)	is ind = ind-c 		mod size
-reverse	is ind = size-ind-1	mod size
+reverse	is ind = -ind-1		mod size
 deal(s)	is ind = ind*s		mod size
 
 cut -9531					i=i+9531%size
@@ -41,3 +41,14 @@ reverse		a*=-1; b=size-1-b;
 deal with increment 7
 deal into new stack
 deal into new stack
+
+ax+b % m
+a(ax+b)+b%m
+a^2x+ab+b %m
+a^2(ax+b)+ab+b %m
+a^3x+a^2b+ab+b %m
+
+if function is applied n times recursively:
+$$f(x) \equiv a^nx+\sum_{i=0}^{n-1}a^ib \mod \text{size}$$
+or
+$$f(x) \equiv a^nx+\dfrac{b(1-a^n)}{1-a}\mod\text{size}$$
