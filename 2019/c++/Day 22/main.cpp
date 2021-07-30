@@ -1,101 +1,78 @@
+#include <iostream>
 #include "../prints.h"
-#include <vector>
 #include <fstream>
 #include <utility>
 #include <sstream>
-
 #define ll long long
 #define func pair<ll, ll>
 
-void funcBuild(func& eq, func inst, ll mod){
-	eq.first*=inst.first;
-	eq.first%=mod;
-	eq.second*=inst.first;
-	eq.second+=inst.second;
-	eq.second%=mod;
+ll MOD;
+
+static inline ll add(ll a, ll b){
+	return (MOD + (a+b)%MOD)%MOD;
 }
 
-func recursiveBuild(func eq, ll k, ll mod){
-	func g(1,0);
-
-	while (k>0){
-		if(k%2)
-			funcBuild(g, eq, mod);
-		k/=2;
-		funcBuild(eq, eq, mod);
+static inline ll mult(ll a, ll b){
+	if(b<0) {a*=-1; b*=-1;}
+	while(a<0)a+=MOD;
+	a%=MOD;
+	ll res = 0;
+	while(b){
+		if (b&1) res = add(res, a);
+		while(a<0)a+=MOD;
+		a = (2*a)%MOD;
+		b >>=1;
 	}
-
-	return g;
+	return res;
 }
 
-ll apply(func& eq, ll size, ll inp){
-	inp*=eq.first;
-	inp%=size;
-	if(inp<0)inp+=size;
-	inp+=eq.second;
-	inp%=size;
-	if(inp<0)inp+=size;
-	return inp;
+static inline ll exp(ll a, ll b){
+	ll res = 1;
+	if(b<0) {a*=-1; b*=-1;}
+	while(a<0)a+=MOD;
+	a%=MOD;
+	while(b){
+		if(b&1) res = mult(res, a);
+		b>>=1;
+		a = mult(a,a);
+	}
+	return res;	
 }
 
-func makeFunction(ll size){
-	func eq(1,0); //ax+b
+func read(){
 	fstream file("Day 22/input");
 	string line;
-	func tfunc;
+	func out(1,0);
+	int n;
+	string temp;
 	while(getline(file, line)){
-		// cout<<eq<<endl;
-		stringstream ss(line);
-		string temp;
-		int n;
-		ss>>temp;
-		if(temp == "cut"){ //cut
-			tfunc=make_pair(1,0);
-			ss>>tfunc.second;
-			tfunc.second*=-1;
+		if(line[0] == 'c'){
+			stringstream ss(line);
+			ss>>temp>>n;
+			out.second = add(out.second, -n);
+		}else if(line[5] == 'i'){
+			out.first*=-1;
+			out.second = add(-out.second, -1);
 		}else{
-			ss>>temp;
-			if(temp == "into"){ //reverse
-				tfunc=make_pair(-1,-1);
-			}else{				//deal
-				tfunc=make_pair(0, 0);
-				ss>>temp>>tfunc.first;
-				// cout<<"."<<tfunc<<endl;
-			}
+			stringstream ss(line);
+			ss>>temp>>temp>>temp>>n;
+			out.first = mult(out.first, n);
+			out.second = mult(out.second, n);
 		}
-		funcBuild(eq, tfunc, size);
 	}
-
-	return eq;
+	return out;
 }
 
-// ll modularInverse(func& eq, const ll size){
-
-// }
-
-ll solveInverse(func& eq, const ll size, ll spot){
-	return 1;
+void p1(){
+	MOD = 10007;
+	func f = read();
+	cout<<"[P1] "<<add(f.second, mult(f.first, 2019))<<endl;
 }
 
 void p2(){
-	const ll SIZE = 119315717514047;
-	const ll SHUFFLES = 101741582076661;
-	func eq = makeFunction(SIZE);
-	cout<<eq<<endl;
-	eq = recursiveBuild(eq, SHUFFLES, SIZE);
-	cout<<eq<<endl;
-	cout<<"[P2] "<<solveInverse(eq, SIZE, 2020)<<endl;
+
 }
-
-
-
 int main(){
-	const ll size = 10007;
-	func eq = makeFunction(size);
-	// cout<<eq<<endl;
-	cout<<"[P1] "<<apply(eq, size, 2019)<<endl;
+	p1();
 	p2();
 }
-
-//57481683403608 too low
-//7035538574573 
