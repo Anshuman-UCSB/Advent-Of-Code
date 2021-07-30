@@ -5,12 +5,15 @@
 #include "../prints.h"
 #include <utility>
 
-IntCode inp(19), c(19);
+IntCode inp(19);
+IntCode c(19);
 
 void reset(){
-	c.done = false;
 	c.ind = 0;
 	c.rel = 0;
+	c.inp.clear();
+	c.regs = inp.regs;
+	c.done = false;
 }
 
 bool testSquare(int x, int y){
@@ -43,9 +46,9 @@ int main(){
 	int p1 = 0;
 	for(auto& r: m){
 		for(auto v: r){
-			cout<<(v?"#":".");
+			// cout<<(v?"#":".");
 			p1+=v;
-		}cout<<endl;
+		}//cout<<endl;
 	}
 	cout<<"[P1] "<<p1<<endl;
 	int l(0), h(100), mid;

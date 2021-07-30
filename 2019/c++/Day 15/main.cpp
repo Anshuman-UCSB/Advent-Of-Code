@@ -62,7 +62,7 @@ struct maze{
 		}
 	}
 
-	int run(){
+	void run(){
 		m[p] = '.';
 		
 		bool done = false;
@@ -113,6 +113,7 @@ struct maze{
 			p2 = max(p2, p.second);
 		}
 		cout<<"[P2] "<<p2-999<<endl;
+		return;
 	}
 };
 

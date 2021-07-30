@@ -19,7 +19,7 @@ void printMap(map<pair<int, int>, bool> m){
 	
 	vector<vector<string>> out(hy-ly+1, vector<string>(hx-lx+1, " "));
 	for(auto& p: m){
-		out[p.first.second-ly][p.first.first-lx] = p.second?"\033[1;37m█":("\033[0;30m█");
+		out[p.first.second-ly][p.first.first-lx] = p.second?"\033[1;37m█":(" ");
 	}
 	string prnt = "";
 	reverse(out.begin(), out.end());

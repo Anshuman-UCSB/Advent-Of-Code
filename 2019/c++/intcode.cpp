@@ -168,6 +168,7 @@ void IntCode::push(ll val){
 }
 
 ll IntCode::pop(){
+	assert(!out.empty());
 	ll temp = out[0];
 	assert(!out.empty());
 	out.erase(out.begin());
@@ -197,6 +198,7 @@ ll IntCode::getParam(int pos){
 		case 1: return regs[ind+pos];
 		case 2: return regs[rel + regs[ind+pos]];
 	}
+	return -1;
 }
 
 void IntCode::setParam(int pos, ll val){
