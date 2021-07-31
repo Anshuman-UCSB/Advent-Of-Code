@@ -10,7 +10,7 @@ intcode.o: intcode.cpp
 $(DAYS): intcode.o
 	@echo "\nDAY $@"
 	@/usr/bin/time --format="Took %E to compile." ${CXX} ${CXXFLAGS} Day\ $@/main.cpp Bin/intcode.o -o Bin/day$@
-	@millisecond-time ./Bin/day$@
+	@./Bin/day$@
 
 all: ${DAYS}
 
