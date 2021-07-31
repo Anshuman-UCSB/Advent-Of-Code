@@ -1,0 +1,29 @@
+west
+south
+south
+south
+take asterisk
+north
+north
+north
+west
+west
+west
+take dark matter
+east
+south
+take fixed point
+west
+take food ration
+east
+north
+east
+south
+take astronaut ice cream
+south
+take polygon
+east
+take easter egg
+east
+take weather machine
+north
