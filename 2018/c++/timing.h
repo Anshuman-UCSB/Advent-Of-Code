@@ -7,15 +7,11 @@ using namespace std::chrono;
 
 struct Timer{
 	std::chrono::time_point<std::chrono::high_resolution_clock> startTime, stopTime;
-<<<<<<< HEAD
 	double totalTime;
 	Timer(){
 		totalTime = 0;
 		start();
 	}
-=======
-	double totalTime = 0;
->>>>>>> 9b5cc1ba6d3640016b215cfd288c2393f829fce7
 	void start(){
 		startTime = high_resolution_clock::now();
 	}
@@ -25,11 +21,8 @@ struct Timer{
 		if(print){
 			if(dur.count()<1){
 				cout<<"[Timer] Took "<<dur.count()*1000<<" μs."<<endl;
-<<<<<<< HEAD
 			}else if(dur.count()>1000){
 				cout<<"[Timer] Took "<<dur.count()/1000<<" s."<<endl;
-=======
->>>>>>> 9b5cc1ba6d3640016b215cfd288c2393f829fce7
 			}else{
 				cout<<"[Timer] Took "<<dur.count()<<" ms."<<endl;
 			}
