@@ -3,7 +3,6 @@
 vector<int> freqs;
 
 int main(){
-	Timer t;
 	fstream file("Day 1/input");
 	set<int> cache;
 	string line;
@@ -24,5 +23,4 @@ int main(){
 		}
 	}
 	out:;
-	t.end();
 }

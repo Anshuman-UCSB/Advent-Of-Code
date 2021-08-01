@@ -10,6 +10,8 @@ $(DAYS):
 	@/usr/bin/time --format="Took %E to compile." ${CXX} ${CXXFLAGS} Day\ $@/main.cpp -o Bin/day$@
 	@./Bin/day$@
 
+time:
+	hyperfine -w 1 -m 2 --export-markdown timings.md -n "DAY $(day)" ./Bin/day$(day)
 
 clean:
 	rm -f Bin/*

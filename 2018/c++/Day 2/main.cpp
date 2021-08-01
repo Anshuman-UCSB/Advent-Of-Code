@@ -17,7 +17,6 @@ pair<bool, string> oneDifferent(const string& a, const string& b){
 }
 
 int main(){
-	Timer t;
 	fstream file("Day 2/input");
 	string line;
 	int two(0), three(0);
@@ -47,5 +46,4 @@ int main(){
 		}
 	}
 	done:;
-	t.end();
 }
