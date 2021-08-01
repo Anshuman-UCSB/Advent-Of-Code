@@ -30,7 +30,7 @@ int main(){
 			comp.run();
 			if(comp.regs[0] == 19690720){
 				cout<<"[P2] "<<n*100+v<<endl;
-				return 1;
+				return 0;
 			}
 		}
 	}

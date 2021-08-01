@@ -114,7 +114,7 @@ int main(){
 
 	for(auto& r: inp){for(auto& c: r){cout<<c;}cout<<endl;} //print map
 	cout<<"[P1] "<<solveGrid(inp, x, y)<<endl;
-	exit(1);
+	exit(0);
 	inp[y][x] = '#';
 	inp[y][x-1]='#';
 	inp[y][x+1]='#';

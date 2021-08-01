@@ -35,8 +35,10 @@ int main(){
 				flag[i] = 0;
 				if(c.out[0]==255){
 					// cout<<"HIT?"<<endl;
-					if(p1++==false)
+					if(p1==false){
 						cout<<"[P1] "<<c.out[2]<<endl;
+						p1 = true;
+					}
 					nat.first = c.out[1];
 					nat.second = c.out[2];
 					// cout<<nat<<endl;
@@ -52,7 +54,7 @@ int main(){
 			// cout<<"Emitting "<<nat<<endl;
 			if(seen.insert(nat).second == false){
 				cout<<"[P2] "<<nat.second<<endl;
-				return 1;
+				return 0;
 			}
 			network[0].push(nat.first);
 			network[0].push(nat.second);

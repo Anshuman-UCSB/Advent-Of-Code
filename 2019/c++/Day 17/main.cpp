@@ -119,7 +119,7 @@ void hand(){
 	comp.push(int('\n'));
 	comp.run();
 	cout<<"[P2] "<<comp.out.back()<<endl;
-	exit(1);
+	exit(0);
 }
 
 map<string, int> genCounts(vector<string>& tok, int size){

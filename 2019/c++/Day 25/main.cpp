@@ -74,7 +74,7 @@ void p1(){
 	for(int i =startPos;i<startPos+9;i++){
 		cout<<char(c.out[i]);
 	}cout<<endl;
-	exit(1);
+	exit(0);
 }
 
 int main(){
