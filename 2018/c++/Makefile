@@ -11,7 +11,7 @@ $(DAYS):
 	@./Bin/day$@
 
 time:
-	hyperfine -w 1 -m 2 --export-markdown timings.md -n "DAY $(day)" ./Bin/day$(day)
+	hyperfine -w 3 -m 2 --export-markdown timings.md -n "DAY $(day)" ./Bin/day$(day)
 
 clean:
 	rm -f Bin/*
