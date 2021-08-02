@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <utility>
 using namespace std;
 
 template <class T>
@@ -17,6 +18,14 @@ ostream& operator<<(ostream& os, const vector<T>& v)
 	}os<<"]";
     return os;
 }
+
+template <class T, class M>
+ostream& operator<<(ostream& os, const pair<T, M>& p)
+{
+	os<<"("<<p.first<<", "<<p.second<<")";
+    return os;
+}
+
 template <class T, class M>
 ostream& operator<<(ostream& os, const map<T, M>& m)
 {
