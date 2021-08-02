@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <set>
 using namespace std;
 
@@ -14,6 +15,17 @@ ostream& operator<<(ostream& os, const vector<T>& v)
 		os<<delim<<val;
 		delim = ", ";
 	}os<<"]";
+    return os;
+}
+template <class T, class M>
+ostream& operator<<(ostream& os, const map<T, M>& m)
+{
+	string delim = "";
+	os<<"{";
+    for(auto& [k, v]: m){
+		os<<delim<<k<<": "<<v;
+		delim = ", ";
+	}os<<"}";
     return os;
 }
 
