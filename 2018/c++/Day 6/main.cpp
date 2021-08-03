@@ -1,83 +1,107 @@
 #include "../aoc.h"
+#include "../point.h"
+#include <set>
 #include <sstream>
-#include <queue>
-#define x first
-#define y second
-#define coord pair<int, int>
+#include <map>
 
-int lx(999), hx(0), ly(999), hy(0);
-int dx[4] = {0,1,0,-1};
-int dy[4] = {1,0,-1,0};
-vector<coord> getNeighbors(const coord& c){
-	vector<coord> out;
-	auto& [x,y] = c;
-	for(int i = 0;i<4;i++){
-		coord t(x+dx[i], y+dy[i]);
-		if(t.x>=lx && t.x<=hx && t.y>=ly && t.y<=hy){
-			out.push_back(t);
-		}
-	}
+Point low(99,99), high;
+
+struct Cell{
+	int dist;
+	int id;
+	Cell(int dist = 9999, int id=0):dist(dist), id(id){};
+};
+
+int width, height;
+
+static inline int getPos(int x, int y){
+	return (y-low.y)*width + (x-low.x);
+}
+
+vector<Point> getNeighbors(const Point& p){
+	vector<Point> out;
+	if(p.x != 0)
+		out.emplace_back(p.x-1, p.y);
+	if(p.x < width-1)
+		out.emplace_back(p.x+1, p.y);
+	if(p.y != 0)
+		out.emplace_back(p.x, p.y-1);
+	if(p.y < height-1)
+		out.emplace_back(p.x, p.y+1);
 	return out;
+}
+
+vector<Point> coords;
+static void print(vector<Cell>& m){
+	int ind = 0;
+	for(auto& v: m){
+		if(v.id == -1)cout<<".";
+		else cout<<(v.id?to_string(v.id):".");
+		if(++ind%width == 0) cout<<endl;
+	}
+}
+
+void p1(){
+	width=high.x-low.x;
+	height=high.y-low.y;
+	vector<Cell> m(width*height);
+	int id = 0;
+	set<Point> q, temp;
+	map<int, int> idCounter;
+	for(auto& c: coords){
+		q.insert(c);
+		m[getPos(c.x, c.y)].id=++id;
+	}
+	for(int dist = 0; !q.empty();dist++){
+		for(auto& point: q){
+			for(auto& p: getNeighbors(point)){
+				auto& t = m[getPos(p.x, p.y)];
+				auto& thisCell = m[getPos(point.x, point.y)];
+				if(t.id == 0){
+					t.id = thisCell.id;
+					idCounter[t.id]++;
+					t.dist = dist;
+					temp.insert(p);
+				}else if(t.dist == dist && t.id != thisCell.id){
+					idCounter[t.id]--;
+					t.id = -1; t.dist = dist;
+				}
+			}
+		}
+		q.swap(temp);
+		temp.clear();
+	}
+	// print(m);
+	for(int i = 0;i<width;i++){
+		idCounter[m[getPos(i, 0)].id]=0;
+		idCounter[m[getPos(i, height-1)].id]=0;
+		// cout<<i<<", "<<0<<endl;
+		// cout<<i<<", "<<height-1<<endl;
+	}
+	for(int i = 0;i<height;i++){
+		// cout<<0<<", "<<i<<endl;
+		// cout<<width-1<<", "<<i<<endl;
+		idCounter[m[getPos(0, i)].id]=0;
+		idCounter[m[getPos(width-1, i)].id]=0;
+	}
+	int p1 = 0;
+	for(auto& [k, v] : idCounter){
+		p1 = max(v+1, p1);
+	}
+	cout<<"[P1] "<<p1<<endl;
 }
 
 int main(){
 	fstream file("Day 6/input");
 	string line;
-	map<coord, int> m;
-	char c;
-	int id = 1;
-	int x, y;
+	char trash;
 	while(getline(file, line)){
+		coords.emplace_back();
 		stringstream ss(line);
-		ss>>x>>c>>y;
-		m[coord(x,y)]=id++;
-		lx = min(x, lx);
-		ly = min(y, ly);
-		hx = max(x, hx);
-		hy = max(y, hy);
+		ss>>coords.back().x>>trash>>coords.back().y;
+		low.min(coords.back());
+		high.max(coords.back());
 	}
-	lx--; ly--;
-	hx++; hy++;
-	bool done = false;
-	set<coord> q, next, check;
-	for(auto& [crd, ignore]: m){
-		q.insert(crd);
-	}
-	map<int, int> counter;
-	while(!done){
-		done = true;
-		check.clear();
-		for(auto& baseCoord: q){
-			for(auto& crd: getNeighbors(baseCoord)){
-				if(m.count(crd)==0){
-					m[crd] = -(m[baseCoord]);
-					check.insert(crd);
-				}else if(m[crd]<0 && m[crd] != -(m[baseCoord])){
-					m[crd]='.';
-					check.erase(crd);
-				}
-			}
-		}
-		for(auto& crd: check){
-			m[crd] = abs(m[crd]);
-			counter[m[crd]]++;
-		}
-		q=check;
-		done = q.size()==0;
-	}
-	for(int i = ly;i<=hy;i++){
-		counter.erase(m[coord(0, i)]);
-		counter.erase(m[coord(hx, i)]);
-	}
-	for(int i = lx;i<=hx;i++){
-		counter.erase(m[coord(i, 0)]);
-		counter.erase(m[coord(i, hy)]);
-	}
-	// for(int i = ly;i<=hy;i++){for(int j= lx;j<=hx;j++){if(m.count(coord(j,i)))cout<<m[coord(j,i)];else cout<<" ";}cout<<endl;}
-	int p1 = 0;
-	for(auto& [ignore, v]: counter){
-		p1 = max(p1, v);
-	}
-	cout<<counter<<endl;
-	cout<<"[P1] "<<p1<<endl;
+	low--;high++;
+	p1();
 }
