@@ -47,13 +47,6 @@ void print(vector<light>& lights){
 	}
 }
 
-bool movingAway(int time, vector<light>& lights){
-	eval(lights, time);
-	int dist = low.distTo(high);
-	eval(lights, time+1);
-	return (low.distTo(high)>dist);
-}
-
 int main(){
 	fstream file("Day 10/input");
 	string line;
@@ -67,20 +60,16 @@ int main(){
 		ss>>dx>>line>>dy;
 		lights.emplace_back(x, y, dx, dy);
 	}
-	int l, h, m;
-	for(h = 2; !movingAway(h, lights); h*=2){}
-	l = h/2;
-	while(l+1<h){
-		// cout<<l<<"->"<<h<<endl;
-		m = (h+l)/2;
-		if(movingAway(m, lights)){
-			h = m-1;
-		}else{
-			l = m+1;
-		}
+	int oldDist = 9999999;
+	int dist = oldDist-1;
+	int p2;
+	for(p2 = 1;dist<oldDist;p2++){
+		oldDist = dist;
+		lights = eval(lights, 1);
+		dist = low.distTo(high);
 	}
+	lights = eval(lights, -1);
 	cout<<"[P1] "<<endl;
-	lights = eval(lights, m-1);
 	print(lights);
-	cout<<"[P2] "<<m-1<<endl;
+	cout<<"[P2] "<<p2-2<<endl;
 }
