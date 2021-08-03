@@ -14,9 +14,10 @@ struct Cell{
 
 int width, height;
 
-static inline int getPos(int x, int y){
+static inline int getPos(const int& x, const int& y) {
 	return (y-low.y)*width + (x-low.x);
 }
+
 
 vector<Point> getNeighbors(const Point& p){
 	vector<Point> out;
@@ -41,10 +42,19 @@ static void print(vector<Cell>& m){
 	}
 }
 
+static bool withinRange(const Point& p, int threshold){
+	int dists = 0;
+	for(auto& c: coords){
+		dists+=p.distTo(c);
+		if(dists>threshold) return false;
+	}
+	return true;
+}
+
 void p1(){
 	width=high.x-low.x;
 	height=high.y-low.y;
-	vector<Cell> m(width*height);
+	vector<Cell> m((width+1)*(height+1));
 	int id = 0;
 	set<Point> q, temp;
 	map<int, int> idCounter;
@@ -53,8 +63,10 @@ void p1(){
 		m[getPos(c.x, c.y)].id=++id;
 	}
 	for(int dist = 0; !q.empty();dist++){
-		for(auto& point: q){
-			for(auto& p: getNeighbors(point)){
+		// cout<<q<<endl;
+		for(const auto& point: q){
+			// cout<<point<<endl;
+			for(const auto& p: getNeighbors(point)){
 				auto& t = m[getPos(p.x, p.y)];
 				auto& thisCell = m[getPos(point.x, point.y)];
 				if(t.id == 0){
@@ -69,7 +81,7 @@ void p1(){
 			}
 		}
 		q.swap(temp);
-		temp.clear();
+		temp = set<Point>();
 	}
 	// print(m);
 	for(int i = low.x;i<=high.x;i++){
@@ -91,6 +103,16 @@ void p1(){
 	cout<<"[P1] "<<p1<<endl;
 }
 
+void p2(){
+	int p2 = 0;
+	for(int x = low.x;x<=high.x;x++){
+		for(int y = low.y;y<=high.y;y++){
+			p2+=withinRange(Point(x,y), 10000);
+		}
+	}
+	cout<<"[P2] "<<p2<<endl;
+}
+
 int main(){
 	fstream file("Day 6/input");
 	string line;
@@ -104,4 +126,5 @@ int main(){
 	}
 	low--;high++;
 	p1();
+	p2();
 }

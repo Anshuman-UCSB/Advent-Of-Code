@@ -5,6 +5,19 @@ struct Point{
 	int x, y;
 	Point(int x = 0, int y = 0):x(x), y(y){}
 
+	Point(const Point& p){
+		x = p.x;
+		y = p.y;
+	}
+
+	Point& operator=(const Point& p){
+		if(this != &p){
+			x = p.x;
+			y = p.y;
+		}
+		return *this;
+	}
+
 	Point& operator+=(const Point& p){
 		x+=p.x; y+=p.y;
 		return *this;
@@ -45,6 +58,10 @@ struct Point{
 	void max(const Point& p){
 		x = std::max(x, p.x);
 		y = std::max(y, p.y);
+	}
+
+	int distTo(const Point& p) const{
+		return abs(p.y-y)+abs(p.x-x);
 	}
 };
 
