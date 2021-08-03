@@ -69,6 +69,7 @@ int main(){
 		dist = low.distTo(high);
 	}
 	lights = eval(lights, -1);
+	cout<<"[P1] "<<endl;
 	print(lights);
-	cout<<p2<<endl;
+	cout<<"[P2] "<<p2-2<<endl;
 }
