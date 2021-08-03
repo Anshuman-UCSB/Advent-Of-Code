@@ -1,140 +1,57 @@
 #include "../aoc.h"
+#include <stack>
 
-struct Node{
-	char val;
-	Node* next;
-	Node* prev;
-	Node(char v = ' ', Node* next = 0, Node* prev = 0):val(v), next(next), prev(prev){}
-};
-
-struct linkedList{
-	Node* head;
-	Node* tail;
-	int size;
-
-	linkedList():head(0), tail(0), size(0){}
-
-	void push(const char& c){
-		// cout<<head<< ", "<<tail<<endl;
-		if(head == 0){
-			head = new Node(c);
-			tail = head;
-		}else{
-			tail->next = new Node(c, 0, tail);
-			tail = tail->next;
-		}
-	}
-
-	void remove(Node* n){
-		size--;
-		if(n == head && n == tail){
-			head = tail = 0;
-			delete n;
-			return;
-		}
-		if(n == head){
-			head = n->next;
-			head->prev = 0;
-			delete n;
-			return;
-		}
-		if(n == tail){
-			tail = n->prev;
-			tail->next = 0;
-			delete n;
-			return;
-		}
-		n->prev->next=n->next;
-		n->next->prev=n->prev;
-		delete n;
-	}
-
-	void print(){
-		string delim;
-		for(Node* p = head;p;p=p->next){
-			cout<<p->val;
-		}cout<<endl;
-	}
-};
-
-static inline bool reactants(const char& a, const char& b){
-	return abs(a-b)==32;
+static inline bool react(const char& a, const char& b){
+	return (a^' ')==b;
 }
 
-int eval(string line, char ignore){
-	linkedList l;
-	l.size = line.size();
-	for(auto& c: line){
-		if(tolower(c) == ignore){
-			l.size--;
-			continue;
+int p2(const string& inp){
+	size_t minSize = inp.size();
+	for(char ch = 'a';ch<='z';ch++){
+		stack<char> temp;
+		for(const auto& c: inp){
+			if(tolower(c) == ch) continue;
+			if(!temp.empty()){
+				if(react(c, temp.top()))
+					temp.pop();
+				else
+					temp.push(c);
+			}else
+				temp.push(c);
 		}
-		l.push(c);
+		if(temp.size() == inp.size()) return minSize;
+		minSize = min(temp.size(), minSize);
 	}
-	for(auto p = l.head; p->next;){
-		if(reactants(p->val, p->next->val)){
-			if(p == l.head){
-				l.remove(p->next);
-				p=p->next;
-				l.remove(p->prev);
-			}else if(p->next == l.tail){
-				l.remove(p->next);
-				l.remove(p);
-			}else{
-				p = p->prev;
-				l.remove(p->next);
-				l.remove(p->next);
+
+	return minSize;
+}
+
+string p1(const string& inp){
+	stack<char> s;
+	for(const auto& c: inp){
+		if(!s.empty()){
+			if(react(c, s.top())){
+				s.pop();
 			}
-		}else{
-			p=p->next;
-		}
-	}
-
-	return l.size;
-}
-char maxChar='a';
-
-void p1(string line){
-	linkedList l;
-	l.size = line.size();
-	for(auto& c: line){
-		l.push(c);
-		maxChar = max(maxChar, char(tolower(c)));
-	}
-	for(auto p = l.head; p->next;){
-		if(reactants(p->val, p->next->val)){
-			if(p == l.head){
-				l.remove(p->next);
-				p=p->next;
-				l.remove(p->prev);
-			}else if(p->next == l.tail){
-				l.remove(p->next);
-				l.remove(p);
-			}else{
-				p = p->prev;
-				l.remove(p->next);
-				l.remove(p->next);
+			else{
+				s.push(c);
 			}
-		}else{
-			p=p->next;
-		}
+		}else
+			s.push(c);
 	}
-
-	cout<<"[P1] "<<l.size<<endl;
-}
-
-void p2(string& line){
-	int smallestPolymer = 500000;
-	for(char ign = 'a';ign<=maxChar;ign++){
-		smallestPolymer=min(smallestPolymer, eval(line, ign));
+	string out(s.size(), ' ');
+	for(int i = out.size()-1;!s.empty();i--){
+		out[i] = s.top();
+		s.pop();
 	}
-	cout<<"[P2] "<<smallestPolymer<<endl;
+	return out;
 }
 
 int main(){
 	fstream file("Day 5/input");
 	string line;
 	getline(file, line);
-	p1(line);
-	p2(line);
+	string p1String = p1(line);
+	cout<<"[P1] "<<p1String.size()<<endl;
+	cout<<"[P2] "<<p2(p1String)<<endl;
 }

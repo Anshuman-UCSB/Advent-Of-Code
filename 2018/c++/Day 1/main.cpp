@@ -18,9 +18,8 @@ int main(){
 			fq+=v;
 			if(cache.insert(fq).second==false){
 				cout<<"[P2] "<<fq<<endl;
-				goto out;
+				return 0;
 			}
 		}
 	}
-	out:;
 }
