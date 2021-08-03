@@ -1,4 +1,4 @@
-CXX = g++-9
+CXX = g++
 
 CXXFLAGS = -std=c++2a -I /home/suman/boost_1_76_0  -g
 
