@@ -39,14 +39,12 @@ struct Point{
 	}
 
 	void min(const Point& p){
-		if(p<*this){
-			*this = p;
-		}
+		x = std::min(x, p.x);
+		y = std::min(y, p.y);
 	}
 	void max(const Point& p){
-		if(*this<p){
-			*this = p;
-		}
+		x = std::max(x, p.x);
+		y = std::max(y, p.y);
 	}
 };
 

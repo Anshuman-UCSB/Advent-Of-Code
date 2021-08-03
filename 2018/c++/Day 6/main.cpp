@@ -20,13 +20,13 @@ static inline int getPos(int x, int y){
 
 vector<Point> getNeighbors(const Point& p){
 	vector<Point> out;
-	if(p.x != 0)
+	if(p.x != low.x)
 		out.emplace_back(p.x-1, p.y);
-	if(p.x < width-1)
+	if(p.x < high.x)
 		out.emplace_back(p.x+1, p.y);
-	if(p.y != 0)
+	if(p.y != low.y)
 		out.emplace_back(p.x, p.y-1);
-	if(p.y < height-1)
+	if(p.y < high.y)
 		out.emplace_back(p.x, p.y+1);
 	return out;
 }
@@ -72,17 +72,17 @@ void p1(){
 		temp.clear();
 	}
 	// print(m);
-	for(int i = 0;i<width;i++){
-		idCounter[m[getPos(i, 0)].id]=0;
-		idCounter[m[getPos(i, height-1)].id]=0;
+	for(int i = low.x;i<=high.x;i++){
+		idCounter[m[getPos(i, low.y)].id]=0;
+		idCounter[m[getPos(i, high.y)].id]=0;
 		// cout<<i<<", "<<0<<endl;
 		// cout<<i<<", "<<height-1<<endl;
 	}
-	for(int i = 0;i<height;i++){
+	for(int i = low.y;i<=high.y;i++){
 		// cout<<0<<", "<<i<<endl;
 		// cout<<width-1<<", "<<i<<endl;
-		idCounter[m[getPos(0, i)].id]=0;
-		idCounter[m[getPos(width-1, i)].id]=0;
+		idCounter[m[getPos(low.x, i)].id]=0;
+		idCounter[m[getPos(high.x, i)].id]=0;
 	}
 	int p1 = 0;
 	for(auto& [k, v] : idCounter){
