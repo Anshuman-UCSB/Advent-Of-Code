@@ -36,7 +36,7 @@ int eval(const Point& p, int size){
 	return out;
 }
 
-Point maxSlidingFrame(int size){
+pair<Point, int> maxSlidingFrame(int size){
 	int maxSize = 0;
 	Point out;
 	for(int y = 1;y<300-size; y++){
@@ -48,7 +48,7 @@ Point maxSlidingFrame(int size){
 		}
 	}
 
-	return out;	
+	return make_pair(out, maxSize);	
 }
 
 int main(){
@@ -59,6 +59,16 @@ int main(){
 	int inp = stoi(line);
 	for(int i = 0;i<300*300;i++)
 		m[i] = evalPower(indToPoint(i), inp);
-	Point p1 = maxSlidingFrame(3);
+	auto [p1, squareSize] = maxSlidingFrame(3);
 	cout<<"[P1] "<<p1.x<<","<<p1.y<<endl;
+	int sum=0;
+	int maxSize = squareSize;
+	Point p2 = p1;
+	for(int size = 4; size<300;size++){
+		if(auto [t1, t2] = maxSlidingFrame(size); t2>sum){
+			maxSize = t2;
+			p2 = t1;
+		}
+	}
+	cout<<"[P2] "<<p2.x<<","<<p2.y<<","<<maxSize<<endl;
 }
