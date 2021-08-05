@@ -1,14 +1,16 @@
 #include "../aoc.h"
 #include <algorithm>
+#define small int8_t
 
-vector<short> regs={3,7};
+small regs[30000000]={3,7};
+unsigned regsSize = 2;
 int i1(0), i2(1);
 
-map<pair<int, int>, vector<short>> cache;
+map<pair<int, int>, vector<small>> cache;
 int inp;
 
 static void print(){
-	for(int i = 0;i<regs.size();i++){
+	for(int i = 0;i<regsSize;i++){
 		if(i == i1)cout<<"(";
 		else if(i == i2)cout<<"[";
 		else cout<<" ";
@@ -19,13 +21,13 @@ static void print(){
 	}cout<<endl;
 }
 
-static vector<short> combine(){
-	vector<short> out;
+static vector<small> combine(){
+	vector<small> out;
 	if(auto it = cache.find(make_pair(regs[i1], regs[i2])); it!=cache.end()){
 		// cout<<"Caching"<<i1<<", "<<i2<<endl;
 		return (*it).second;
 	}
-	for(short combined = regs[i1]+regs[i2];combined!=0;combined/=10){
+	for(small combined = regs[i1]+regs[i2];combined!=0;combined/=10){
 		out.push_back(combined%10);
 	}
 	cache[make_pair(regs[i1], regs[i2])] = out;
@@ -34,53 +36,63 @@ static vector<short> combine(){
 
 static void step(){
 	auto output = combine();
-	regs.insert(regs.end(), output.rbegin(), output.rend());
-	i1 = (1+i1+regs[i1])%regs.size();
-	i2 = (1+i2+regs[i2])%regs.size();
+	// regs.insert(regs.end(), output.rbegin(), output.rend());
+	// cout<<"Here"<<endl;
+	copy(output.rbegin(), output.rend(), &regs[regsSize]);
+	regsSize+=output.size();
+	// regs.insert(regs.end(), output.rbegin(), output.rend());
+	i1 = (1+i1+regs[i1])%regsSize;
+	i2 = (1+i2+regs[i2])%regsSize;
+}
+
+
+int p2(0);
+vector<small> match;
+
+static bool isMatch(int pos){
+	for(int i = 0;i<match.size();i++){
+		if(regs[i+pos] != match[i]){
+			return false;
+		}
+	}
+	return true;
 }
 
 void p1(){
-	cache[make_pair(0,0)] = vector<short>(1);
-	while(regs.size()<inp+10){
+	cache[make_pair(0,0)] = vector<small>(1);
+	for(int copy = inp;copy;copy/=10){
+		match.push_back(copy%10);
+	}
+	reverse(match.begin(), match.end());
+		
+	while(regsSize<inp+10){
 		step();
-		// cout<<regs.size()<<endl;
-		// print();
+		if(p2==0 && regsSize>match.size()){
+			if(isMatch(regsSize-match.size()))
+				p2 = regsSize-match.size();
+			if(isMatch(regsSize-match.size()-1))
+				p2 = regsSize-match.size();
+		}
 	}
 	cout<<"[P1] ";
 	for(int i = inp;i<inp+10;i++){
-		cout<<regs[i];
+		cout<<(int)regs[i];
 	}cout<<endl;
-}
-
-void p2(){
-	int i(0);
-	vector<int> match;
-	while(inp){
-		match.push_back(inp%10);
-		inp/=10;
-	}
-	reverse(match.begin(), match.end());
-
-	while(1){
-		for(;i+match.size()<regs.size();i++){
-			for(int j = i;j<i+match.size();j++){
-				if(regs[j] != match[j-i]){
-					goto next;
-				}
-			}
-			cout<<"[P2] "<<i<<endl;
-			return;
-			next:;
-		}
+	while(p2==0){
 		step();
+		if(p2==0 && regsSize>match.size()){
+			if(isMatch(regsSize-match.size()))
+				p2 = regsSize-match.size();
+			if(isMatch(regsSize-match.size()-1))
+				p2 = regsSize-match.size();
+		}		
 	}
+	cout<<"[P2] "<<p2<<endl;
 }
 
 int main(){
 	fstream file("Day 14/input");
 	file>>inp;
-	regs.reserve(inp);
 	// inp = 2018;
 	p1();
-	p2();
 }

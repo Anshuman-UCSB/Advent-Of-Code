@@ -1,3 +1,3 @@
-| Command | Mean [s] | Min [s] | Max [s] | Relative |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
 |:---|---:|---:|---:|---:|
-| `DAY 14` | 1.017 ± 0.010 | 1.010 | 1.024 | 1.00 |
+| `DAY 14` | 981.6 ± 10.3 | 971.4 | 992.0 | 1.00 |
