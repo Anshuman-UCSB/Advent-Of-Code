@@ -36,7 +36,7 @@ ostream& operator<<(ostream& os, const vector<T>& v)
 {
 	string delim = "";
 	os<<"[";
-    for(auto& val: v){
+    for(const auto& val: v){
 		os<<delim<<val;
 		delim = ", ";
 	}os<<"]";
@@ -55,7 +55,7 @@ ostream& operator<<(ostream& os, const map<T, M>& m)
 {
 	string delim = "";
 	os<<"{";
-    for(auto& [k, v]: m){
+    for(const auto& [k, v]: m){
 		os<<delim<<k<<": "<<v;
 		delim = ", ";
 	}os<<"}";
@@ -67,7 +67,7 @@ template <class T>
 ostream& operator<<(ostream& os, const set<T>& s){
 	string delim = "";
 	os<<"{";
-    for(auto& val: s){
+    for(const auto& val: s){
 		os<<delim<<val;
 		delim = ", ";
 	}os<<"}";
