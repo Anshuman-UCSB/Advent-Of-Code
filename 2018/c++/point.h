@@ -10,10 +10,13 @@ struct Point{
 		y = p.y;
 	}
 
+	int getx() const{return x;}
+	int gety() const{return y;}
+
 	Point& operator=(const Point& p){
 		if(this != &p){
-			x = p.x;
-			y = p.y;
+			x = p.getx();
+			y = p.gety();
 		}
 		return *this;
 	}
@@ -45,11 +48,14 @@ struct Point{
 	}
 
 	bool operator<(Point& p){
-		return x<p.x | (x==p.x && y<p.y);
+		return y<p.y | (y==p.y && x<p.x);
 	}
 
 	bool operator<(const Point& p) const {
-		return x<p.x | (x==p.x && y<p.y);
+		return y<p.y | (y==p.y && x<p.x);
+	}
+	bool operator==(const Point& p) const {
+		return y==p.y && x==p.x;
 	}
 
 	void min(const Point& p){
