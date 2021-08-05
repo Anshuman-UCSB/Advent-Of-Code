@@ -1,54 +1,44 @@
 #include "../aoc.h"
 #include "../point.h"
+#include <tuple>
 #include <cassert>
 
 #define ll long long
+#define smallInt int
+#define GRIDSIZE 300
 
-static short evalPower(const Point& p, int inp){
-	ll combined = (p.x+10)*p.y + inp;
-	combined*=(p.x+10);
+vector<vector<smallInt>> m(GRIDSIZE+1, vector<smallInt>(GRIDSIZE+1, 0));
+int inp;
+
+static smallInt evalPower(int x, int y, int inp){
+	if(x==0||y==0) return 0;
+	ll combined = (x+10)*y + inp;
+	combined*=(x+10);
 	return combined/100%10 -5;
 }
 
 void test(){
-	assert(evalPower(Point(122,79), 57)==-5);
-	assert(evalPower(Point(217,196), 39)==0);
-	assert(evalPower(Point(101,153), 71)==4);
+	assert(evalPower(122,79, 57)==-5);
+	assert(evalPower(217,196, 39)==0);
+	assert(evalPower(101,153, 71)==4);
 }
 
-static inline int pointToInd(const Point& p){
-	return (p.x-1)+(p.y-1)*300;
+static inline int sumSquare(int x, int y, int size){
+	return m[y-1][x-1]+m[y+size-1][x+size-1] - m[y-1][x+size-1] - m[y+size-1][x-1];
 }
 
-static inline Point indToPoint(const int& n){
-	return Point(n%300+1, n/300+1);
-}
-
-vector<short> m(300*300);
-
-int eval(const Point& p, int size){
-	int out = 0;
-	for(int x = p.x; x<p.x+size;x++){
-		for(int y = p.y; y<p.y+size;y++){
-			out+=m[pointToInd(Point(x, y))];
-		}
-	}
-	return out;
-}
-
-pair<Point, int> maxSlidingFrame(int size){
-	int maxSize = 0;
-	Point out;
-	for(int y = 1;y<300-size; y++){
-		for(int x = 1;x<300-size; x++){
-			if(int e = eval(Point(x, y), size); e>maxSize){
-				maxSize = e;
-				out = Point(x, y);
+pair<int, tuple<int, int, int>> solve(int size){
+	int sum;
+	tuple<int, int, int> out;
+	get<2>(out)=size;
+	int temp;
+	for(int y = 1;y<=GRIDSIZE-size;y++){
+		for(int x = 1;x<=GRIDSIZE-size;x++){
+			if(temp=sumSquare(x, y, size); temp>sum){
+				
 			}
 		}
 	}
-
-	return make_pair(out, maxSize);	
 }
 
 int main(){
@@ -56,19 +46,13 @@ int main(){
 	fstream file("Day 11/input");
 	string line;
 	getline(file, line);
-	int inp = stoi(line);
-	for(int i = 0;i<300*300;i++)
-		m[i] = evalPower(indToPoint(i), inp);
-	auto [p1, squareSize] = maxSlidingFrame(3);
-	cout<<"[P1] "<<p1.x<<","<<p1.y<<endl;
-	int sum=0;
-	int maxSize = squareSize;
-	Point p2 = p1;
-	for(int size = 4; size<300;size++){
-		if(auto [t1, t2] = maxSlidingFrame(size); t2>sum){
-			maxSize = t2;
-			p2 = t1;
+	// inp = stoi(line);
+	inp = 18;
+	for(int y = 1;y<=GRIDSIZE;y++){
+		for(int x = 1;x<=GRIDSIZE;x++){
+			m[y][x] = -m[y-1][x-1]+evalPower(x, y, inp)+m[y-1][x]+m[y][x-1];
 		}
 	}
-	cout<<"[P2] "<<p2.x<<","<<p2.y<<","<<maxSize<<endl;
+	
+	
 }
