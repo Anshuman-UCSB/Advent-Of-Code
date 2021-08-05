@@ -28,17 +28,18 @@ static inline int sumSquare(int x, int y, int size){
 }
 
 pair<int, tuple<int, int, int>> solve(int size){
-	int sum;
+	int sum=0;
 	tuple<int, int, int> out;
-	get<2>(out)=size;
 	int temp;
 	for(int y = 1;y<=GRIDSIZE-size;y++){
 		for(int x = 1;x<=GRIDSIZE-size;x++){
 			if(temp=sumSquare(x, y, size); temp>sum){
-				
+				out = make_tuple(x, y, size);
+				sum = temp;
 			}
 		}
 	}
+	return make_pair(sum, out);
 }
 
 int main(){
@@ -46,13 +47,22 @@ int main(){
 	fstream file("Day 11/input");
 	string line;
 	getline(file, line);
-	// inp = stoi(line);
-	inp = 18;
+	inp = stoi(line);
+	// inp = 42;
 	for(int y = 1;y<=GRIDSIZE;y++){
 		for(int x = 1;x<=GRIDSIZE;x++){
 			m[y][x] = -m[y-1][x-1]+evalPower(x, y, inp)+m[y-1][x]+m[y][x-1];
 		}
 	}
+	auto out = solve(3);
+	cout<<"[P1] "<<get<0>(out.second)<<","<<get<1>(out.second)<<endl;
+	pair<int, tuple<int, int, int>> t;
+	for(int i = 4;i<300;i++){
+		if(t = solve(i); t.first > out.first){
+			out = t;
+		}
+	}
+	cout<<"[P2] "<<get<1>(out.second)<<","<<get<1>(out.second)<<","<<get<2>(out.second)<<endl;
 	
 	
 }
