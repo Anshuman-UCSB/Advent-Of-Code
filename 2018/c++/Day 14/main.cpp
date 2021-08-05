@@ -1,12 +1,11 @@
 #include "../aoc.h"
 #include <algorithm>
-#define small int8_t
+#define small short
 
 small regs[30000000]={3,7};
 unsigned regsSize = 2;
 int i1(0), i2(1);
 
-map<pair<int, int>, vector<small>> cache;
 int inp;
 
 static void print(){
@@ -21,16 +20,29 @@ static void print(){
 	}cout<<endl;
 }
 
+// static vector<small> combine(){
+// 	if(regs[i1] == 0 && regs[i2] == 0){
+// 		return vector<small>(1, 0);
+// 	}
+// 	vector<small> out;
+// 	if(auto it = cache.find(make_pair(regs[i1], regs[i2])); it!=cache.end()){
+// 		// cout<<"Caching"<<i1<<", "<<i2<<endl;
+// 		return (*it).second;
+// 	}
+// 	for(small combined = regs[i1]+regs[i2];combined!=0;combined/=10){
+// 		out.push_back(combined%10);
+// 	}
+// 	// cache[make_pair(regs[i1], regs[i2])] = out;
+// 	return out;
+// }
 static vector<small> combine(){
-	vector<small> out;
-	if(auto it = cache.find(make_pair(regs[i1], regs[i2])); it!=cache.end()){
-		// cout<<"Caching"<<i1<<", "<<i2<<endl;
-		return (*it).second;
+	if(regs[i1] == 0 && regs[i2] == 0){
+		return vector<small>(1, 0);
 	}
+	vector<small> out;
 	for(small combined = regs[i1]+regs[i2];combined!=0;combined/=10){
 		out.push_back(combined%10);
 	}
-	cache[make_pair(regs[i1], regs[i2])] = out;
 	return out;
 }
 
@@ -59,7 +71,6 @@ static bool isMatch(int pos){
 }
 
 void p1(){
-	cache[make_pair(0,0)] = vector<small>(1);
 	for(int copy = inp;copy;copy/=10){
 		match.push_back(copy%10);
 	}
