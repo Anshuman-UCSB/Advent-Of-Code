@@ -21,9 +21,8 @@ static void print(){
 	}cout<<endl;
 }
 
-int p2 = 0;
-int sInd = 10;
 small match[6];
+bool done = false;
 
 static void steps(int count){
 	small sum;
@@ -37,15 +36,28 @@ static void steps(int count){
 		if(sum>=10){
 			regs[rsize++] = sum/10;
 			regs[rsize++] = sum%10;
+			for(int i = 0;i<6;i++){
+			if(match[i] != regs[rsize-8+i])
+				goto notMatch2;
+			}
+			cout<<"[P2] "<<rsize-7<<endl;
+			done = true;
+			return;
 		}else{
 			regs[rsize++] = sum;
 		}
+		notMatch2:;
 		elf1=(elf1+1+regs[elf1])%rsize;
 		elf2=(elf2+1+regs[elf2])%rsize;
 		// print();
-	}
-	for(;sInd<=rsize-6;sInd++){
-		
+		for(int i = 0;i<6;i++){
+			if(match[i] != regs[rsize-7+i])
+				goto notMatch1;
+		}
+		cout<<"[P2] "<<rsize-7<<endl;
+		done = true;
+		return;
+		notMatch1:;
 	}
 }
 
@@ -64,8 +76,7 @@ int main(){
 	for(int i = inp;i<inp+10;i++){
 		cout<<(int)regs[i];
 	}cout<<endl;
-	while(p2==0){
+	while(!done){
 		steps(rsize*2);
-		cout<<rsize<<endl;
 	}
 }
