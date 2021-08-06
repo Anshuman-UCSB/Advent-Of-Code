@@ -57,6 +57,9 @@ struct Point{
 	bool operator==(const Point& p) const {
 		return y==p.y && x==p.x;
 	}
+	bool operator!=(const Point& p) const {
+		return !(p==*this);
+	}
 
 	void min(const Point& p){
 		x = std::min(x, p.x);
@@ -69,6 +72,10 @@ struct Point{
 
 	int distTo(const Point& p) const{
 		return abs(p.y-y)+abs(p.x-x);
+	}
+
+	vector<Point> getNeighbors() const{
+		return vector<Point>({Point(x, y-1), Point(x-1,y), Point(x+1, y), Point(x,y+1)});
 	}
 };
 
