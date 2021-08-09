@@ -19,7 +19,7 @@ ostream& operator<<(ostream& os, const testCase& tc){
 }
 
 vector<set<int>> possible(16, {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15});
-set<int> unsolved = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+set<int> solved = {};
 vector<function<vector<int>(vector<int>, vector<int>&)>> funcs(16);
 
 void initFunctions(){
@@ -135,9 +135,6 @@ void test(testCase& tcase){
 		}
 	}
 	if(potential>=3) p1c++;	
-	if(p.size() == 1){
-		unsolved.erase(*p.begin());
-	}
 }
 
 vector<testCase> tc;
@@ -146,6 +143,25 @@ void p1(){
 		test(tcase);
 	}
 	cout<<"[P1] "<<p1c<<endl;
+}
+
+vector<int> mapping(16, -1);
+//mapping[opc] = funcId
+void p2(){
+	while(solved.size()<16){
+		for(int i = 0;i<16;i++){
+			if(possible[i].size() == 1){
+				solved.insert(*possible[i].begin());
+				mapping[i] = *possible[i].begin();
+				for(auto& s: possible){
+					s.erase(mapping[i]);
+				}
+			}
+		}
+		// cout<<possible<<endl;
+		// cout<<solved<<endl;
+	}
+	// cout<<mapping<<endl;
 }
 
 int main(){
@@ -168,4 +184,14 @@ int main(){
 	}
 
 	p1();
+	p2();
+	getline(file, line);
+	vector<int> regs(4);
+	vector<int> instr(4);
+	while(getline(file, line)){
+		stringstream ss(line);
+		ss>>instr[0]>>instr[1]>>instr[2]>>instr[3];
+		regs = funcs[mapping[instr[0]]](regs, instr);
+	}	
+	cout<<"[P2] "<<regs[0]<<endl;
 }
