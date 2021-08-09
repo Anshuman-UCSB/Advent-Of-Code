@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 using namespace std;
 struct Point{
 	int x, y;
@@ -96,6 +97,11 @@ void updateRanges(Point& low, Point& high, const Point& p){
 		high = p;
 	}else
 		high.max(p);
+}
+
+template<class T>
+inline T& at(vector<vector<T>>& v, const Point& p){
+	return v[p.y][p.x];
 }
 
 ostream& operator<<(ostream& os, const Point& p){

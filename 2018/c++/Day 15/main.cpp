@@ -1,161 +1,189 @@
 #include "../aoc.h"
 #include "../point.h"
+#include <cassert>
 
 struct Cell{
-	char type;
-	int atk, hp;
-	Cell(char type='.', int atk = 3, int hp = 200):type(type), atk(atk), hp(hp){}
+	bool isElf;
+	bool moved;
+	bool attacked;
+	int hp, atk;
+	char id;
+	Cell(char id='.', int hp=0, int atk=3):id(id), hp(hp), atk(atk), isElf(id=='E'), moved(false), attacked(false){}
 };
 
 vector<vector<Cell>> m;
 
-Point move(int x, int y){
-	if(m[y][x].type == '.' || m[y][x].type == '#') return Point(-1, -1);
-	char target = (m[y][x].type=='E'?'G':'E');
-	set<Point> visited = {Point(x, y)};
-	set<Point> q, temp;
-	for(auto& v: Point(x, y).getNeighbors()){
-		if(m[v.y][v.x].type == target) return Point(x,y);
-	}
-	q.insert(Point(x,y));
-	Point nearestEnemy(999,999);
-	while(!q.empty()){
-		for(auto& p: q){
-			for(auto& v: p.getNeighbors()){
-				if(m[v.y][v.x].type==target){
-					cout<<p<<", "<<nearestEnemy<<endl;
-					if(p<nearestEnemy){
-						nearestEnemy = p;
-						cout<<"here"<<endl;
-					}
-				}
-				if(m[v.y][v.x].type == '.'){
-					if(visited.insert(v).second)
-						temp.insert(v);
-				}
-			}
-		}
-		q.swap(temp);
-		temp.clear();
-	}
-	if(nearestEnemy == Point(999,999)){
-		// cout<<"Didn't find target"<<endl;
-		return Point(x,y);
-	}
-	q.clear();
-	temp.clear();
-	q.insert(nearestEnemy);
-	visited.clear();
-	while(!q.empty()){
-		for(auto& p: q){
-			for(auto& n: p.getNeighbors()){
-				if(n == Point(x, y)){
-					// cout<<"Moving from "<<m[y][x].type<<" to "<<m[p.y][p.x].type<<endl;
-					swap(m[y][x], m[p.y][p.x]);
-					return Point(p.x, p.y);
-				}
-				if(m[n.y][n.x].type == '.'){
-					if(visited.insert(n).second)
-						temp.insert(n);
-				}
-			}
-		}
-		q.swap(temp);
-		temp.clear();
-	}
-	return Point(-2, -2);
-}
-
-int elfs(0), goblins(0);
-void attack(Point& p){
-	if(m[p.y][p.x].hp<=0) return;
-	Point target;
-	int minHp = 201;
-	char enemy = (m[p.y][p.x].type=='E'?'G':'E');
-	for(auto& n: p.getNeighbors()){
-		if(m[n.y][n.x].type!=enemy) continue;
-		if(m[n.y][n.x].hp<minHp){
-			target = n;
-			minHp = m[n.y][n.x].hp;
-		}
-	}
-	if(target != Point()){
-		if((m[target.y][target.x].hp-=m[p.y][p.x].atk)<=0){
-			m[target.y][target.x].type = '.';
-			if(enemy == 'E')elfs--;
-			else goblins--;
-		}		
-		// cout<<m[p.y][p.x].type<<" hit "<<m[target.y][target.x].type<<" for "<<m[p.y][p.x].atk <<\
-		// 	" to "<<m[target.y][target.x].hp<<" hp."<<endl;
-	}
-}
-
+/* util */
+ostream& operator<<(ostream& os, const Cell& c){os<<c.id;return os;}
 void print(){
 	for(auto& r: m){
-		for(auto& c: r) cout<<c.type;
+		for(auto& c: r)cout<<c;
+		cout<<"	";
+		string delim = "";
+		for(auto& c: r){
+			if(c.id == 'E' || c.id == 'G'){
+				cout<<delim<<c.id<<"("<<c.hp<<")";
+				delim = ", ";
+			}
+		}
 		cout<<endl;
 	}
 }
 
-bool iter(){
-	vector<Point> checks;
-	for(int y = 0;y<m.size();y++){
-		for(int x = 0;x<m[0].size();x++){
-			if(m[y][x].type == 'E' || m[y][x].type == 'G')
-				checks.push_back(Point(x, y));
+Point getTarget(const Point& start){
+	// bfs until find enemy
+	char enemy = at(m,start).isElf?'G':'E';
+	set<Point> visited = {start};
+	vector<Point> q, temp;
+	q.push_back(start);
+	while(!q.empty()){
+		for(auto& base: q){
+			if(at(m, base).id == '#') continue;
+			for(auto& n: base.getNeighbors()){
+				if(at(m, n).id == enemy)
+					return base;
+				if(at(m, n).id == '.' && visited.insert(n).second)
+					temp.push_back(n);
+			}
+		}
+
+		q.swap(temp);
+		sort(q.begin(), q.end());
+		temp.clear();
+	}
+	return Point(-1,-1);
+}
+
+Point getStep(const Point& from, const Point& to){
+	char enemy = at(m,from).isElf?'G':'E';
+	set<Point> visited = {from};
+	vector<Point> q, temp;
+	q.push_back(from);
+	while(!q.empty()){
+		for(auto& base: q){
+			if(at(m, base).id == '#') continue;
+			for(auto& n: base.getNeighbors()){
+				if(n == to)
+					return base;
+				if(at(m, n).id == '.' && visited.insert(n).second)
+					temp.push_back(n);
+			}
+		}
+
+		q.swap(temp);
+		sort(q.begin(), q.end());
+		temp.clear();
+	}
+	return Point(-1,-1);
+}
+
+int elves(0), goblins(0);
+Point step(const Point& p){
+	if(at(m, p).moved) return p;
+	if(elves == 0 || goblins == 0)
+		return Point();
+
+	if(at(m, p).id != 'G' && at(m, p).id != 'E') return p; 
+	for(auto& n: p.getNeighbors()){
+		if(at(m, n).id == (at(m, p).isElf?'G':'E')) return p;
+	}
+	at(m, p).moved = true;
+	auto target = getTarget(p);
+	// cout<<p<<" targeting "<<target<<endl;
+	if(target.x!=-1){
+		// cout<<"moved from "<<p<<" to "<<getStep(target, p)<<endl;
+		Point targetPos = getStep(target, p);
+		swap(at(m, targetPos), at(m, p));
+		return targetPos;
+	}
+	return p;
+}
+
+
+void attack(const Point& p){
+	if(at(m, p).id != 'G' && at(m, p).id != 'E') return; 
+	if(at(m, p).attacked) return;
+	assert(at(m, p).hp>0);
+	at(m, p).attacked = true;
+	Point target(999,999);
+	int minHp = 999;
+	for(auto& d: p.getNeighbors()){
+		if(at(m, d).id != (at(m, p).isElf?'G':'E')) continue;
+		if(auto hp = at(m, d).hp;hp < minHp){
+			target = d;
+			minHp = hp;
 		}
 	}
-	for(auto& p: checks){
-		if(elfs == 0 || goblins == 0) return false;
-		cout<<p<<" moved to ";
-		auto n = move(p.x, p.y);
-		cout<<n<<endl;
-		// cout<<n<<"'s turn"<<endl;
-		if(n.x>0)
-			attack(n);
+	if(target.x != 999){
+		auto& tCell = at(m, target);
+		// cout<<at(m,p)<<p<<" attacked "<<at(m,target)<<target<<" for "<<at(m, p).atk<<endl;
+		tCell.hp-=at(m, p).atk;
+		if(tCell.hp <=0){
+			if(tCell.id == 'E')
+				elves--;
+			else
+				goblins--;
+			tCell.id = '.';
+		}
+	}
+}
+
+bool iter(){
+	for(int y = 1;y<m.size()-1;y++){
+		for(int x = 1;x<m[0].size()-1;x++){
+			m[y][x].moved = false;
+			m[y][x].attacked = false;
+		}
+	}
+	
+	for(int y = 1;y<m.size()-1;y++){
+		for(int x = 1;x<m[0].size()-1;x++){
+			if(m[y][x].id != 'E' && m[y][x].id != 'G') continue;
+			// cout<<"From "<<Point(x, y);
+			Point newPos = step(Point(x, y));
+			if(newPos == Point())
+				return false;
+			// cout<<" to "<<newPos<<endl;
+			attack(newPos);
+		}
 	}
 	return true;
 }
 
 void p1(){
-	print();
-	int rounds = 0;
-	// string line;
-	while(elfs>0&&goblins>0){
-		cout<<"Round: "<<rounds<<"	Elves: "<<elfs<<"	"<<"Goblins: "<<goblins<<endl;
-		if(iter())
-			rounds++;
-		else
-			break;
-		print();
-		// cin>>line;
+	int round;
+	for(round = 0;goblins>0 && elves>0;){
+		cout<<"\nR"<<round<<"	E"<<elves<<"	G"<<goblins<<endl;
+		// print();
+		if(iter()) round++;
 	}
-	print();
-	int out = 0;
+	int sum= 0;
 	for(auto& r: m){
 		for(auto& c: r){
-			if(c.type == 'G' || c.type =='E'){
-				cout<<c.type<<">"<<c.hp<<endl;
-				out+=c.hp;
-			}
+			if(c.id == 'E' || c.id == 'G')
+				sum+=c.hp;
 		}
 	}
-	cout<<out<<"*"<<rounds<<endl;
-	cout<<"[P1] "<<out*rounds<<endl;
+	// print();
+	// cout<<round<<"*"<<sum<<endl;
+	cout<<"[P1] "<<round*sum<<endl;
 }
 
 int main(){
+	// fstream file("Day 15/testCases/problemStep");
+	// fstream file("Day 15/testCases/test17");
+	// fstream file("Day 15/moveTests/test3");
 	fstream file("Day 15/input");
 	string line;
 	while(getline(file, line)){
 		m.emplace_back(line.size());
-		for(int i = 0;i<line.size();i++){
-			m.back()[i] = Cell(line[i]);
-			if(line[i] == 'E')elfs++;
-			else if(line[i] == 'G') goblins++;
+		for(int i=0;i<line.size();i++){
+			m.back()[i] = Cell(line[i], 200, 3);
+			if(line[i] == 'G') goblins++;
+			else if(line[i] == 'E') elves++;
 		}
 	}
-	// p1();
-	iter();
-	print();
+	vector<vector<Cell>> initial = m;
+
+	p1();
 }
