@@ -77,6 +77,7 @@ Point getStep(const Point& from, const Point& to){
 	return Point(-1,-1);
 }
 
+int eCount(0), gCount(0);
 int elves(0), goblins(0);
 Point step(const Point& p){
 	if(at(m, p).moved) return p;
@@ -139,11 +140,9 @@ bool iter(){
 	for(int y = 1;y<m.size()-1;y++){
 		for(int x = 1;x<m[0].size()-1;x++){
 			if(m[y][x].id != 'E' && m[y][x].id != 'G') continue;
-			// cout<<"From "<<Point(x, y);
 			Point newPos = step(Point(x, y));
 			if(newPos == Point())
 				return false;
-			// cout<<" to "<<newPos<<endl;
 			attack(newPos);
 		}
 	}
@@ -151,10 +150,10 @@ bool iter(){
 }
 
 void p1(){
+	goblins = gCount;
+	elves = eCount;
 	int round;
 	for(round = 0;goblins>0 && elves>0;){
-		cout<<"\nR"<<round<<"	E"<<elves<<"	G"<<goblins<<endl;
-		// print();
 		if(iter()) round++;
 	}
 	int sum= 0;
@@ -164,26 +163,69 @@ void p1(){
 				sum+=c.hp;
 		}
 	}
-	// print();
-	// cout<<round<<"*"<<sum<<endl;
 	cout<<"[P1] "<<round*sum<<endl;
 }
 
+vector<Point> elfPos;
+vector<vector<Cell>> initial;
+
+int p2test(int atk){
+	int round;
+
+	m = initial;
+	goblins = gCount;
+	elves = 1;
+
+	for(auto& p: elfPos){
+		at(m, p).atk = atk;
+	}
+	
+	for(round = 0;goblins>0 && elves>0;){
+		if(iter()) round++;
+	}
+	if(elves==0) return 0;
+	int sum= 0;
+	for(auto& r: m){
+		for(auto& c: r){
+			if(c.id == 'E' || c.id == 'G')
+				sum+=c.hp;
+		}
+	}
+	return sum*round;
+}
+
+void p2(){
+	int l, h, m;
+	for(h=3;!p2test(h);h*=2){}
+	l = h/2;
+	while(l+1<h){
+		m = (l+h)/2;
+		if(p2test(m)){
+			h = m;
+		}else{
+			l = m+1;
+		}
+		// cout<<l<<"->"<<h<<endl;
+	}
+	cout<<"[P2] "<<p2test(l)<<endl;
+}
+
 int main(){
-	// fstream file("Day 15/testCases/problemStep");
-	// fstream file("Day 15/testCases/test17");
-	// fstream file("Day 15/moveTests/test3");
 	fstream file("Day 15/input");
 	string line;
 	while(getline(file, line)){
 		m.emplace_back(line.size());
 		for(int i=0;i<line.size();i++){
 			m.back()[i] = Cell(line[i], 200, 3);
-			if(line[i] == 'G') goblins++;
-			else if(line[i] == 'E') elves++;
+			if(line[i] == 'G') gCount++;
+			else if(line[i] == 'E') {
+				eCount++;
+				elfPos.emplace_back(i, m.size()-1);
+			}
 		}
 	}
-	vector<vector<Cell>> initial = m;
+	initial = m;
 
 	p1();
+	p2();
 }
