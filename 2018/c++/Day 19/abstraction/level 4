@@ -1,0 +1,37 @@
+[A ip B C D E]
+goto 19
+	C = 1
+	E = 1
+		D = C*E
+		D = B==D
+		if D A += C
+
+
+		E++
+		D = E>B
+		if E > B goto 14 else goto 5
+		
+			C++
+			D = C>B
+			if D: goto 18
+			goto 4
+		return
+	set B to 1003
+	
+	
+	
+	
+	
+	
+	
+	goto 29
+goto 3
+	set D to 10550400
+	set B to 10551403	
+	
+	
+	
+	
+	
+	
+	goto 3

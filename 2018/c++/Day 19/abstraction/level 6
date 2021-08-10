@@ -1,0 +1,11 @@
+B = 10551403
+C = 1
+loop:
+	E = 1
+	if C*E == B:
+		A += C
+	E++
+	if E > B
+		C++
+		if C>B:
+			return

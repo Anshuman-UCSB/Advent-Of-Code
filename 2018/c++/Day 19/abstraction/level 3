@@ -1,0 +1,37 @@
+[A ip B C D E]
+goto 19
+	C = 1
+	E = 1
+	D = C*E
+	D = B==D
+if D goto 9
+goto 10
+A += C
+	E++
+	D = E>B
+	if D goto 14
+	goto 5
+		C++
+		D = C>B
+		if D: goto 18
+		goto 4
+		return
+	B+=2
+	B*=B
+	B*=ip
+	B*=11
+	D+=7
+	D*=ip
+	D+=13
+	B+=D
+	goto 29
+goto 3
+	D = ip
+	D*=ip
+	D+=ip
+	D*=ip
+	D*=14
+	D*=ip
+	B+=D
+	A = 0
+	goto 3

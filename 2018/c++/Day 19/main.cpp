@@ -92,31 +92,16 @@ vector<instr> instructions;
 int eval(vector<int>& regs, int ip){
 	initFunctions();
 	int& ind = regs[ip];
-	int old = ind;
 	string t;
 	while(ind>=0 && ind<instructions.size()){
-		// cout<<"("<<instructions[ind].opc<<")"<<endl;
-		// cout<<"ip="<<ind<<"	";
-		// cout<<instructions[ind].opc<<"	"<<instructions[ind].instruction<<"->	";
-		cout<<ind+2<<":	"<<instructions[ind];
 		funcs[instructions[ind].opc](regs, instructions[ind].instruction);
-		cout<<"	";
-		for(auto& v: regs){
-			cout<<v<<"	";
-		}
-		
-		cout<<endl;
-		// if(ind != old)
-			// cin>>t;
 		ind++;
-		old = ind;
-		// sleep(1);
 	}
-	// cout<<regs<<endl;
 	return regs[0];	
 }
 
 int main(){
+	// fstream file("Day 19/modinp");
 	fstream file("Day 19/input");
 	string line;
 	getline(file, line);
@@ -131,9 +116,14 @@ int main(){
 	// 	cout<<i.opc<<"	"<<i.instruction<<endl;
 	// }
 
-	// cout<<"[P1] "<<eval(regs, ip)<<endl;
-	regs = vector<int>(6);
-	regs[0] = 1;
-	// cout<<regs<<endl;
-	cout<<"[P2] "<<eval(regs, ip)<<endl;
+	cout<<"[P1] "<<eval(regs, ip)<<endl;
+	int p2 = 0;
+	const int target = 10551403;
+	for(int i = 1; i*i<=target;i++){
+		if(target%i==0){
+			p2+=i;
+			p2+=target/i;
+		}
+	}
+	cout<<"[P2] "<<p2<<endl;
 }

@@ -1,0 +1,37 @@
+[A ip B C D E]
+ip+=16
+C = 1
+E = 1
+D = C*E
+D = B==D
+ip += D
+ip += 1
+A += C
+E++
+D = E>B
+ip += D
+ip = 2
+C++
+D = C>B
+ip+=D
+ip = 1
+ip*=2
+B+=2
+B*=B
+B*=ip
+B*=11
+D+=7
+D*=ip
+D+=13
+B+=D
+ip+=A
+ip = 0
+D = ip
+D*=ip
+D+=ip
+D*=ip
+D*=14
+D*=ip
+B+=D
+A = 0
+ip = 0
