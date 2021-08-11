@@ -90,7 +90,7 @@ ostream& operator<<(ostream& os, const instr& i){
 
 vector<instr> instructions;
 
-set<int> possibles;
+set<pair<int, int>> possibles;
 
 int eval(vector<int>& regs, int ip){
 	int& ind = regs[ip];
@@ -99,6 +99,7 @@ int eval(vector<int>& regs, int ip){
 	int& watch = regs[2];
 	int old = watch;
 	ind =0;
+	int p2;
 	while(ind>=0 && ind<instructions.size()){
 		// cout<<ind+2<<" -	";
 		// cout<<instructions[ind]<<"	";
@@ -108,10 +109,15 @@ int eval(vector<int>& regs, int ip){
 				cout<<"[P1] "<<regs[4]<<endl;
 				p1Done = true;
 			}
-			if(possibles.insert(regs[4]).second == false){
-				cout<<"[P2] "<<*possibles.rbegin()<<endl;
+			if(possibles.insert(make_pair(regs[4], regs[3])).second == false){
+				cout<<"[P2] "<<p2<<endl;
+				//16776181 too high???
+				//4855969 too high
 				return 0;
 			}
+			p2 = regs[4];
+			// if(rand() % 100 == 1)
+			// 	cout<<*possibles.rbegin()<<"	"<<possibles.size()<<endl;
 		}
 		ind++;
 		old = watch;
