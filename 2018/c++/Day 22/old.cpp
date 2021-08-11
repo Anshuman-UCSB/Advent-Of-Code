@@ -41,12 +41,9 @@ static void eval(int& x, int& y){
 }
 
 static void fillGrid(){
-	int maxX(0), maxY(0);
 	for(int y = 0;y<m.size();y++){
 		for(int x = 0;x<m[0].size();x++){
 			eval(x,y);
-			maxX = max(maxX, x);
-			maxY = max(maxY, y);
 		}
 	}
 	int p1=0;
