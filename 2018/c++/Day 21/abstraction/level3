@@ -20,8 +20,8 @@
 	E = B+1
 	E*=256
 	E = E>C
-	if not E: B++
-	
+	if E: goto 28
+	B++
 
 	
 	goto 20

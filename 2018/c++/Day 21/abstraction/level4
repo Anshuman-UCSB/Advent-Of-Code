@@ -14,7 +14,8 @@
 	E = B+1
 	E*=256
 	
-	if E<C: B++
+	if E>C: goto 20
+	B++
 	goto 14
 C = B
 goto 6

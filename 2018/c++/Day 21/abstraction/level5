@@ -1,0 +1,22 @@
+D = 0
+	C = D | 65536
+	D = 12670166
+	B = C & 255
+	D += B
+	D = D & 16777215
+	D *= 65899
+	D = 16777215 & D
+	if C<256:
+		if A == D: 
+			return
+		else:
+			goto 4
+	B = 2
+	E = B+1
+	E*=256
+	
+	if E>C:
+		C = B
+		goto 4
+	B++
+	goto 15

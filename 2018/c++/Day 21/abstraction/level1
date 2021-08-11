@@ -22,7 +22,7 @@ E*=256
 E = E>C
 if E: goto 25
 goto 26
-goto 27
+goto 28
 B++
 goto 20
 C = B

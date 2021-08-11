@@ -20,9 +20,9 @@ goto 2
 	E = B+1
 	E*=256
 	E = E>C
-	if E: goto 25
+	if E: goto 28
 	goto 26
-		goto 27
+		
 	B++
 	goto 20
 C = B

@@ -90,19 +90,28 @@ ostream& operator<<(ostream& os, const instr& i){
 
 vector<instr> instructions;
 
+set<int> possibles;
+
 int eval(vector<int>& regs, int ip){
 	int& ind = regs[ip];
+	bool p1Done = false;
 	string t;
-	int& watch = regs[ip];
+	int& watch = regs[2];
 	int old = watch;
 	ind =0;
 	while(ind>=0 && ind<instructions.size()){
-		cout<<ind+2<<" -	";
-		cout<<instructions[ind]<<"	";
+		// cout<<ind+2<<" -	";
+		// cout<<instructions[ind]<<"	";
 		funcs[instructions[ind].opc](regs, instructions[ind].instruction);
-		cout<<regs<<endl;
-		if(old != watch){
-			// cin>>t;
+		if(ind == 28){
+			if(!p1Done){
+				cout<<"[P1] "<<regs[4]<<endl;
+				p1Done = true;
+			}
+			if(possibles.insert(regs[4]).second == false){
+				cout<<"[P2] "<<*possibles.rbegin()<<endl;
+				return 0;
+			}
 		}
 		ind++;
 		old = watch;
@@ -110,7 +119,38 @@ int eval(vector<int>& regs, int ip){
 	return regs[0];	
 }
 
+void p1(){
+	int A, B, C, D, E;
+	A=B=C=D=E=0;
+	C = D | 65536;
+	D = 12670166;
+	for(;;){
+		B = C & 255;
+		D += B;
+		D &= 16777215;
+		D *= 65899;
+		D &= 16777215;
+		if (C<256){
+			cout<<"[P1] "<<D<<endl;
+			return;
+		}
+		// for(B = 2; (B+1)*256 < C; B++){}
+		B = 2;
+		incr: E = B+1;
+		E*=256;
+		if(E<C){
+			B++;
+			goto incr;
+		}
+		C = B;
+	}	
+}
+
 int main(){
+	// p1();
+	//15754299 too high 
+	// exit(0);
+	
 	initFunctions();
 	fstream file("Day 21/input");
 	string line;
@@ -123,6 +163,6 @@ int main(){
 		instructions.emplace_back(line);
 
 	vector<int> regs(6);
-	regs[0] = 9999;
+	// regs[0] = 0;
 	eval(regs, ip);
 }
