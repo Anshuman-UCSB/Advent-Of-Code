@@ -2,7 +2,7 @@ grid = {(0, 0): 0}
 dist = x = y = 0
 stack = []
 
-for char in open('day20.txt').read()[1:-1]:
+for char in open('Day 20/input').read()[1:-1]:
     if char == '(':
         stack.append((dist, x, y))
     elif char == ')':
@@ -15,6 +15,6 @@ for char in open('day20.txt').read()[1:-1]:
         dist += 1
         if (x, y) not in grid or dist < grid[(x, y)]:
             grid[(x, y)] = dist
-            
-print 'ans (part 1): %d' % max(grid.values())
-print 'ans (part 2): %d' % sum(value >= 1000 for value in grid.values())
+print(grid)           
+print('ans (part 1): %d' % max(grid.values()))
+print('ans (part 2): %d' % sum(value >= 1000 for value in grid.values()))
