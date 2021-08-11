@@ -92,6 +92,32 @@ vector<instr> instructions;
 
 set<pair<int, int>> possibles;
 
+void debugger(int ip){
+	vector<int> regs(6);
+	int& ind = regs[ip];
+	int& watch = regs[2];
+	int old = watch;
+	string t;
+	int step = 0;
+	while(ind>=0 && ind<instructions.size()){
+		cout<<ind+2<<": 	";
+		cout<<instructions[ind];
+		if(ind == 24){
+			regs[3]/=256;
+			ind = 27;
+			continue;
+		}
+		funcs[instructions[ind].opc](regs, instructions[ind].instruction);
+		cout<<"	"<<regs<<endl;
+		if(ind == 29){
+			step++;
+			cin>>t;
+		}
+		ind++;
+		old = watch;
+	}
+}
+
 int eval(vector<int>& regs, int ip){
 	int& ind = regs[ip];
 	bool p1Done = false;
@@ -103,6 +129,11 @@ int eval(vector<int>& regs, int ip){
 	while(ind>=0 && ind<instructions.size()){
 		// cout<<ind+2<<" -	";
 		// cout<<instructions[ind]<<"	";
+		if(ind == 24){
+			regs[3]/=256;
+			ind = 27;
+			continue;
+		}
 		funcs[instructions[ind].opc](regs, instructions[ind].instruction);
 		if(ind == 28){
 			if(!p1Done){
@@ -125,6 +156,11 @@ int eval(vector<int>& regs, int ip){
 	return regs[0];	
 }
 
+void iterLoop(int& B, int& C){
+	for(B=2; (B+1)*256 < C; B++){}
+	C = B;
+}
+
 void p1(){
 	int A, B, C, D, E;
 	A=B=C=D=E=0;
@@ -140,23 +176,11 @@ void p1(){
 			cout<<"[P1] "<<D<<endl;
 			return;
 		}
-		// for(B = 2; (B+1)*256 < C; B++){}
-		B = 2;
-		incr: E = B+1;
-		E*=256;
-		if(E<C){
-			B++;
-			goto incr;
-		}
-		C = B;
+		iterLoop(B, C);
 	}	
 }
 
 int main(){
-	// p1();
-	//15754299 too high 
-	// exit(0);
-	
 	initFunctions();
 	fstream file("Day 21/input");
 	string line;
@@ -168,7 +192,13 @@ int main(){
 	while(getline(file, line))
 		instructions.emplace_back(line);
 
+	//  [0, 19, 61290, 15690445, 13069857, 15690496]
+	// int B, C(15690445);
+	// iterLoop(B,C);
+	// cout<<B<<"	"<<C;
+	// p1();
+	// exit(0);
+	// debugger(1);
 	vector<int> regs(6);
-	// regs[0] = 0;
 	eval(regs, ip);
 }

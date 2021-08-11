@@ -17,6 +17,6 @@ D = 0
 	
 	if E>C:
 		C = B
-		goto 4
+		goto 2
 	B++
 	goto 15
