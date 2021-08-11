@@ -34,6 +34,13 @@ int& at(int x, int y){
 	return m[make_pair(x, y)];
 }
 
+static bool compare(const Coord& a, const Coord& b){
+	if(get<2>(a) < get<2>(b)) return true;
+	if(get<2>(a) == get<2>(b)){
+		if()
+	}
+}
+
 int main(){
 	fstream file("Day 22/input");
 	string t;
