@@ -88,12 +88,12 @@ Point operator*(const int& sc, const Point& p){
 	return Point(sc*p.x, sc*p.y);
 }
 
-void updateRanges(Point& low, Point& high, const Point& p){
-	if((low.x || low.y) == 0){
+void updateRanges(Point& low, Point& high, const Point& p, bool resetZero = true){
+	if(resetZero && (low.x || low.y) == 0){
 		low = p;
 	}else
 		low.min(p);
-	if((high.x || high.y) == 0){
+	if(resetZero && (high.x || high.y) == 0){
 		high = p;
 	}else
 		high.max(p);
