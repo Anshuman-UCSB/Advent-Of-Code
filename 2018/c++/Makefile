@@ -1,4 +1,4 @@
-CXX = g++-9
+CXX = g++-10
 
 CXXFLAGS = -std=c++2a -g -Ofast -Wfatal-errors
 

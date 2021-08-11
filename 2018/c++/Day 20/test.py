@@ -44,4 +44,4 @@ for c in f[1:-1]:
     prev_x, prev_y = x, y
 
 print(max(distances.values()))
-print(len([x for x in distances.values() if x >= 1000]))
+print(len([x for x in distances.values() if x >= 0]))
