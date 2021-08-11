@@ -1,0 +1,32 @@
+[A ip B C D E]
+D = 123
+D = D & 456
+D = D==72
+if D: goto 7
+goto 2
+D = 0
+C = D | 65536
+D = 12670166
+B = C & 255
+D += B
+D = D & 16777215
+D *= 65899
+D = 16777215 & D
+B = 256 > C
+if B: goto 18
+goto 19
+goto 30
+B = 2
+E = B+1
+E*=256
+E = E>C
+if E: goto 25
+goto 26
+goto 27
+B++
+goto 20
+C = B
+goto 10
+B = A==D
+if B: return
+goto 8
