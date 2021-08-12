@@ -1,3 +1,3 @@
-| Command | Mean [s] | Min [s] | Max [s] | Relative |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
 |:---|---:|---:|---:|---:|
-| `DAY 22` | 1.997 ± 0.078 | 1.908 | 2.044 | 1.00 |
+| `DAY 23` | 2.0 ± 0.1 | 1.6 | 3.0 | 1.00 |
