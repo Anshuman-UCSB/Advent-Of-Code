@@ -1,3 +1,5 @@
+This year my intention was to practice c++, and try to write optimized code. My original goal was under 1 second, and im still satisfied. There are definitely much more optimization or time saves, but days got hard.
+
 | Day | Time [ms] |
 |:---|---:|
 | Day 1 | 17.7 ms |
@@ -25,4 +27,4 @@
 | Day 23 | 2.0 ms |
 | Day 24 | 92.0 ms |
 | Day 25 | 5.1 ms |
-| Total  | 3.263 s|
+| **Total**  | **3.263 s**|

@@ -13,6 +13,9 @@ $(DAYS):
 time:
 	hyperfine -w 3 -m 3 --export-markdown timings.md -n "DAY $(day)" ./Bin/day$(day)
 
+timeall:
+	hyperfine -w 10 -m 10 --export-markdown timings.md --parameter-scan day 1 25 './Bin/day{day}'
+
 clean:
 	rm -f Bin/*
 	@echo "Removed all binaries!"
