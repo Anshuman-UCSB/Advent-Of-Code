@@ -5,6 +5,10 @@
 #include <chrono>
 #include <functional>
 
+#define pii pair<int, int>
+#define x first
+#define y second
+
 #define input_t vector<string>
 
 using namespace std;

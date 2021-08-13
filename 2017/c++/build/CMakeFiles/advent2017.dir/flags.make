@@ -6,5 +6,5 @@ CXX_DEFINES = -DSOURCE_DIR=/home/adash/Advent-Of-Code/2017/c++
 
 CXX_INCLUDES = 
 
-CXX_FLAGS =  -march=native -std=c++2a -O2 -g -DNDEBUG
+CXX_FLAGS =  -march=native -Wfatal-errors -std=c++2a -O2 -g -DNDEBUG
 

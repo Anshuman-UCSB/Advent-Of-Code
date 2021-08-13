@@ -47,13 +47,14 @@ int main(int argc, char **argv){
 		for(int i = 0;i<25;i++){
 			auto &A = adventDays[i];
 			input_t inp = loadInput(A.input_file);
-			cout<<"DAY "<<i+1<<": \n	";
+			cout<<"DAY "<<i+1<<": "<<endl;
 			auto t0 = chrono::steady_clock::now();
 			auto elapsed = (*A.fn)(inp)-t0;
 			totalTime += elapsed.count();
-			printf("\n[%ld μs]\n", int64_t(elapsed.count() * 1e-3));
+			printf("[%ld μs]\n", int64_t(elapsed.count() * 1e-3));
+			cout<<endl;
 		}
-		printf("\nTotal: %ld μs\n", int64_t(totalTime * 1e-3));
+		printf("Total: %ld μs\n", int64_t(totalTime * 1e-3));
 	}else{
 		auto &A = adventDays[atoi(argv[1])-1];
 		input_t inp = loadInput(A.input_file);
@@ -61,7 +62,6 @@ int main(int argc, char **argv){
 		auto t0 = chrono::steady_clock::now();
 		(*A.fn)(inp);
 		auto elapsed = chrono::steady_clock::now()-t0;
-		cout<<endl;
 		printf("[%ld μs]\n", int64_t(elapsed.count() * 1e-3));
 	}
 }

@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.5)
 project (advent2017)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -std=c++2a")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -Wfatal-errors -std=c++2a")
 
 set(CMAKE_CXX_COMPILER "g++" CACHE STRING "g++ compiler" FORCE)
 set(CMAKE_C_COMPILER "gcc" CACHE STRING "gcc compiler" FORCE)
