@@ -1,5 +1,7 @@
 #include "AOC.h"
 
-void day06(input_t inp){
-	
+chrono::time_point<std::chrono::steady_clock> day06(input_t inp){
+
+	auto done = chrono::steady_clock::now();
+	return done;
 }

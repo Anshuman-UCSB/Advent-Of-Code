@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -std=c++2a")
 set(CMAKE_CXX_COMPILER "g++" CACHE STRING "g++ compiler" FORCE)
 set(CMAKE_C_COMPILER "gcc" CACHE STRING "gcc compiler" FORCE)
 
+
 add_executable(advent2017
 	src/main.cpp
 	src/day01.cpp
@@ -34,3 +35,6 @@ add_executable(advent2017
 	src/day24.cpp
 	src/day25.cpp
 )
+
+# target_link_directories(advent2017 PUBLIC .)
+target_compile_definitions(advent2017 PUBLIC SOURCE_DIR=${CMAKE_SOURCE_DIR})

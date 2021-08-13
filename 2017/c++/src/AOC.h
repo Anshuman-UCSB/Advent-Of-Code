@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include "prints.h"
+#include <chrono>
 #include <functional>
 
 #define input_t vector<string>
@@ -9,32 +10,32 @@
 using namespace std;
 
 struct advent{
-	void (*fn)(input_t);
+	chrono::time_point<std::chrono::steady_clock> (*fn)(input_t);
 	string input_file;
 };
 
-void day01(input_t);
-void day02(input_t);
-void day03(input_t);
-void day04(input_t);
-void day05(input_t);
-void day06(input_t);
-void day07(input_t);
-void day08(input_t);
-void day09(input_t);
-void day10(input_t);
-void day11(input_t);
-void day12(input_t);
-void day13(input_t);
-void day14(input_t);
-void day15(input_t);
-void day16(input_t);
-void day17(input_t);
-void day18(input_t);
-void day19(input_t);
-void day20(input_t);
-void day21(input_t);
-void day22(input_t);
-void day23(input_t);
-void day24(input_t);
-void day25(input_t);
+chrono::time_point<std::chrono::steady_clock> day01(input_t);
+chrono::time_point<std::chrono::steady_clock> day02(input_t);
+chrono::time_point<std::chrono::steady_clock> day03(input_t);
+chrono::time_point<std::chrono::steady_clock> day04(input_t);
+chrono::time_point<std::chrono::steady_clock> day05(input_t);
+chrono::time_point<std::chrono::steady_clock> day06(input_t);
+chrono::time_point<std::chrono::steady_clock> day07(input_t);
+chrono::time_point<std::chrono::steady_clock> day08(input_t);
+chrono::time_point<std::chrono::steady_clock> day09(input_t);
+chrono::time_point<std::chrono::steady_clock> day10(input_t);
+chrono::time_point<std::chrono::steady_clock> day11(input_t);
+chrono::time_point<std::chrono::steady_clock> day12(input_t);
+chrono::time_point<std::chrono::steady_clock> day13(input_t);
+chrono::time_point<std::chrono::steady_clock> day14(input_t);
+chrono::time_point<std::chrono::steady_clock> day15(input_t);
+chrono::time_point<std::chrono::steady_clock> day16(input_t);
+chrono::time_point<std::chrono::steady_clock> day17(input_t);
+chrono::time_point<std::chrono::steady_clock> day18(input_t);
+chrono::time_point<std::chrono::steady_clock> day19(input_t);
+chrono::time_point<std::chrono::steady_clock> day20(input_t);
+chrono::time_point<std::chrono::steady_clock> day21(input_t);
+chrono::time_point<std::chrono::steady_clock> day22(input_t);
+chrono::time_point<std::chrono::steady_clock> day23(input_t);
+chrono::time_point<std::chrono::steady_clock> day24(input_t);
+chrono::time_point<std::chrono::steady_clock> day25(input_t);
