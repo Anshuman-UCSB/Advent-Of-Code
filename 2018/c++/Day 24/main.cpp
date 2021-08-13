@@ -189,21 +189,33 @@ bool executeAttacks(){
 	return done;
 }
 
-void simulate(){
+void simulate(const map<int, Group>& orig, int boost = 0){
+	groups = orig;
+	
+	for(auto& [ignore, g]: groups){
+		if(g.friendly) g.atk+=boost;
+	}
+	auto initiativeCompare = [](const int& a, const int& b){
+		return groups[a].initiative>groups[b].initiative;
+	};
+	initiativeOrder.clear();
+	for(auto& [id, g]: groups)
+		initiativeOrder.push_back(id);
+	sort(initiativeOrder.begin(), initiativeOrder.end(), initiativeCompare);
 	while(chooseTargets()){
 		if(executeAttacks()) return;
 		vector<int> aUnits, eUnits;
-		for(auto& [ignore, g]: groups){
-			auto& t = (g.friendly?aUnits:eUnits);
-			if(g.units>0)
-				t.push_back(g.units);
-		}
-		sort(aUnits.begin(), aUnits.end());
-		sort(eUnits.begin(), eUnits.end());
-		// cout<<"	"<<rNum<<endl;
-		// cout<<aUnits<<endl<<eUnits<<endl<<endl;
-		rNum++;
-		// printHeader();
+		// for(auto& [ignore, g]: groups){
+		// 	auto& t = (g.friendly?aUnits:eUnits);
+		// 	if(g.units>0)
+		// 		t.push_back(g.units);
+		// }
+		// sort(aUnits.begin(), aUnits.end());
+		// sort(eUnits.begin(), eUnits.end());
+		// // cout<<"	"<<rNum<<endl;
+		// // cout<<aUnits<<endl<<eUnits<<endl<<endl;
+		// rNum++;
+		// // printHeader();
 	}
 }
 
@@ -220,18 +232,12 @@ int main(){
 	while(getline(file, line)){
 		groups[uId++] = Group(line, false, uId);
 	}
+	auto orig = groups;
 
-
-	auto initiativeCompare = [](const int& a, const int& b){
-		return groups[a].initiative>groups[b].initiative;
-	};
-	for(auto& [id, g]: groups)
-		initiativeOrder.push_back(id);
-	sort(initiativeOrder.begin(), initiativeOrder.end(), initiativeCompare);
 
 	// printHeader();
 	// groups[19].print();
-	simulate();
+	simulate(orig);
 	// printHeader();
 	//[6702, 8588, 254, 819, 7479, 735, 2326, 8453, 2652]
 	int p1 = 0;
@@ -242,4 +248,24 @@ int main(){
 	//14224 too low
 	//38023 too high
 	//43300 too high
+
+	bool done = false;
+	int p2 = 0;
+	for(int boost = 0;!done;boost++){
+		done = true;
+		// cout<<boost<<endl;
+		simulate(orig, boost);
+		p2 = 0;
+		for(auto& [ignore, g]: groups){
+			// g.print();
+			if(g.friendly && g.units>0) p2 += g.units;
+			if(g.friendly == false && g.units>0){
+				done = false;
+				// cout<<boost<<endl;
+				break;
+			}
+		}
+	}
+	cout<<"[P2] "<<p2<<endl;
+	// 6842 too high
 }
