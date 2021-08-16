@@ -50,7 +50,7 @@ int p2Solve(const int& target){
 	return m[p];
 }
 
-chrono::time_point<std::chrono::steady_clock> day03(input_t inp){
+chrono::time_point<std::chrono::steady_clock> day03(input_t& inp){
 
 	int target = stoi(inp[0]);
 	int lastPow = sqrt(target);

@@ -1,6 +1,6 @@
 #include "AOC.h"
 
-chrono::time_point<std::chrono::steady_clock> day02(input_t inp){
+chrono::time_point<std::chrono::steady_clock> day02(input_t& inp){
 	int p1(0), p2(0);
 	for(auto& r: inp){
 		int mn(999), mx(0);
