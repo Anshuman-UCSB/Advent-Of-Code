@@ -57,7 +57,7 @@ chrono::time_point<std::chrono::steady_clock> day03(input_t& inp){
 	// cout<<lastPow<<endl;
 	if(!(lastPow&1)) lastPow--;
 	int x,y;
-	x = 1+lastPow>>1;
+	x = (1+lastPow)>>1;
 	y = -(lastPow>>1);
 	int p1;
 	for(int n = 1+lastPow*lastPow;;){

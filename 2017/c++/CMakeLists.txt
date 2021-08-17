@@ -3,8 +3,8 @@ project (advent2017)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -Ofast -Wfatal-errors -std=c++2a -g")
 
-set(CMAKE_CXX_COMPILER "g++" CACHE STRING "g++ compiler" FORCE)
-set(CMAKE_C_COMPILER "gcc" CACHE STRING "gcc compiler" FORCE)
+set(CMAKE_CXX_COMPILER "clang++-8" CACHE STRING "CXX compiler" FORCE)
+set(CMAKE_C_COMPILER "clang-8" CACHE STRING "C compiler" FORCE)
 
 
 add_executable(advent2017
