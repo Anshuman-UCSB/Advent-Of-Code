@@ -1,8 +1,7 @@
 #include "AOC.h"
-#include "unionfind.h"
 
 chrono::time_point<std::chrono::steady_clock> day12(input_t& inp){
-	DisjointSet ds;
+	DisjointSet<int> ds;
 	vector<int> universe(2000);
 	iota(universe.begin(), universe.end(), 0);
 	ds.makeSet(universe);

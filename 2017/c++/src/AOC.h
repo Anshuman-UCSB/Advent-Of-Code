@@ -2,9 +2,11 @@
 #include <fstream>
 #include <sstream>
 #include "prints.h"
+#include "disjointset.h"
 #include <chrono>
 #include <unordered_map>
 #include <unordered_set>
+#include <bitset>
 #include <functional>
 #include <numeric>
 #include <stack>
