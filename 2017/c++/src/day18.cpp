@@ -1,150 +1,137 @@
 #include "AOC.h"
-#define getReg(x) regs[x[0]-'a']
+#define num long
 
-vector<tuple<char, string, string>> instr;
-long long p1Val;
+vector<tuple<int, int, int>> instr;
 
-struct CPU{
-	vector<long long> regs;
-	queue<long long> inp;
-	long long ind;
-	bool deadlocked;
-	queue<long long> output;
-	bool p1;
-	int p2;
+/**
 
-	CPU(queue<long long>& out, bool p1): p1(p1), output(out){
-		ind = 0;
-		deadlocked = false;
-		regs = vector<long long>(26);
-		p2 = 0;
-	}
+	1	snd X
+	2	set X Y
+	3	add X Y
+	4	mul X Y
+	5	mod X Y
+	6	rcv X r
+	7	jgz X Y 
 
-	void snd(const long long& a){
-		p2++;
-		if(p1) p1Val = a;
-		output.push(a);
-	}
+ **/
 
-	void set(long long& a, const long long& b){
-		a = b;
-	}
-
-	void add(long long& a, const long long& b){
-		a += b;
-	}
-
-	void mul(long long& a, const long long& b){
-		a *= b;
-	}
-
-	void mod(long long& a, const long long& b){
-		a %= b;
-	}
-
-	bool rcv(long long& a){
-		if(p1)
-			return a;
-		if(inp.empty()){
-			deadlocked = true;
-			return false;
+int p1(){
+	int p = 0;
+	num r[26] = {};
+	int res = 0;
+	while(p>=0 && p<instr.size()){
+		auto& [opc, a, b] = instr[p];
+		switch(opc){
+			case 101: 	res  = r[a]; 	break;
+			case 102: 	r[a] =   b;		break;
+			case 1102:	r[a] = r[b];	break;
+			case 103: 	r[a]+=   b;		break;
+			case 1103:	r[a]+= r[b];	break;
+			case 104:	r[a]*=   b; 	break;
+			case 105:	r[a]%=   b; 	break;
+			case 1105:	r[a]%= r[b]; 	break;
+			case 106:	if(r[a]) return res; break;
+			case 107:	if(r[a]) p+=b-1;	break;
+			case 1107:	if(r[a]) p+=r[b]-1;	break;
 		}
-		a = inp.front();
-		inp.pop();
-		return true;
+		p++;
 	}
+	return -1;
+}
 
-	void jgz(const long long& a, const long long& b){
-		if(a) ind+=b-1;
-	}
+int p2(){
+	queue<num> inps[2] = {};
+	num regs[2][26] = {};
+	regs[1]['p'-'a'] = 1;
+	int pos[2] = {};
+	int old = -1;
+	int res = 0;
+	while(old != res){
+		old = res;
 
-	static inline bool isReg(const string& ins){
-		return 'a'<=ins[0] && ins[0]<='z';
-	}
-
-	bool run(){ //ret false if waiting
-		bool resp;
-		for(;;){
-			auto& [opc, par1, p2] = instr[ind];
-			switch(opc){
-				case 'n': //snd
-					cout<<"Running command "<<opc<<" "<<par1<<" "<<p2<<endl;
-					snd(getReg(par1));
-					break;
-				case 'e':
-					if(isReg(p2)) set(getReg(par1), getReg(p2));
-					else set(getReg(par1), stoi(p2));
-					break;
-				case 'd':
-					if(isReg(p2)) add(getReg(par1), getReg(p2));
-					else add(getReg(par1), stoi(p2));
-					break;
-				case 'u':
-					if(isReg(p2)) mul(getReg(par1), getReg(p2));
-					else mul(getReg(par1), stoi(p2));
-					break;
-				case 'o':
-					if(isReg(p2)) mod(getReg(par1), getReg(p2));
-					else mod(getReg(par1), stoi(p2));
-					break;
-				case 'c':
-					resp = rcv(getReg(par1));
-					if(p1 && resp) return true;
-					if(resp == false){
-						return false;
-					}
-					break;
-				case 'g':
-					if(isReg(par1)){
-						if(isReg(p2))
-							jgz(getReg(par1),getReg(p2));
-						else
-							jgz(getReg(par1),stoi(p2));
-					}else{
-						if(isReg(p2))
-							jgz(stoi(par1),getReg(p2));
-						else
-							jgz(stoi(par1),stoi(p2));
-					}
-					break;
+		for(int turn = 0;turn<2;turn++){
+			int& p = pos[turn];
+			auto& r = regs[turn];
+			auto& out = inps[!turn];
+			auto& inp = inps[turn];
+			while(p>=0 && p<instr.size()){
+				auto& [opc, a, b] = instr[p];
+				
+				switch(opc){
+					case 101: 	out.push(r[a]); 
+						// cout<<char('a'+turn)<<" pushed "<<r[a]<<endl;
+						if(turn) res++;	break;
+					case 102: 	r[a] =   b;		break;
+					case 1102:	r[a] = r[b];	break;
+					case 103: 	r[a]+=   b;		break;
+					case 1103:	r[a]+= r[b];	break;
+					case 104:	r[a]*=   b; 	break;
+					case 105:	r[a]%=   b; 	break;
+					case 1105:	r[a]%= r[b]; 	break;
+					case 106:	
+						if(inp.empty()) {goto next;}
+						r[a] = inp.front(); inp.pop();
+						// cout<<char('a'+turn)<<" popped "<<r[a]<<endl;
+						break;
+					case 7:	if(a>0) p+=b-1;	break;
+					case 107:	if(r[a]>0) p+=b-1;	break;
+					case 1107:	if(r[a]>0) p+=r[b]-1;	break;
+					default: cout<<opc<<endl;;
+				}
+				p++;
 			}
-			// cout<<regs<<endl;
-			ind++;
+			next:;
+			// cout<<char('a'+turn)<<" finished at "<<pos[turn]<<endl;
+			// cout<<res<<endl;
 		}
-
-		return true;
 	}
-};
+	return res;
+	
+}
 
 chrono::time_point<std::chrono::steady_clock> day18(input_t& inp){
 	for(auto& l: inp){
+		instr.emplace_back();
+
 		stringstream ss(l);
 		string t;
-		string reg;
-		string param;
-		ss>>t>>reg>>param;
-		instr.emplace_back(t[1], reg, param);
-	}
-	
-	queue<long long> p1q;
-	CPU a(p1q, true);
-	a.run();
-	a = CPU(p1q, false);
-	CPU b = CPU(a.inp, false);
-	a.output = &b.inp;
-	b.regs['p'-'a'] = 1;
-	int old = -1;
-	while(old != b.output.size()){
-		old = b.output.size();
-		// if(a.run()) break;
-		// if(b.run()) break;
-		a.run();
-		b.run();
+		ss>>t;
+		int& opc = get<0>(instr.back());
+		string tmp;
+		ss>>tmp;
+		if('a'<=tmp[0] || tmp[0]>='z'){
+			opc+=100;
+			get<1>(instr.back()) = tmp[0]-'a';
+		}else{
+			get<1>(instr.back()) = stoi(tmp);
+		}
+
+		if(t[1] != 'c' && t[1] != 'n'){
+			ss>>tmp;
+			if('a'<=tmp[0] || tmp[0]>='z'){
+				opc+=1000;
+				get<2>(instr.back()) = tmp[0]-'a';
+			}else{
+				get<2>(instr.back()) = stoi(tmp);
+			}
+		}
+		switch(t[1]){
+			case 'n': opc+=1; break;
+			case 'e': opc+=2; break;
+			case 'd': opc+=3; break;
+			case 'u': opc+=4; break;
+			case 'o': opc+=5; break;
+			case 'c': opc+=6; break;
+			case 'g': opc+=7; break;
+		}
 	}
 
+	
+	int p1res = p1();
+	int p2res = p2();
 	auto done = chrono::steady_clock::now();
-	cout<<"[P1] "<<p1Val<<endl;
-	cout<<"[P2] "<<b.p2<<endl;
+	cout<<"[P1] "<<p1res<<endl;
+	cout<<"[P2] "<<p2res<<endl;
+	//254 too low
 	return done;
 }
-//127 too low
