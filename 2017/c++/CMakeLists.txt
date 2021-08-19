@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.5)
 project (advent2017)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -Ofast -Wfatal-errors -std=c++2a -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -Ofast -Wfatal-errors -pg -std=c++2a -g")
 
 set(CMAKE_CXX_COMPILER "clang++-8" CACHE STRING "CXX compiler" FORCE)
 set(CMAKE_C_COMPILER "clang-8" CACHE STRING "C compiler" FORCE)

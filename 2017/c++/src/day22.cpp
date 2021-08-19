@@ -1,69 +1,69 @@
 #include "AOC.h"
+#define GRIDSIZE 501
 
-struct virus{
-	int dir;
-	pii pos;
-	int p1;
-	long long p2;
-
-	virus(int x, int y):dir(0), pos(x,y), p1(0), p2(0){}
-
-	void iter(set<pii>& m){
-		if(m.count(pos)){
-			dir = (dir+1)%4;
-			m.erase(pos);
-		}else{
-			p1++;
-			dir = (dir+3)%4;
-			m.insert(pos);
-		}
+int p1solve(vector<vector<bool>>& m){
+	int x(m.size()/2), y(m.size()/2);
+	int dir = 0;
+	int p1 = 0;
+	for(int i =0;i<10000;i++){
+		if(m[y][x])
+			dir+=1;
+		else
+			dir+=3;
+		dir&=0b11;
+		m[y][x] = !m[y][x];
+		p1+=m[y][x];
 		switch(dir){
-			case 0: pos.y--; break;
-			case 1: pos.x++; break;
-			case 2: pos.y++; break;
-			case 3: pos.x--; break;
+			case 0:y--;break;
+			case 1:x++;break;
+			case 2:y++;break;
+			case 3:x--;break;
 		}
 	}
-	void iter2(map<pii, int>& m){
-		switch(m[pos]){
-			case 0: dir = (dir+3)%4;	break;
-			case 1: p2++; break;
-			case 2: dir = (dir+1)%4;	break;
-			case 3: dir = (dir+2)%4;	break;
+	return p1;
+}
+int p2solve(vector<vector<int>>& m){
+	int x(m.size()/2), y(m.size()/2);
+	int dir = 0;
+	int p2 = 0;
+	for(int i =0;i<10000000;i++){
+		switch(m[y][x]){
+			case 0: dir+=3;	break;
+			case 1: p2++;	break;
+			case 2: dir++;	break;
+			case 3: dir+=2;	break;
 		}
-		m[pos] = (m[pos]+1)%4;
+		dir&=0b11;
+		m[y][x]++;
+		m[y][x]&=0b11;
+
 		switch(dir){
-			case 0: pos.y--; break;
-			case 1: pos.x++; break;
-			case 2: pos.y++; break;
-			case 3: pos.x--; break;
+			case 0:y--;break;
+			case 1:x++;break;
+			case 2:y++;break;
+			case 3:x--;break;
 		}
 	}
-};
+	return p2;
+}
 
 chrono::time_point<std::chrono::steady_clock> day22(input_t& inp){
-	set<pii> m;
-	map<pii, int> m2;
-	for(int y = 0;y<inp.size();y++){
-		for(int x = 0;x<inp.size();x++){
-			if(inp[y][x] == '#'){
-				m.insert(pii(x,y));
-				m2[pii(x,y)] = 2;
-			}
 
+	vector<vector<bool>> m1(GRIDSIZE, vector<bool>(GRIDSIZE));
+	vector<vector<int>> m2(GRIDSIZE, vector<int>(GRIDSIZE));
+	for(int y = 0; y<inp.size();y++){
+		for(int x = 0; x<inp.size();x++){
+			if(inp[y][x] == '#') {
+				m2[GRIDSIZE/2-inp.size()/2+y][GRIDSIZE/2-inp.size()/2+x] = 2;
+				m1[GRIDSIZE/2-inp.size()/2+y][GRIDSIZE/2-inp.size()/2+x] = true;
+			}
 		}
 	}
-	virus v(inp.size()/2, inp.size()/2);
-	for(int i = 0;i<10000;i++){
-		v.iter(m);
-	}
-	v.pos = pii(inp.size()/2, inp.size()/2);
-	v.dir = 0;
-	for(int i = 0;i<10000000;i++){
-		v.iter2(m2);
-	}
+	
+	int p1 = p1solve(m1);
+	int p2 = p2solve(m2);
 	auto done = chrono::steady_clock::now();
-	cout<<"[P1] "<<v.p1<<endl;
-	cout<<"[P2] "<<v.p2<<endl;
+	cout<<"[P1] "<<p1<<endl;
+	cout<<"[P2] "<<p2<<endl;
 	return done;
 }
