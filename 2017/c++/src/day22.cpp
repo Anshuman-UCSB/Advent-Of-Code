@@ -49,8 +49,12 @@ int p2solve(vector<vector<int>>& m){
 
 chrono::time_point<std::chrono::steady_clock> day22(input_t& inp){
 
-	vector<vector<bool>> m1(GRIDSIZE, vector<bool>(GRIDSIZE));
-	vector<vector<int>> m2(GRIDSIZE, vector<int>(GRIDSIZE));
+	vector<vector<bool>> m1(GRIDSIZE);
+	vector<vector<int>> m2(GRIDSIZE);
+	for(int i = 0;i<GRIDSIZE;i++){
+		m1[i].resize(GRIDSIZE, false);
+		m2[i].resize(GRIDSIZE, 0);
+	}
 	for(int y = 0; y<inp.size();y++){
 		for(int x = 0; x<inp.size();x++){
 			if(inp[y][x] == '#') {
