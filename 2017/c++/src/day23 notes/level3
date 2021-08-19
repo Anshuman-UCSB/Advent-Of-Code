@@ -1,0 +1,32 @@
+b = 67
+c = b
+goto 5
+
+	b = 106700
+	
+	
+	c = 123700
+	f = 1
+	d = 2
+	e = 2
+		
+		
+		g = d*e-b
+		if g==0
+			f = 0
+		e++
+		g = e
+		g-= b
+	if g goto 12
+d++
+g = d - b
+
+if g goto 11
+if f goto 27
+h++
+g = b - c
+
+if g==0
+	return
+b+= 17
+goto 9

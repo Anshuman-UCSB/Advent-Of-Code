@@ -1,0 +1,32 @@
+b = 67
+c = b
+goto 5
+goto 9
+	b*= 100
+	b+= 100000
+	c = b
+	c +=17000
+	f = 1
+	d = 2
+	e = 2
+		g = d
+		g*= e
+		g-= b
+		if g==0
+			f = 0
+		e++
+		g = e
+		g-= b
+	if g goto 12
+d++
+g = d
+g-=b
+if g goto 11
+if f goto 27
+h++
+g = b
+g-= c
+if g==0
+	return
+b+= 17
+goto 9

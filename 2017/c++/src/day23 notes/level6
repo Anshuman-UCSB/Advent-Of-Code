@@ -1,0 +1,16 @@
+b = 106700
+c = 123700
+while true
+	f = 1
+	d = 2
+	while d == b:
+			e = 2
+			while e != b
+				if d*e=b
+					f = 0
+				e++
+		d++
+	if d*e=b: h++
+	if b==c
+		return
+	b+= 17

@@ -1,0 +1,32 @@
+
+
+
+
+b = 106700
+
+
+c = 123700
+		f = 1
+		d = 2
+		e = 2
+			
+			
+			
+			if d*e=b
+				f = 0
+			e++
+			
+			
+		if e != b goto 12
+	d++
+
+
+	if d == b goto 11
+	if f == 0: h++
+
+
+
+	if b==c
+		return
+	b+= 17
+	goto 9
