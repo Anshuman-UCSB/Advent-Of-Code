@@ -72,7 +72,7 @@ ostream& operator<<(ostream& os, const map<T, M>& m)
 
 
 template <class T>
-ostream& operator<<(ostream& os, const set<T>& s){
+ostream& operator<<(ostream& os, const set<T> s){
 	string delim = "";
 	os<<"{";
     for(const auto& val: s){
