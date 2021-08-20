@@ -1,4 +1,4 @@
-# Install script for directory: /home/adash/Advent-Of-Code/2017/c++
+# Install script for directory: /home/suman/Advent-Of-Code/2017/c++
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/adash/Advent-Of-Code/2017/c++/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/suman/Advent-Of-Code/2017/c++/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
