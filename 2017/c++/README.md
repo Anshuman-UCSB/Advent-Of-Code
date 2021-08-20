@@ -1,0 +1,1 @@
+This year was to practice optimized c++20, and also learn CMake. This year runs in a total of: 1.251s for all 25 days.
