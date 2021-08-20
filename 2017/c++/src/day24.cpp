@@ -2,43 +2,22 @@
 #include <cassert>
 
 struct part{
-	int l, r;
-	int score;
-	part():l(-1), r(-1), score(-1){}
-	part(string line){
-		stringstream ss(line);
-		char t;
-		ss>>l>>t>>r;
-		if(l>r) swap(l, r);
+	int l, r, score;
+	part(int a, int b){
+		l = min(a,b);
+		r = max(a,b);
 		score = l+r;
 	}
 
-	part(const part& p){
-		l = p.l;
-		r = p.r;
-		score = p.score;
+	bool operator==(const part& p) const{
+		return (l == p.l && r == p.r && score == p.score);
 	}
 
-	void join(const part& p){
-		score+=p.score;
-		if(l == p.l)
-			l = p.r;
-		else if(l == p.r)
-			l = p.l;
-		else if(r == p.r)
-			r = p.l;
-		else if(r == p.l)
-			r = p.r;
-		else
-			cout<<"ERROR"<<endl;	
-		if(l>r) swap(l, r);	
-	}
-
-	bool operator<(const part& p) const {
-		return make_pair(l, r)<make_pair(p.l, p.r);
-	}
-	bool operator==(const part& p) const {
-		return make_tuple(l, r, score) == make_tuple(p.l, p.r, p.score);
+	bool operator<(const part& p) const{
+		if(l<p.l) return true;
+		if(l == p.l && r<p.r) return true;
+		if(l == p.l && r == p.r && score< p.score) return true;
+		return false;
 	}
 };
 
@@ -49,96 +28,63 @@ ostream& operator<<(ostream& os, const part& p){
 
 struct bridge{
 	int score;
+	vector<part> components;
 	int edge;
-	set<part> components;
 	bridge():score(0), edge(0){}
-
-	vector<part> validParts(const vector<part>& parts){
-		vector<part> out;
-		for(auto& p: parts){
-			if(p.l == edge || p.r == edge){
-				if(components.count(p)==0)
-					out.push_back(p);
-			}
-		}
-		return out;
-	}
 };
 
-bridge append(bridge b, part p) {
-		// cout<<b.components<<" "<<p<<endl;
-		assert(p.l == b.edge || p.r == b.edge);
-		b.score+=p.score;
-		if(p.l == b.edge)
-			b.edge = p.r;
-		else
-			b.edge = p.l;
-		b.components.insert(p);
-		return b;
+ostream& operator<<(ostream& os, const bridge& b){
+	string delim = "";
+
+	for(auto& v: b.components){
+		os<<delim<<v;
+		delim = "--";
 	}
+	os<<" ("<<b.score<<")";
+	return os;
+}
+
+void build(queue<bridge>& q, const vector<part>& parts, int& p1, pii& p2){
+	auto base = q.front();
+	p1 = max(p1, base.score);
+	if(base.components.size()>p2.first || (base.components.size() == p2.first && base.score >p2.second)){
+		p2 = pii(base.components.size(), base.score);
+	}
+	for(auto& p: parts){
+		if(p.l == base.edge || p.r == base.edge){
+			if(find(base.components.begin(), base.components.end(), p) == base.components.end()){
+				bridge temp(base);
+				temp.components.push_back(p);
+				temp.score+=p.score;
+				temp.edge = (p.l == base.edge?p.r:p.l);
+				q.push(temp);
+			}
+		}
+	}
+	q.pop();
+}
 
 chrono::time_point<std::chrono::steady_clock> day24(input_t& inp){
 	vector<part> parts;
-	for(auto& l: inp){
-		parts.emplace_back(l);
+	for(auto& l : inp){
+		stringstream ss(l);
+		int a, b;
+		char c;
+		ss>>a>>c>>b;
+		parts.emplace_back(a,b);
 	}
-	map<int, int> m;
-	for(auto& p: parts){
-		m[p.l]++; m[p.r]++;
-	}
-	for(auto& [k, v]: m){
-		if(v == 2 && k){
-			// cout<<"Looking for "<<k<<endl;
-			for(int i = 0;i<parts.size()-1;i++){
-				if(parts[i].l == k){
-					if(parts[i].r == k) parts.erase(parts.begin()+i);
-					else{
-						for(int j = i+1;j<parts.size();j++){
-							if(parts[j].r == k || parts[j].l == k){
-								// cout<<"Combining "<<parts[i]<<" and "<<parts[j]<<endl;
-								parts[i].join(parts[j]);
-								parts.erase(parts.begin()+j);
-								break;
-							}
-						}
-					}
-					v-=2;
-					break;
-				}else if(parts[i].r == k){
-					if(parts[i].l == k) parts.erase(parts.begin()+i);
-					else{
-						for(int j = i+1;j<parts.size();j++){
-							if(parts[j].r == k || parts[j].l == k){
-								// cout<<"Combining "<<parts[i]<<" and "<<parts[j]<<endl;
-								parts[i].join(parts[j]);
-								parts.erase(parts.begin()+j);
-								break;
-							}
-						}
-					}
-					v-=2;
-					break;
-				}
-			}
-		}
-	}
-	queue<bridge> bridges;
-	bridge empty;
-	bridges.emplace();
 	// cout<<parts<<endl;
+	queue<bridge> q;
 	int p1 = 0;
-	while(!bridges.empty()){
-		auto b = bridges.front();
-		bridges.pop();
-		for(auto p: b.validParts(parts)){
-			// cout<<"appending "<<p<<" to "<<"("<<b.components<<")"<<endl;
-			bridges.push(append(b,p));
-		}
-		p1 = max(p1, b.score);
+	pii p2(0,0);
+	q.push(bridge());
+	while(!q.empty()){
+		// cout<<q.front()<<endl;
+		build(q, parts, p1, p2);
 	}
-
+	
 	auto done = chrono::steady_clock::now();
 	cout<<"[P1] "<<p1<<endl;
-	//1642 too low
+	cout<<"[P2] "<<p2.second<<endl;
 	return done;
 }
