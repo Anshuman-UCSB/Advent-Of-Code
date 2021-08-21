@@ -60,7 +60,7 @@ days = [
 ]
 
 def runDay(day):
-	print(f"DAY {day}: ")
+	print(f"	DAY {day}: ")
 	dayStr = str(day).zfill(2)
 	inp = open(f"input/day{dayStr}.txt", "r").read()
 	start = time.time_ns()
