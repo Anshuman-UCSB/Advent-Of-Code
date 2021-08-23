@@ -5,6 +5,9 @@ def printAnswer(result : tuple):
 
 def imaginaryCoordToDist(n: complex):
 	return int(abs(n.real)) + int(abs(n.imag))
+	
+def imaginaryCoordToTuple(n: complex):
+	return (int(abs(n.real)) , int(abs(n.imag)))
 
 def readNums(inp):
 	return list(map(int, re.findall(r"(-?\d+)", inp)))
