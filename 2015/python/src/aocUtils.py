@@ -1,5 +1,9 @@
 import re
 from functools import reduce
+from _md5 import md5
+
+def hash(inp):
+	return md5(inp.encode()).hexdigest()
 
 def printAnswer(result : tuple):
 	print("[P1]",result[0])
