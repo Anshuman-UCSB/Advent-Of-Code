@@ -18,6 +18,15 @@ def imaginaryCoordToTuple(n: complex):
 def readNums(inp):
 	return list(map(int, re.findall(r"(-?\d+)", inp)))
 
+def powerset(seq):
+    if len(seq) <= 1:
+        yield seq
+        yield []
+    else:
+        for item in powerset(seq[1:]):
+            yield [seq[0]]+item
+            yield item
+
 def chinese_remainder(n, a):
     sum=0
     prod=reduce(lambda a, b: a*b, n)
