@@ -1,4 +1,4 @@
-from src.aocUtils import readNums
+from utils.aocUtils import readNums
 def main(input:str) -> tuple:
 	p1 = 0
 	p2 = 0

@@ -28,7 +28,7 @@ from src.day25 import main as day25
 
 import sys
 import time
-from src.aocUtils import *
+from utils.aocUtils import *
 
 days = [
 	None,

@@ -1,4 +1,4 @@
-from src.aocUtils import hash
+from utils.aocUtils import hash
 
 def main(input:str) -> tuple:
 	p1 = None

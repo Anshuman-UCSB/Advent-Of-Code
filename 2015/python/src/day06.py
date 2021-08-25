@@ -1,5 +1,5 @@
 import numpy as np
-from src.aocUtils import readNums
+from utils.aocUtils import readNums
 def main(input:str) -> tuple:
 	grid = np.zeros((1000,1000))
 	grid2 = np.zeros((1000,1000))
