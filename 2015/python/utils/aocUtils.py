@@ -1,6 +1,8 @@
 import re
 from functools import reduce
 from _md5 import md5
+from functools import reduce
+from math import sqrt
 
 def hash(inp):
 	return md5(inp.encode()).hexdigest()
@@ -26,6 +28,11 @@ def powerset(seq):
         for item in powerset(seq[1:]):
             yield [seq[0]]+item
             yield item
+
+def factors(n):
+        step = 2 if n%2 else 1
+        return set(reduce(list.__add__,
+                    ([i, n//i] for i in range(1, int(sqrt(n))+1, step) if not n % i)))
 
 def chinese_remainder(n, a):
     sum=0
