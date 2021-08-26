@@ -1,4 +1,6 @@
-from hashlib import md5
+# from hashlib import md5
+from _md5 import md5
+
 
 def hash(inp):
 	return md5(inp.encode()).hexdigest()
