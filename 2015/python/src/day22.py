@@ -4,6 +4,7 @@ from copy import deepcopy
 from random import random
 
 cache = set()
+cache2 = set()
 
 class Player:
 	def __init__(self, hp, mana, boss):
@@ -17,7 +18,6 @@ class Player:
 
 	def __cmp__(self, other):
 		return cmp((self.spentMana, self.boss[0], self.hp), (other.spentMana, other.boss[0], other.hp))
-
 
 	def missile(self):
 		self.mana -= 53
@@ -124,7 +124,48 @@ class Player:
 				if res == "Player":
 					return t.spentMana
 				elif res == None: pushQ(q, t)
-		
+
+
+class PlayerHard(Player):
+	def iter(self, q):
+		h = self.hash()
+		if h not in cache2:
+			self.hp -=1
+			if self.hp <=0:
+				return None
+			cache2.add(h)
+			self.processEffects()
+			# print(self.effects)
+			if self.mana >= 53:
+				t = deepcopy(self)
+				res = t.turn(t.missile)
+				if res == "Player":
+					return t.spentMana
+				elif res == None: pushQ(q, t)
+			if self.mana >= 73:
+				t = deepcopy(self)
+				res = t.turn(t.drain)
+				if res == "Player":
+					return t.spentMana
+				elif res == None: pushQ(q, t)
+			if self.mana >= 113 and "shield" not in [x for _, x in self.effects]:
+				t = deepcopy(self)
+				res = t.turn(t.shield)
+				if res == "Player":
+					return t.spentMana
+				elif res == None: pushQ(q, t)
+			if self.mana >= 173 and "poison" not in [x for _, x in self.effects]:
+				t = deepcopy(self)
+				res = t.turn(t.poison)
+				if res == "Player":
+					return t.spentMana
+				elif res == None: pushQ(q, t)
+			if self.mana >= 229 and "recharge" not in [x for _, x in self.effects]:
+				t = deepcopy(self)
+				res = t.turn(t.recharge)
+				if res == "Player":
+					return t.spentMana
+				elif res == None: pushQ(q, t)
 
 def pushQ(q, player):
 	t = deepcopy(player)
@@ -165,4 +206,13 @@ def main(input:str) -> tuple:
 		if res != None:
 			p1 = res
 			break
-	return (p1, 0)
+	base2 = PlayerHard(50,500, boss)
+	q = PriorityQueue()
+	pushQ(q, base2)
+	while not q.empty():
+		t = q.get()[-1]
+		res = t.iter(q)
+		if res != None:
+			p2 = res
+			break
+	return (p1, p2)
