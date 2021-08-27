@@ -29,6 +29,16 @@ def powerset(seq):
             yield [seq[0]]+item
             yield item
 
+def modMult(a, b, mod):
+    res = 0
+    a = a%mod
+    while b:
+        if b&1:
+            res = (res+a)%mod
+        a = (a*2)%mod
+        b>>=1
+    return res
+
 def factors(n):
         step = 2 if n%2 else 1
         return set(reduce(list.__add__,
