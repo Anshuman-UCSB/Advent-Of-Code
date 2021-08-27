@@ -1,3 +1,4 @@
+#! /usr/bin/ruby
 if ARGV.length > 1
 	raise "Invalid arguments, either enter nothing for all days, or a specific day number."
 end
@@ -38,9 +39,10 @@ def printResult(results)
 	puts "[P2] #{results[1]}"
 end
 if ARGV.length == 0
+	puts "Advent of Code 2020 [Ruby]"
 	days.each_with_index do |x, i|
 		puts "\n\tDay #{i+1}:"
-		printResult(x.run File.open("input/day%02d.txt" % ARGV[0]).readlines.map(&:chomp))
+		printResult(x.run File.open("input/day%02d.txt" % (i+1)).readlines.map(&:chomp))
 	end
 else
 	if 1 <= ARGV[0].to_i and ARGV[0].to_i<=25
