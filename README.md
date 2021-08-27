@@ -7,6 +7,7 @@ Each year/language I have a goal in mind
 2017: Use c++20 and optimize for speed
 2016: Use pypy and practice pythonic solutions
 2015: Use pypy and work on an AoC library
+2020: Learn Ruby
 
 
 To get millisecond-time,
