@@ -1,7 +1,7 @@
 import re
 from functools import reduce
 from _md5 import md5
-from functools import reduce
+from operator import mul
 from math import sqrt
 
 def hash(inp):
@@ -10,6 +10,9 @@ def hash(inp):
 def printAnswer(result : tuple):
 	print("[P1]",result[0])
 	print("[P2]",result[1])
+
+def prod(iter):
+    return reduce(mul, iter)
 
 def imaginaryCoordToDist(n: complex):
 	return int(abs(n.real)) + int(abs(n.imag))
