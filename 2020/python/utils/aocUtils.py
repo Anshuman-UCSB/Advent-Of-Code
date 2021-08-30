@@ -11,6 +11,9 @@ def printAnswer(result : tuple):
 	print("[P1]",result[0])
 	print("[P2]",result[1])
 
+def deltas(iter):
+    return [iter[n]-iter[n-1] for n in range(1,len(iter))]
+
 def prod(iter):
     return reduce(mul, iter)
 
