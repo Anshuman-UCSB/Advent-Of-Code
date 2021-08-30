@@ -50,6 +50,8 @@ def factors(n):
         return set(reduce(list.__add__,
                     ([i, n//i] for i in range(1, int(sqrt(n))+1, step) if not n % i)))
 
+#x = a1 mod n1
+#x = a2 mod n2
 def chinese_remainder(n, a):
     sum=0
     prod=reduce(lambda a, b: a*b, n)
