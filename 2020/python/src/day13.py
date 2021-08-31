@@ -16,7 +16,6 @@ def p2s(input):
 		if nm != 'x':
 			n.append(int(nm))
 			a.append(-i)
-	print(n, a)
 	return chinese_remainder(n, a)
 
 def main(input:str):
