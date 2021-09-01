@@ -38,12 +38,17 @@ def eval2(eq):
 		spl = eq.split(" ")
 		stack = []
 		ops = []
-		for c in stack:
-			if c == '*':
-				ops.append('*')
+		for c in spl:
+			if c == '+':
+				ops.append('+')
 			else:
 				if ops == []:
 					stack.append(c)
+				else:
+					ops.pop()
+					stack[-1] = int(stack[-1])
+					stack[-1]+=int(c)
+		return eval1(" ".join(map(str,stack)))
 	else:
 		levels = [""]
 		for c in eq:
@@ -58,5 +63,5 @@ def eval2(eq):
 
 def main(input:str):
 	p1 = sum([eval1(l) for l in input.splitlines()])
-	p2 = 0
+	p2 = sum([eval2(l) for l in input.splitlines()])
 	return (p1, p2)
