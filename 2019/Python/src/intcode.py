@@ -19,51 +19,64 @@ class CPU:
 	def pop(self):
 		return self.outputs.pop(0)
 
+	def get(self, a):
+		# print(a)
+		v, mode = a
+		if mode == 1:
+			return v
+		elif mode == 0:
+			if v >= len(self.regs):
+				self.regs = self.regs+[0]*(v-len(self.regs)+1)
+			return self.regs[v]
+		elif mode == 2:
+			if v+self.rel >= len(self.regs):
+				self.regs = self.regs+[0]*(v+self.rel-len(self.regs)+1)
+			return self.regs[v+self.rel]
+	def set(self, a, val):
+		v, mode = a
+		if mode == 1:
+			raise("Tried to set with immediate mode")
+		elif mode == 0:
+			if v >= len(self.regs):
+				self.regs = self.regs+[0]*(v-len(self.regs)+1)
+			self.regs[v] = val
+		elif mode == 2:
+			if v+self.rel >= len(self.regs):
+				self.regs = self.regs+[0]*(v+self.rel-len(self.regs)+1)
+			self.regs[v+self.rel] = val
+		
 	def step(self):
+		# print(self)
 		try:
 			opc = self.regs[self.pos]
-			a = self.regs[self.pos+1]
-			b = self.regs[self.pos+2]
-			c = self.regs[self.pos+3]
+			modes = []
+			t = opc
+			opc%=100
+			t//=100
+			for _ in range(3):
+				modes.append(t%10)
+				t//=10
+			a = (self.regs[self.pos+1], modes[0])
+			b = (self.regs[self.pos+2], modes[1])
+			c = (self.regs[self.pos+3], modes[2])
 		except IndexError:
 			pass
-		if opc ==     1:self.regs[c] = self.regs[a] + self.regs[b]	; self.pos += 4
-		elif opc == 101:self.regs[c] = a + self.regs[b]				; self.pos += 4
-		elif opc ==1001:self.regs[c] = b + self.regs[a]				; self.pos += 4
-		elif opc ==1101:self.regs[c] = b + a						; self.pos += 4
-		elif opc ==   2:self.regs[c] = self.regs[a] * self.regs[b]	; self.pos += 4
-		elif opc == 102:self.regs[c] = a * self.regs[b]				; self.pos += 4
-		elif opc ==1002:self.regs[c] = b * self.regs[a]				; self.pos += 4
-		elif opc ==1102:self.regs[c] = b * a						; self.pos += 4
-
+		# print(modes, opc)
+		if opc == 1:	self.set(c, self.get(a) + self.get(b)); self.pos += 4
+		if opc == 2:	self.set(c, self.get(a) * self.get(b)); self.pos += 4
 		elif opc == 3: 	
 			if self.inputs != []:
-				self.regs[a] = self.inputs.pop(0)
+				self.set(a, self.inputs.pop(0))
 				self.pos += 2
 			else:
 				raise EmptyInput
-		elif opc == 4: 	self.outputs.append(self.regs[a])			; self.pos += 2
-		elif opc == 104:self.outputs.append(a)						; self.pos += 2
+		elif opc == 4: 	self.outputs.append(self.get(a))			; self.pos += 2
 
-		elif opc ==   5:	self.pos = self.regs[b] if self.regs[a]!=0 else self.pos+3
-		elif opc == 105:	self.pos = self.regs[b] if 			 a !=0 else self.pos+3
-		elif opc ==1005:    self.pos = 			 b  if self.regs[a]!=0 else self.pos+3
-		elif opc ==1105:	self.pos = 			 b  if           a !=0 else self.pos+3
-
-		elif opc ==   6:	self.pos = self.regs[b] if self.regs[a]==0 else self.pos+3
-		elif opc == 106:	self.pos = self.regs[b] if 			 a ==0 else self.pos+3
-		elif opc ==1006:	self.pos = 			 b  if self.regs[a]==0 else self.pos+3
-		elif opc ==1106:	self.pos = 			 b  if           a ==0 else self.pos+3
-
-		elif opc ==   7:	self.regs[c] =  1 if self.regs[a] < self.regs[b] else 0		; self.pos += 4
-		elif opc == 107:	self.regs[c] =  1 if           a  < self.regs[b] else 0		; self.pos += 4
-		elif opc ==1007:	self.regs[c] =  1 if self.regs[a] <           b 	else 0	; self.pos += 4
-		elif opc ==1107:	self.regs[c] =  1 if           a  <           b 	else 0	; self.pos += 4
-
-		elif opc ==   8:	self.regs[c] =  1 if self.regs[a] ==self.regs[b] else 0		; self.pos += 4
-		elif opc == 108:	self.regs[c] =  1 if           a  ==self.regs[b] else 0		; self.pos += 4
-		elif opc ==1008:	self.regs[c] =  1 if self.regs[a] ==          b  else 0		; self.pos += 4
-		elif opc ==1108:	self.regs[c] =  1 if           a  ==          b  else 0		; self.pos += 4
+		elif opc == 5:	self.pos = self.get(b) if self.get(a)!=0 else self.pos+3
+		elif opc == 6:	self.pos = self.get(b) if self.get(a)==0 else self.pos+3
+		elif opc == 7:	self.set(c, 1 if self.get(a) < self.get(b) else 0)		; self.pos += 4
+		elif opc == 8:	self.set(c, 1 if self.get(a) ==self.get(b) else 0)		; self.pos += 4
+		elif opc == 9:	self.rel+=self.get(a)									; self.pos += 2
 
 		elif opc == 99: self.done = True
 

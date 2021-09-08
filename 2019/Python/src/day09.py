@@ -1,5 +1,13 @@
 from utils.aocUtils import *
+from src.intcode import *
+
 def main(input:str):
-	p1 = 0
-	p2 = 0
+	c = CPU(input)
+	c.push(1)
+	c.run()
+	p1 = c.pop()
+	c = CPU(input)
+	c.push(2)
+	c.run()
+	p2 = c.pop()
 	return (p1, p2)
