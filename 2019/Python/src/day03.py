@@ -24,7 +24,6 @@ def main(input:str):
 			step+=1
 	
 	intersections = set(pathA.keys()).intersection(set(pathB.keys()))
-	print(intersections)
 
 	p1 = min(map(imaginaryCoordToDist,intersections))
 	p2 = min(map(lambda x: pathA[x]+pathB[x],intersections))

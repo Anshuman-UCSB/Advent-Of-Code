@@ -77,7 +77,7 @@ if __name__ == "__main__":
 		except FileNotFoundError:
 			print("ERROR: invalid argument", sys.argv[1])
 	else:
-		print("Advent of Code 2020 [Python]")
+		print("Advent of Code 2019 [Python]")
 		total = 0
 		for i in range(1,26):
 			total+=runDay(i)
