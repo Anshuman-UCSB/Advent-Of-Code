@@ -16,6 +16,8 @@ class CPU:
 
 	def push(self, n):
 		self.inputs.append(n)
+	def pop(self):
+		return self.outputs.pop(0)
 
 	def step(self):
 		try:
@@ -45,7 +47,7 @@ class CPU:
 
 		elif opc ==   5:	self.pos = self.regs[b] if self.regs[a]!=0 else self.pos+3
 		elif opc == 105:	self.pos = self.regs[b] if 			 a !=0 else self.pos+3
-		elif opc ==1005:	self.pos = 			 b  if self.regs[a]!=0 else self.pos+3
+		elif opc ==1005:    self.pos = 			 b  if self.regs[a]!=0 else self.pos+3
 		elif opc ==1105:	self.pos = 			 b  if           a !=0 else self.pos+3
 
 		elif opc ==   6:	self.pos = self.regs[b] if self.regs[a]==0 else self.pos+3
@@ -68,3 +70,12 @@ class CPU:
 	def run(self):
 		while not self.done:
 			self.step()
+
+	def __str__(self):
+		return f"""CPU:
+	current regs: {self.regs[self.pos:self.pos+4]}
+	pos: {self.pos}
+	rel: {self.rel}
+	inputs: {self.inputs}
+	outputs: {self.outputs}
+		"""
