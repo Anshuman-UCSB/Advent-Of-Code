@@ -35,6 +35,15 @@ def powerset(seq):
             yield [seq[0]]+item
             yield item
 
+def gcd(x, y):
+   while(y):
+       x, y = y, x % y
+   return x
+
+def lcm(x, y):
+   lcm = (x*y)//gcd(x,y)
+   return lcm
+
 def modMult(a, b, mod):
     res = 0
     a = a%mod
