@@ -14,6 +14,7 @@ Each year/language I have a goal in mind
 2015: Use pypy and work on an AoC library
 
 2020: Speed code in python
+
 2019: Work on library and speed code in Python
 
 
