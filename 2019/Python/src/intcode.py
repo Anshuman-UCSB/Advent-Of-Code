@@ -80,7 +80,12 @@ class CPU:
 
 		elif opc == 99: self.done = True
 
-	def run(self):
+	def run(self, waitInput = False):
+		if waitInput:
+			try:
+				self.run()
+			except EmptyInput:
+				return
 		while not self.done:
 			self.step()
 

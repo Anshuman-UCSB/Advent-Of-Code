@@ -35,6 +35,32 @@ def powerset(seq):
             yield [seq[0]]+item
             yield item
 
+def printInfiniteMap(m, charMap):
+    lx, hx, ly, hy = 0,0,0,0
+    for c in m:
+        lx = min(lx, c[0])
+        hx = max(hx, c[0])
+        ly = min(ly, c[1])
+        hy = max(hy, c[1])
+    for y in range(ly,hy+1):
+        for x in range(lx, hx+1):
+            print(charMap[m.get((x,y), None)], end="")
+        print()
+def printInfiniteMapIm(m, charMap, unit=None):
+    lx, hx, ly, hy = 0,0,0,0
+    m = m.copy()
+    for c in m:
+        lx = min(lx, int(c.real))
+        hx = max(hx, int(c.real))
+        ly = min(ly, int(c.imag))
+        hy = max(hy, int(c.imag))
+    if unit:
+        m[unit[0]] = unit[1]
+    for y in range(ly,hy+1):
+        for x in range(lx, hx+1):
+            print(charMap.get(m.get(complex(x,y), None), m.get(complex(x,y))), end="")
+        print()
+
 def gcd(x, y):
    while(y):
        x, y = y, x % y
