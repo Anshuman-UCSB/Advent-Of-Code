@@ -9,9 +9,7 @@ def p1Eval(partitions):
 	return np.prod(s, dtype=int)
 	
 def p2Eval(partitions):
-	if sum(ingredients[:,-1]*partitions) != 500:
-		return 0
-	return p1Eval(partitions)
+	return 0 if sum(ingredients[:,-1]*partitions) != 500 else p1Eval(partitions)
 
 def main(input:str) -> tuple:
 	global ingredients

@@ -1,4 +1,4 @@
-The system is: Linux - 5.11.0-18-generic - x86_64
+The system is: Linux - 5.11.0-40-generic - x86_64
 Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
 Compiler: /usr/bin/cc 
 Build flags: 
@@ -10,7 +10,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is Clang, found in "/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/3.21.1/CompilerIdC/a.out"
+The C compiler identification is Clang, found in "/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/3.22.0/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
@@ -23,28 +23,30 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is Clang, found in "/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/3.21.1/CompilerIdCXX/a.out"
+The CXX compiler identification is Clang, found in "/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/3.22.0/CompilerIdCXX/a.out"
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_c344e/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_c344e.dir/build.make CMakeFiles/cmTC_c344e.dir/build
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_5244d/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_5244d.dir/build.make CMakeFiles/cmTC_5244d.dir/build
 gmake[1]: Entering directory '/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc   -v -MD -MT CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -c /snap/cmake/918/share/cmake-3.21/Modules/CMakeCCompilerABI.c
+Building C object CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc   -v -MD -MT CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -c /snap/cmake/992/share/cmake-3.22/Modules/CMakeCCompilerABI.c
 Ubuntu clang version 12.0.0-3ubuntu1~21.04.1
 Target: x86_64-pc-linux-gnu
 Thread model: posix
 InstalledDir: /usr/bin
 Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
+Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/9
 Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
 Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
 Candidate multilib: .;@m64
 Candidate multilib: 32;@m32
 Candidate multilib: x32;@mx32
 Selected multilib: .;@m64
  (in-process)
- "/usr/lib/llvm-12/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -tune-cpu generic -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/llvm-12/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-12/lib/clang/12.0.0/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fgnuc-version=4.2.1 -faddrsig -o CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -x c /snap/cmake/918/share/cmake-3.21/Modules/CMakeCCompilerABI.c
+ "/usr/lib/llvm-12/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -tune-cpu generic -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/llvm-12/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-12/lib/clang/12.0.0/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fgnuc-version=4.2.1 -faddrsig -o CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -x c /snap/cmake/992/share/cmake-3.22/Modules/CMakeCCompilerABI.c
 clang -cc1 version 12.0.0 based upon LLVM 12.0.0 default target x86_64-pc-linux-gnu
 ignoring nonexistent directory "/include"
 #include "..." search starts here:
@@ -54,21 +56,23 @@ ignoring nonexistent directory "/include"
  /usr/include/x86_64-linux-gnu
  /usr/include
 End of search list.
-Linking C executable cmTC_c344e
-/snap/cmake/918/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c344e.dir/link.txt --verbose=1
-/usr/bin/cc  -v CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -o cmTC_c344e 
+Linking C executable cmTC_5244d
+/snap/cmake/992/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5244d.dir/link.txt --verbose=1
+/usr/bin/cc  -v CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -o cmTC_5244d 
 Ubuntu clang version 12.0.0-3ubuntu1~21.04.1
 Target: x86_64-pc-linux-gnu
 Thread model: posix
 InstalledDir: /usr/bin
 Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
+Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/9
 Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
 Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
 Candidate multilib: .;@m64
 Candidate multilib: 32;@m32
 Candidate multilib: x32;@mx32
 Selected multilib: .;@m64
- "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_c344e /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../.. -L/usr/lib/llvm-12/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtend.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o
+ "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_5244d /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../.. -L/usr/lib/llvm-12/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtend.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o
 gmake[1]: Leaving directory '/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp'
 
 
@@ -89,19 +93,21 @@ Parsed C implicit include dir info from above output: rv=done
 
 
 Parsed C implicit link information from above output:
-  link line regex: [^( *|.*[/\])(CMAKE_LINKER-NOTFOUND|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_c344e/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_c344e.dir/build.make CMakeFiles/cmTC_c344e.dir/build]
+  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_5244d/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_5244d.dir/build.make CMakeFiles/cmTC_5244d.dir/build]
   ignore line: [gmake[1]: Entering directory '/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc   -v -MD -MT CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -c /snap/cmake/918/share/cmake-3.21/Modules/CMakeCCompilerABI.c]
+  ignore line: [Building C object CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc   -v -MD -MT CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -c /snap/cmake/992/share/cmake-3.22/Modules/CMakeCCompilerABI.c]
   ignore line: [Ubuntu clang version 12.0.0-3ubuntu1~21.04.1]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
   ignore line: [InstalledDir: /usr/bin]
   ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10]
+  ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/9]
   ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10]
+  ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9]
   ignore line: [Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10]
   ignore line: [Candidate multilib: .]
   ignore line: [@m64]
@@ -112,7 +118,7 @@ Parsed C implicit link information from above output:
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
   ignore line: [ (in-process)]
-  ignore line: [ "/usr/lib/llvm-12/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -tune-cpu generic -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/llvm-12/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-12/lib/clang/12.0.0/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fgnuc-version=4.2.1 -faddrsig -o CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -x c /snap/cmake/918/share/cmake-3.21/Modules/CMakeCCompilerABI.c]
+  ignore line: [ "/usr/lib/llvm-12/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -tune-cpu generic -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/llvm-12/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-12/lib/clang/12.0.0/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fgnuc-version=4.2.1 -faddrsig -o CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -x c /snap/cmake/992/share/cmake-3.22/Modules/CMakeCCompilerABI.c]
   ignore line: [clang -cc1 version 12.0.0 based upon LLVM 12.0.0 default target x86_64-pc-linux-gnu]
   ignore line: [ignoring nonexistent directory "/include"]
   ignore line: [#include "..." search starts here:]
@@ -122,15 +128,17 @@ Parsed C implicit link information from above output:
   ignore line: [ /usr/include/x86_64-linux-gnu]
   ignore line: [ /usr/include]
   ignore line: [End of search list.]
-  ignore line: [Linking C executable cmTC_c344e]
-  ignore line: [/snap/cmake/918/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c344e.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc  -v CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -o cmTC_c344e ]
+  ignore line: [Linking C executable cmTC_5244d]
+  ignore line: [/snap/cmake/992/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5244d.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc  -v CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -o cmTC_5244d ]
   ignore line: [Ubuntu clang version 12.0.0-3ubuntu1~21.04.1]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
   ignore line: [InstalledDir: /usr/bin]
   ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10]
+  ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/9]
   ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10]
+  ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9]
   ignore line: [Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10]
   ignore line: [Candidate multilib: .]
   ignore line: [@m64]
@@ -140,7 +148,7 @@ Parsed C implicit link information from above output:
   ignore line: [@mx32]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  link line: [ "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_c344e /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../.. -L/usr/lib/llvm-12/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtend.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o]
+  link line: [ "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_5244d /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../.. -L/usr/lib/llvm-12/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtend.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/bin/ld] ==> ignore
     arg [-zrelro] ==> ignore
     arg [--hash-style=gnu] ==> ignore
@@ -151,7 +159,7 @@ Parsed C implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_c344e] ==> ignore
+    arg [cmTC_5244d] ==> ignore
     arg [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o] ==> obj [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o]
     arg [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o]
     arg [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o] ==> obj [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o]
@@ -167,7 +175,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/llvm-12/bin/../lib] ==> dir [/usr/lib/llvm-12/bin/../lib]
     arg [-L/lib] ==> dir [/lib]
     arg [-L/usr/lib] ==> dir [/usr/lib]
-    arg [CMakeFiles/cmTC_c344e.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_5244d.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -205,23 +213,25 @@ Parsed C implicit link information from above output:
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_0d8f2/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_0d8f2.dir/build.make CMakeFiles/cmTC_0d8f2.dir/build
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_24868/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_24868.dir/build.make CMakeFiles/cmTC_24868.dir/build
 gmake[1]: Entering directory '/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++   -v -MD -MT CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -c /snap/cmake/918/share/cmake-3.21/Modules/CMakeCXXCompilerABI.cpp
+Building CXX object CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++   -v -MD -MT CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -c /snap/cmake/992/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp
 Ubuntu clang version 12.0.0-3ubuntu1~21.04.1
 Target: x86_64-pc-linux-gnu
 Thread model: posix
 InstalledDir: /usr/bin
 Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
+Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/9
 Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
 Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
 Candidate multilib: .;@m64
 Candidate multilib: 32;@m32
 Candidate multilib: x32;@mx32
 Selected multilib: .;@m64
  (in-process)
- "/usr/lib/llvm-12/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -tune-cpu generic -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/llvm-12/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-12/lib/clang/12.0.0/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -fdebug-compilation-dir /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -faddrsig -o CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -x c++ /snap/cmake/918/share/cmake-3.21/Modules/CMakeCXXCompilerABI.cpp
+ "/usr/lib/llvm-12/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -tune-cpu generic -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/llvm-12/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-12/lib/clang/12.0.0/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -fdebug-compilation-dir /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -faddrsig -o CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -x c++ /snap/cmake/992/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp
 clang -cc1 version 12.0.0 based upon LLVM 12.0.0 default target x86_64-pc-linux-gnu
 ignoring nonexistent directory "/include"
 ignoring duplicate directory "/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10"
@@ -235,21 +245,23 @@ ignoring duplicate directory "/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../.
  /usr/include/x86_64-linux-gnu
  /usr/include
 End of search list.
-Linking CXX executable cmTC_0d8f2
-/snap/cmake/918/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0d8f2.dir/link.txt --verbose=1
-/usr/bin/c++  -v CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_0d8f2 
+Linking CXX executable cmTC_24868
+/snap/cmake/992/bin/cmake -E cmake_link_script CMakeFiles/cmTC_24868.dir/link.txt --verbose=1
+/usr/bin/c++  -v CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_24868 
 Ubuntu clang version 12.0.0-3ubuntu1~21.04.1
 Target: x86_64-pc-linux-gnu
 Thread model: posix
 InstalledDir: /usr/bin
 Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
+Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/9
 Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10
+Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
 Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
 Candidate multilib: .;@m64
 Candidate multilib: 32;@m32
 Candidate multilib: x32;@mx32
 Selected multilib: .;@m64
- "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_0d8f2 /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../.. -L/usr/lib/llvm-12/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtend.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o
+ "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_24868 /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../.. -L/usr/lib/llvm-12/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtend.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o
 gmake[1]: Leaving directory '/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp'
 
 
@@ -276,19 +288,21 @@ Parsed CXX implicit include dir info from above output: rv=done
 
 
 Parsed CXX implicit link information from above output:
-  link line regex: [^( *|.*[/\])(CMAKE_LINKER-NOTFOUND|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_0d8f2/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_0d8f2.dir/build.make CMakeFiles/cmTC_0d8f2.dir/build]
+  ignore line: [Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_24868/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_24868.dir/build.make CMakeFiles/cmTC_24868.dir/build]
   ignore line: [gmake[1]: Entering directory '/home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++   -v -MD -MT CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -c /snap/cmake/918/share/cmake-3.21/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Building CXX object CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++   -v -MD -MT CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -c /snap/cmake/992/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [Ubuntu clang version 12.0.0-3ubuntu1~21.04.1]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
   ignore line: [InstalledDir: /usr/bin]
   ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10]
+  ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/9]
   ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10]
+  ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9]
   ignore line: [Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10]
   ignore line: [Candidate multilib: .]
   ignore line: [@m64]
@@ -299,7 +313,7 @@ Parsed CXX implicit link information from above output:
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
   ignore line: [ (in-process)]
-  ignore line: [ "/usr/lib/llvm-12/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -tune-cpu generic -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/llvm-12/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-12/lib/clang/12.0.0/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -fdebug-compilation-dir /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -faddrsig -o CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -x c++ /snap/cmake/918/share/cmake-3.21/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [ "/usr/lib/llvm-12/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all --mrelax-relocations -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mframe-pointer=all -fmath-errno -fno-rounding-math -mconstructor-aliases -munwind-tables -target-cpu x86-64 -tune-cpu generic -fno-split-dwarf-inlining -debugger-tuning=gdb -v -resource-dir /usr/lib/llvm-12/lib/clang/12.0.0 -dependency-file CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10 -internal-isystem /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/c++/10/backward -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-12/lib/clang/12.0.0/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -fdebug-compilation-dir /home/suman/Advent-Of-Code/2017/c++/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -faddrsig -o CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -x c++ /snap/cmake/992/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [clang -cc1 version 12.0.0 based upon LLVM 12.0.0 default target x86_64-pc-linux-gnu]
   ignore line: [ignoring nonexistent directory "/include"]
   ignore line: [ignoring duplicate directory "/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../include/x86_64-linux-gnu/c++/10"]
@@ -313,15 +327,17 @@ Parsed CXX implicit link information from above output:
   ignore line: [ /usr/include/x86_64-linux-gnu]
   ignore line: [ /usr/include]
   ignore line: [End of search list.]
-  ignore line: [Linking CXX executable cmTC_0d8f2]
-  ignore line: [/snap/cmake/918/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0d8f2.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++  -v CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_0d8f2 ]
+  ignore line: [Linking CXX executable cmTC_24868]
+  ignore line: [/snap/cmake/992/bin/cmake -E cmake_link_script CMakeFiles/cmTC_24868.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++  -v CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_24868 ]
   ignore line: [Ubuntu clang version 12.0.0-3ubuntu1~21.04.1]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
   ignore line: [InstalledDir: /usr/bin]
   ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10]
+  ignore line: [Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/9]
   ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10]
+  ignore line: [Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9]
   ignore line: [Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10]
   ignore line: [Candidate multilib: .]
   ignore line: [@m64]
@@ -331,7 +347,7 @@ Parsed CXX implicit link information from above output:
   ignore line: [@mx32]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  link line: [ "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_0d8f2 /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../.. -L/usr/lib/llvm-12/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtend.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o]
+  link line: [ "/usr/bin/ld" -z relro --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_24868 /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../.. -L/usr/lib/llvm-12/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtend.o /usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/bin/ld] ==> ignore
     arg [-zrelro] ==> ignore
     arg [--hash-style=gnu] ==> ignore
@@ -342,7 +358,7 @@ Parsed CXX implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_0d8f2] ==> ignore
+    arg [cmTC_24868] ==> ignore
     arg [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o] ==> obj [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crt1.o]
     arg [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o]
     arg [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o] ==> obj [/usr/bin/../lib/gcc/x86_64-linux-gnu/10/crtbegin.o]
@@ -358,7 +374,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/llvm-12/bin/../lib] ==> dir [/usr/lib/llvm-12/bin/../lib]
     arg [-L/lib] ==> dir [/lib]
     arg [-L/usr/lib] ==> dir [/usr/lib]
-    arg [CMakeFiles/cmTC_0d8f2.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_24868.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
