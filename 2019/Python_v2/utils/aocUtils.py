@@ -35,6 +35,10 @@ def powerset(seq):
             yield [seq[0]]+item
             yield item
 
+def fraction(n, d):
+	f = gcd(n,d)
+	return (n//f, d//f)
+
 def gcd(x, y):
    while(y):
        x, y = y, x % y
