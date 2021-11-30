@@ -83,3 +83,21 @@ def mul_inv(a, b):
         x0, x1=x1 -q *x0, x0
     if x1<0 : x1+= b0
     return x1
+
+def printSet(toColor, point = "#", space = ' '):
+	lx = hx = ly = hy = 0
+	for p in toColor:
+		x, y = imaginaryCoordToTuple(p)
+		lx = min(lx, x-1)
+		ly = min(ly, y)
+		hx = max(hx, x+1)
+		hy = max(hy, y+1)
+	out = "\n"
+	for y in range(ly, hy):
+		for x in range(lx, hx):
+			if (x - y*1j) in toColor:
+				out += point
+			else:
+				out += space
+		out+='\n'
+	return out
