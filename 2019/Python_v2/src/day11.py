@@ -43,7 +43,7 @@ def p2(input):
 			dir *= 1j
 		pos += dir
 	
-	return printSet(whiteSquares)
+	return "\n".join([x[::-1] for x in printSet(whiteSquares)[::-1].splitlines()])
 
 def main(input:str):
 	return (p1(input), p2(input))

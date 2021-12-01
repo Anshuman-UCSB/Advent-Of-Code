@@ -8,6 +8,10 @@ from utils.gol import *
 from utils.grid import *
 from utils.llist import *
 
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
 
 def hash(inp):
 	return md5(inp.encode()).hexdigest()
@@ -26,7 +30,7 @@ def imaginaryCoordToDist(n: complex):
 	return int(abs(n.real)) + int(abs(n.imag))
 	
 def imaginaryCoordToTuple(n: complex):
-	return (int(abs(n.real)) , int(abs(n.imag)))
+	return (int((n.real)) , int((n.imag)))
 
 def readNums(inp):
 	return list(map(int, re.findall(r"(-?\d+)", inp)))
@@ -84,3 +88,41 @@ def mul_inv(a, b):
         x0, x1=x1 -q *x0, x0
     if x1<0 : x1+= b0
     return x1
+
+
+def printSet(toColor, point = "#", space = ' '):
+	lx = hx = ly = hy = 0
+	for p in toColor:
+		x, y = imaginaryCoordToTuple(p)
+		lx = min(lx, x-1)
+		ly = min(ly, y)
+		hx = max(hx, x+1)
+		hy = max(hy, y+1)
+	out = "\n"
+	for y in range(ly, hy):
+		for x in range(lx, hx):
+			if (x + y*1j) in toColor:
+				out += point
+			else:
+				out += space
+		out+='\n'
+	return out
+
+def printCoords(coords, default = " "):
+	# format of {pos:val}
+	lx = hx = ly = hy = 0
+	for p in coords.keys():
+		x, y = imaginaryCoordToTuple(p)
+		lx = min(lx, x)
+		ly = min(ly, y)
+		hx = max(hx, x)
+		hy = max(hy, y)
+	out = ""
+	for y in range(ly, hy+1):
+		for x in range(lx, hx+1):
+			if (x - y*1j) in coords:
+				out += coords[(x-y*1j)]
+			else:
+				out += default
+		out+='\n'
+	return out[:-1]

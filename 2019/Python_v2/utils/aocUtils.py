@@ -21,7 +21,7 @@ def imaginaryCoordToDist(n: complex):
 	return int(abs(n.real)) + int(abs(n.imag))
 	
 def imaginaryCoordToTuple(n: complex):
-	return (int(abs(n.real)) , int(abs(n.imag)))
+	return (int((n.real)) , int((n.imag)))
 
 def readNums(inp):
 	return list(map(int, re.findall(r"(-?\d+)", inp)))
@@ -95,9 +95,28 @@ def printSet(toColor, point = "#", space = ' '):
 	out = "\n"
 	for y in range(ly, hy):
 		for x in range(lx, hx):
-			if (x - y*1j) in toColor:
+			if (x + y*1j) in toColor:
 				out += point
 			else:
 				out += space
 		out+='\n'
 	return out
+
+def printCoords(coords, default = " "):
+	# format of {pos:val}
+	lx = hx = ly = hy = 0
+	for p in coords.keys():
+		x, y = imaginaryCoordToTuple(p)
+		lx = min(lx, x)
+		ly = min(ly, y)
+		hx = max(hx, x)
+		hy = max(hy, y)
+	out = ""
+	for y in range(ly, hy+1):
+		for x in range(lx, hx+1):
+			if (x - y*1j) in coords:
+				out += coords[(x-y*1j)]
+			else:
+				out += default
+		out+='\n'
+	return out[:-1]
