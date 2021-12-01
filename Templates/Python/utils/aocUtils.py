@@ -120,8 +120,8 @@ def printCoords(coords, default = " "):
 	out = ""
 	for y in range(ly, hy+1):
 		for x in range(lx, hx+1):
-			if (x - y*1j) in coords:
-				out += coords[(x-y*1j)]
+			if (x + y*1j) in coords:
+				out += coords[(x+y*1j)]
 			else:
 				out += default
 		out+='\n'
