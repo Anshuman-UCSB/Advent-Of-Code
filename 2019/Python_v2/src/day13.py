@@ -1,10 +1,6 @@
 from utils.aocUtils import *
 from src.intcode import *
 
-def chunks(lst, n):
-    """Yield successive n-sized chunks from lst."""
-    for i in range(0, len(lst), n):
-        yield lst[i:i + n]
 
 def main(input:str):
 	c = CPU(input)
