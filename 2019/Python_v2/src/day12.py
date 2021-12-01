@@ -38,12 +38,11 @@ def solveAxis(input, axis):
 		for i in range(3):
 			if i != axis:
 				p.p[i] = 0
-	seen = set()
-	time = 1
+	start = hashAll(planets)
+	time = 0
 	state = hashAll(planets)
-	while state not in seen:
+	while state != start or time == 0:
 		time+=1
-		seen.add(state)
 		iter(planets)
 		state = hashAll(planets)
 	return time
@@ -53,5 +52,5 @@ def main(input:str):
 	for _ in range(1000):
 		iter(planets)
 	p1 = (sum([x.getEnergy() for x in planets]))
-	p2 = prod([solveAxis(input, i) for i in range(3)])
+	p2 = reduce(lcm, [solveAxis(input, i) for i in range(3)])
 	return (p1, p2)
