@@ -1,5 +1,32 @@
 from utils.aocUtils import *
+from src.intcode import *
+
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
+
 def main(input:str):
-	p1 = 0
-	p2 = 0
-	return (p1, p2)
+	c = CPU(input)
+	c.run()
+	p1 = c.outputQ[2::3].count(2)
+	c = CPU(input)
+	c.regs[0] = 2
+	for i, v in enumerate(c.regs):
+		if v == 3 and c.regs[i+1] == 0 and c.regs[i-1] == 0:
+			t = i
+			while c.regs[t] != 1:
+				c.regs[t] = 3
+				t+=1
+			t = i
+			while c.regs[t] != 1:
+				c.regs[t] = 3
+				t-=1
+			
+			break
+	while not c.done:
+		c.push(0)
+		c.runUntilInput()
+	# for i, v in enumerate(c.outputQ):
+	# 	print(v)
+	return (p1, c.outputQ[-1])
