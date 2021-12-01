@@ -3,6 +3,11 @@ from functools import reduce
 from _md5 import md5
 from operator import mul
 from math import sqrt
+from utils.disjointset import *
+from utils.gol import *
+from utils.grid import *
+from utils.llist import *
+
 
 def hash(inp):
 	return md5(inp.encode()).hexdigest()
