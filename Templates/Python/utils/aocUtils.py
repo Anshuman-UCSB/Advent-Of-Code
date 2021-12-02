@@ -28,9 +28,16 @@ def prod(iter):
 
 def imaginaryCoordToDist(n: complex):
 	return int(abs(n.real)) + int(abs(n.imag))
-	
+
 def imaginaryCoordToTuple(n: complex):
 	return (int((n.real)) , int((n.imag)))
+
+def im2tup(n: complex):
+	return imaginaryCoordToTuple(n)(n)
+def im2dist(n: complex):
+	return imaginaryCoordToDist(n)
+def im2prod(n: complex):
+	return int(abs(n.real)) * int(abs(n.imag))
 
 def readNums(inp):
 	return list(map(int, re.findall(r"(-?\d+)", inp)))
