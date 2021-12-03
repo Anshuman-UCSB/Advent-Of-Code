@@ -33,11 +33,14 @@ def imaginaryCoordToTuple(n: complex):
 	return (int((n.real)) , int((n.imag)))
 
 def im2tup(n: complex):
-	return imaginaryCoordToTuple(n)(n)
+	return imaginaryCoordToTuple(n)
 def im2dist(n: complex):
 	return imaginaryCoordToDist(n)
 def im2prod(n: complex):
 	return int(abs(n.real)) * int(abs(n.imag))
+
+def tup2im(tup):
+	return tup[0]+1j*tup[1]
 
 def readNums(inp):
 	return list(map(int, re.findall(r"(-?\d+)", inp)))
