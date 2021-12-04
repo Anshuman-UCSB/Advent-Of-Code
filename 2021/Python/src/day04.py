@@ -22,10 +22,12 @@ def p2(boards, nums):
 	for n in nums:
 		called.add(n)
 		for b in boards:
-			if(isWinner(b, called)):
-				if len(boards) == 1:
-					return score(b, called, n)
+			if(isWinner(b, called) and len(boards)>1):
 				boards.remove(b)
+		if len(boards) == 1:
+			if isWinner(boards[0], called):
+				return score(boards[0], called, n)
+
 				
 def main(input:str):
 	nums = readNums(input.splitlines()[0])

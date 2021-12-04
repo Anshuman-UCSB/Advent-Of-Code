@@ -47,7 +47,7 @@ int main(int argc, char **argv){
 		for(int i = 0;i<25;i++){
 			auto &A = adventDays[i];
 			input_t inp = loadInput(A.input_file);
-			cout<<"DAY "<<i+1<<": "<<endl;
+			cout<<"	DAY "<<i+1<<": "<<endl;
 			auto t0 = chrono::steady_clock::now();
 			auto elapsed = (*A.fn)(inp)-t0;
 			totalTime += elapsed.count();
@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 	}else{
 		auto &A = adventDays[atoi(argv[1])-1];
 		input_t inp = loadInput(A.input_file);
-		cout<<"DAY "<<atoi(argv[1])<<":"<<endl;
+		cout<<"	DAY "<<atoi(argv[1])<<":"<<endl;
 		auto t0 = chrono::steady_clock::now();
 		(*A.fn)(inp);
 		auto elapsed = chrono::steady_clock::now()-t0;

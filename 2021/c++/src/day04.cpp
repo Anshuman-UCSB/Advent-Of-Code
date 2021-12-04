@@ -1,6 +1,6 @@
 #include "AOC.h"
 
-bool winner(const vector<int>& board, const unordered_set<int>& called){
+bool winner(const vector<int>& board, const set<int>& called){
 	for(int i = 0;i<5;i++){
 		for(int j = 0;j<5;j++)
 			if(!called.count(board[i+j*5]))
@@ -16,7 +16,7 @@ bool winner(const vector<int>& board, const unordered_set<int>& called){
 	return false;
 }
 
-int score(const vector<int>& board, const unordered_set<int>& called){
+int score(const vector<int>& board, const set<int>& called){
 	int s = 0;
 	for(auto& v: board)
 		if(!called.count(v))
@@ -25,7 +25,7 @@ int score(const vector<int>& board, const unordered_set<int>& called){
 }
 
 int p1(const vector<vector<int>>& boards, const vector<int>& nums){
-	unordered_set<int> called;
+	set<int> called;
 	for(auto& n: nums){
 		called.insert(n);
 		for(const auto& b: boards)
@@ -35,11 +35,12 @@ int p1(const vector<vector<int>>& boards, const vector<int>& nums){
 	return -1;
 }
 int p2(vector<vector<int>> boards, const vector<int>& nums){
-	unordered_set<int> called;
+	set<int> called;
 	for(auto& n: nums){
 		called.insert(n);
-		if(boards.size() == 1)
+		if(boards.size() == 1){
 			return score(boards[0], called)*n;
+		}
 		for(int i = boards.size()-1;i>=0;i--)
 			if(winner(boards[i], called))
 				boards.erase(boards.begin()+i);
