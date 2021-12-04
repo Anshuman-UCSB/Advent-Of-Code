@@ -39,7 +39,6 @@ def p2(input):
 		b = []
 		for n in readNums(board):
 			b.append(n)
-		# print(b)
 		boards.append(b)
 	for n in nums:
 		called.add(n)
