@@ -3,7 +3,7 @@ import re
 
 def isWinner(board, called):
 	for i in range(5):
-		if set(board[i:i+4]).issubset(called) or set(board[i::5]).issubset(called):
+		if set(board[i*5:i*5+5]) <= called or set(board[i::5]) <= called:
 			return True
 	return False
 
