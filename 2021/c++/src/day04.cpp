@@ -1,6 +1,6 @@
 #include "AOC.h"
 
-bool winner(const vector<int>& board, const set<int>& called){
+bool winner(const vector<int>& board, const unordered_set<int>& called){
 	for(int i = 0;i<5;i++){
 		for(int j = 0;j<5;j++)
 			if(!called.count(board[i+j*5]))
@@ -16,7 +16,7 @@ bool winner(const vector<int>& board, const set<int>& called){
 	return false;
 }
 
-int score(const vector<int>& board, const set<int>& called){
+int score(const vector<int>& board, const unordered_set<int>& called){
 	int s = 0;
 	for(auto& v: board)
 		if(!called.count(v))
@@ -25,7 +25,7 @@ int score(const vector<int>& board, const set<int>& called){
 }
 
 int p1(const vector<vector<int>>& boards, const vector<int>& nums){
-	set<int> called;
+	unordered_set<int> called;
 	for(auto& n: nums){
 		called.insert(n);
 		for(const auto& b: boards)
@@ -35,7 +35,7 @@ int p1(const vector<vector<int>>& boards, const vector<int>& nums){
 	return -1;
 }
 int p2(vector<vector<int>> boards, const vector<int>& nums){
-	set<int> called;
+	unordered_set<int> called;
 	for(auto& n: nums){
 		called.insert(n);
 		if(boards.size() == 1)
@@ -66,7 +66,7 @@ chrono::time_point<std::chrono::steady_clock> day04(input_t& inp){
 			boards.back().push_back(t);
 	}
 	
-	auto done = chrono::steady_clock::now();
 	cout<<"[P1] "<<p1(boards, nums)<<"\n[P2] "<<p2(boards, nums)<<endl;
+	auto done = chrono::steady_clock::now();
 	return done;
 }
