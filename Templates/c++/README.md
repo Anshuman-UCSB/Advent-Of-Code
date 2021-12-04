@@ -1,0 +1,1 @@
+Template for c++ with cmake
