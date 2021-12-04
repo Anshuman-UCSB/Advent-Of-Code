@@ -2,16 +2,14 @@
 
 bool winner(const vector<int>& board, const set<int>& called){
 	for(int i = 0;i<5;i++){
-		for(int j = 0;j<5;j++){
+		for(int j = 0;j<5;j++)
 			if(!called.count(board[i+j*5]))
 				goto next;
-		}
 		return true;
 		next:;
-		for(int j = 0;j<5;j++){
+		for(int j = 0;j<5;j++)
 			if(!called.count(board[j+i*5]))
 				goto next2;
-		}
 		return true;
 		next2:;
 	}
@@ -20,10 +18,9 @@ bool winner(const vector<int>& board, const set<int>& called){
 
 int score(const vector<int>& board, const set<int>& called){
 	int s = 0;
-	for(auto& v: board){
+	for(auto& v: board)
 		if(!called.count(v))
 			s+=v;
-	}
 	return s;
 }
 
@@ -31,11 +28,9 @@ int p1(const vector<vector<int>>& boards, const vector<int>& nums){
 	set<int> called;
 	for(auto& n: nums){
 		called.insert(n);
-		for(const auto& b: boards){
-			if(winner(b, called)){
+		for(const auto& b: boards)
+			if(winner(b, called))
 				return score(b, called)*n;
-			}
-		}
 	}
 	return -1;
 }
@@ -43,14 +38,11 @@ int p2(vector<vector<int>> boards, const vector<int>& nums){
 	set<int> called;
 	for(auto& n: nums){
 		called.insert(n);
-		if(boards.size() == 1){
+		if(boards.size() == 1)
 			return score(boards[0], called)*n;
-		}
-		for(int i = boards.size()-1;i>=0;i--){
-			if(winner(boards[i], called)){
+		for(int i = boards.size()-1;i>=0;i--)
+			if(winner(boards[i], called))
 				boards.erase(boards.begin()+i);
-			}
-		}
 	}
 	return -1;
 }
