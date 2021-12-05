@@ -6,6 +6,7 @@ import sys, os
 import time
 sys.path.append(utilSource)
 
+import requests
 from src.day01 import main as day01
 from src.day02 import main as day02
 from src.day03 import main as day03
@@ -63,7 +64,25 @@ days = [
 	day25
 ]
 
+def loadInput(day):
+	if os.path.exists(os.path.join("input","day{:0>2}.txt".format(day))):
+		return
+	year = 2021
+
+	cookie = {"session":os.environ["AOCcookie"]}
+	r = requests.get(f"https://adventofcode.com/{year}/day/{day}/input", cookies=cookie)
+	if not r.text.startswith("Please"):
+		with open("input/day{:0>2}.txt".format(day), 'w') as f:
+			f.write(r.text)
+
+notYetDay = False
+
 def runDay(day):
+	loadInput(day)
+	if not os.path.exists(os.path.join("input","day{:0>2}.txt".format(day))):
+		global notYetDay
+		notYetDay = True
+		return 0
 	print(f"	DAY {day}: ")
 	dayStr = str(day).zfill(2)
 	inp = open(f"input/day{dayStr}.txt", "r").read()
@@ -85,5 +104,7 @@ if __name__ == "__main__":
 		total = 0
 		for i in range(1,26):
 			total+=runDay(i)
+			if notYetDay:
+				break
 			print()
 		print("Total execution time:",round(total/1e6, 1),end="ms\n")
