@@ -2,7 +2,8 @@
 
 chrono::time_point<std::chrono::steady_clock> day05(input_t& inp){
 	int p1(0), p2(0);
-	map<pii, int> m1, m2;
+	vector<int> m1(1000000);
+	vector<int> m2(1000000);
 	int x, y;
 	char t;
 	vector<pair<pii, pii>> pointset;
@@ -23,13 +24,12 @@ chrono::time_point<std::chrono::steady_clock> day05(input_t& inp){
 		e.y+=dy;
 		while(s != e){
 			if(!(dx && dy))
-				if(m1[s]++ == 1) p1++;
-			if(m2[s]++ == 1) p2++;
+				if(m1[s.y+1000*s.x]++ == 1) p1++;
+			if(m2[s.y+1000*s.x]++ == 1) p2++;
 			s.x+=dx;
 			s.y+=dy;
 		}
 	}
-	
 	auto done = chrono::steady_clock::now();
 	cout<<"[P1] "<<p1<<"\n[P2] "<<p2<<endl;
 	return done;

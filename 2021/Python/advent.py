@@ -69,7 +69,7 @@ def loadInput(day):
 		return
 	year = 2021
 
-	cookie = {"session":"***REMOVED***"}
+	cookie = {"session":os.environ["AOCcookie"]}
 	r = requests.get(f"https://adventofcode.com/{year}/day/{day}/input", cookies=cookie)
 	if not r.text.startswith("Please"):
 		with open("input/day{:0>2}.txt".format(day), 'w') as f:
