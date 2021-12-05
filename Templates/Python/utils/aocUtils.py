@@ -7,6 +7,7 @@ from utils.disjointset import *
 from utils.gol import *
 from utils.grid import *
 from utils.llist import *
+from collections import defaultdict
 
 def chunks(lst, n):
 	"""Yield successive n-sized chunks from lst."""
@@ -41,6 +42,23 @@ def im2prod(n: complex):
 
 def tup2im(tup):
 	return tup[0]+1j*tup[1]
+def crd2im(x, y):
+	return x+1j*y
+
+def crange(start, stop, step):
+	d = imNorm(stop-start)
+	while start != stop:
+		yield start
+		start+=d
+
+def norm(n):
+	if n == 0: return 0
+	return int(n/abs(n))
+def imNorm(z):
+	x, y = im2tup(z)
+	x = norm(x)
+	y = norm(y)
+	return crd2im(x,y)
 
 def readNums(inp):
 	return list(map(int, re.findall(r"(-?\d+)", inp)))
@@ -131,7 +149,7 @@ def printCoords(coords, default = " "):
 	for y in range(ly, hy+1):
 		for x in range(lx, hx+1):
 			if (x + y*1j) in coords:
-				out += coords[(x+y*1j)]
+				out += str(coords[(x+y*1j)])
 			else:
 				out += default
 		out+='\n'
