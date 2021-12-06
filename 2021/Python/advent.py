@@ -1,4 +1,4 @@
-#!/usr/bin/pypy
+#!/usr/bin/python
 utilSource = "../../Templates/Python/"
 YEAR = 2021
 

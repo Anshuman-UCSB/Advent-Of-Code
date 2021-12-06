@@ -2,21 +2,21 @@
 
 chrono::time_point<std::chrono::steady_clock> day06(input_t& inp){
 	long p1(0), p2(0);
-	map<int, long> fishes;
+	vector<long> fishes(9);
 	int t;
 	char c;
 	for(stringstream ss(inp[0]); ss>>t;fishes[t]++){ss>>c;}
 	for(t=0;t<256;t++){
 		if(t == 80)
-			for(auto& [k, v]: fishes)
+			for(auto& v: fishes)
 				p1+=v;
-		for(int i =0 ;i<=9;i++)
+		long babies = fishes[0];
+		for(int i =1 ;i<9;i++)
 			fishes[i-1] = fishes[i];
-		fishes[6]+=fishes[-1];
-		fishes[8]+=fishes[-1];
-		fishes[-1] = 0;
+		fishes[6]+=babies;
+		fishes[8]=babies;
 	}
-	for(auto& [k, v]: fishes) p2+=v;
+	for(auto& v: fishes) p2+=v;
 	auto done = chrono::steady_clock::now();
 	cout<<"[P1] "<<p1<<"\n[P2] "<<p2<<endl;
 	return done;
