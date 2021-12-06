@@ -7,7 +7,7 @@ from utils.disjointset import *
 from utils.gol import *
 from utils.grid import *
 from utils.llist import *
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 def chunks(lst, n):
 	"""Yield successive n-sized chunks from lst."""
