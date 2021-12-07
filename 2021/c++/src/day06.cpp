@@ -1,5 +1,5 @@
 #include "AOC.h"
-
+#include <algorithm>
 chrono::time_point<std::chrono::steady_clock> day06(input_t& inp){
 	long p1(0), p2(0);
 	vector<long> fishes(9);
@@ -11,10 +11,9 @@ chrono::time_point<std::chrono::steady_clock> day06(input_t& inp){
 			for(auto& v: fishes)
 				p1+=v;
 		long babies = fishes[0];
-		for(int i =1 ;i<9;i++)
-			fishes[i-1] = fishes[i];
-		fishes[6]+=babies;
-		fishes[8]=babies;
+		fishes[7]+=babies;
+		fishes[9]+=babies;
+		rotate(begin(fishes), begin(fishes)+1, end(fishes));
 	}
 	for(auto& v: fishes) p2+=v;
 	auto done = chrono::steady_clock::now();
