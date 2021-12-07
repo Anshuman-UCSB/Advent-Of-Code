@@ -1,5 +1,5 @@
 import re
-from functools import reduce
+from functools import reduce, cache
 from _md5 import md5
 from operator import mul
 from math import sqrt
@@ -16,6 +16,9 @@ def chunks(lst, n):
 
 def hash(inp):
 	return md5(inp.encode()).hexdigest()
+
+def avg(inp):
+	return sum(inp)/len(inp)
 
 def printAnswer(result : tuple):
 	print("[P1]",result[0])
