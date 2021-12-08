@@ -15,6 +15,7 @@
 #define pii pair<int, int>
 #define x first
 #define y second
+#define ull unsigned long long
 
 #define input_t vector<string>
 
