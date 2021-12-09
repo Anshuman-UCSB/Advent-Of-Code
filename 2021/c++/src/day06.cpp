@@ -10,10 +10,8 @@ chrono::time_point<std::chrono::steady_clock> day06(input_t& inp){
 		if(t == 80)
 			for(auto& v: fishes)
 				p1+=v;
-		long babies = fishes[0];
-		fishes[7]+=babies;
-		fishes[9]+=babies;
 		rotate(begin(fishes), begin(fishes)+1, end(fishes));
+		fishes[6]+=fishes[8];
 	}
 	for(auto& v: fishes) p2+=v;
 	auto done = chrono::steady_clock::now();
