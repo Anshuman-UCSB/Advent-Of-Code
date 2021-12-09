@@ -13,13 +13,20 @@ class DisjointSet():
 	def union(self, nodeA, nodeB):
 		self.parents[self.find(nodeA)] = self.find(nodeB)
 
+	def getSets(self):
+		for n in self.parents:
+			self.find(n)
+		uniq = set(self.parents.values())
+		out = defaultdict(list)
+		for n in self.parents:
+			out[self.find(n)].append(n)
+		# print(out)
+		return [set(x) for x in out.values()]
+
 	def __str__(self):
-		delim = ""
 		out = ""
-		sets = defaultdict(list)
-		for k in self.parents.keys():
-			sets[self.find(k)].append(k)
-		for v in sets.values():
-			out+=delim+"{"+str(v)[1:-1]+"}"
-			delim = "\n"
+		delim = ""
+		for v in self.getSets():
+			out+=delim+str(v)
+			delim="\n"
 		return out

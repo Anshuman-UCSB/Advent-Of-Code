@@ -6,6 +6,7 @@ from math import sqrt
 from utils.disjointset import *
 from utils.gol import *
 from utils.grid import *
+from utils.finiteGrid import *
 from utils.llist import *
 from collections import defaultdict, Counter
 
@@ -157,3 +158,16 @@ def printCoords(coords, default = " "):
 				out += default
 		out+='\n'
 	return out[:-1]
+
+def gridify(input, mapping = None):
+	points = {}
+	for y, row in enumerate(input.splitlines()):
+		for x, v in enumerate(row):
+			if mapping != None:
+				if callable(mapping):
+					points[x+y*1j] = mapping(v)
+				else:
+					points[x+y*1j] = mapping(v)
+			else:
+				points[x+y*1j] = v
+	return points
