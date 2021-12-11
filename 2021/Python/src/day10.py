@@ -10,10 +10,9 @@ def p2s(l):
 def main(input:str):
 	p1 = 0
 	incompletes = []
+	needs = {"(":")","{":"}","<":">","[":"]"}
+	scores = {')':3, ']':57,'}':1197,'>':25137}
 	for l in input.splitlines():
-		corrupted = False
-		needs = {"(":")","{":"}","<":">","[":"]"}
-		scores = {')':3, ']':57,'}':1197,'>':25137}
 		s = []
 		for c in l:
 			if c in needs:
@@ -21,8 +20,7 @@ def main(input:str):
 			else:
 				if s.pop(-1) != c:
 					p1+=scores[c]
-					corrupted = True
 					break
-		if not corrupted:
+		else:
 			incompletes.append(s[::-1])
 	return (p1, median([p2s(c) for c in incompletes]))
