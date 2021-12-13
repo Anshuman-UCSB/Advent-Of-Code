@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.5)
 project (advent2021)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -Ofast -Wfatal-errors -pg -std=c++2a")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -Ofast -Wfatal-errors -pg -g -std=c++2a")
 
 add_executable(advent2021
 	src/main.cpp
