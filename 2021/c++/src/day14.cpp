@@ -1,9 +1,9 @@
 #include "AOC.h"
 
-map<string, string> transforms;
+unordered_map<string, string> transforms;
 
-void iter(map<string, ull> &counts){
-	map<string, ull> t;
+void iter(unordered_map<string, ull> &counts){
+	unordered_map<string, ull> t;
 	for(auto& [k, v]: counts){
 		auto it = transforms.find(k);
 		if(it != transforms.end()){
@@ -16,7 +16,7 @@ void iter(map<string, ull> &counts){
 	counts = t;
 }
 
-ull score(map<string, ull>& c, string& base){
+ull score(unordered_map<string, ull>& c, string& base){
 	vector<ull> chr(26);
 	for(auto& [k, v]: c){
 		chr[k[0]-'A']+=v;
@@ -35,7 +35,7 @@ ull score(map<string, ull>& c, string& base){
 
 chrono::time_point<std::chrono::steady_clock> day14(input_t& inp){
 	ull p1, p2;
-	map<string, ull> counts;
+	unordered_map<string, ull> counts;
 	string base = inp[0];
 	for(int i = 0;i<base.size()-1;i++)
 		counts[base.substr(i,2)]++;
