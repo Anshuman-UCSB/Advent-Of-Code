@@ -1,4 +1,5 @@
 import re
+from random import random
 from functools import reduce, cache
 from _md5 import md5
 from operator import mul
@@ -9,6 +10,7 @@ from utils.grid import *
 from utils.finiteGrid import *
 from utils.llist import *
 from collections import defaultdict, Counter
+from utils.heap import *
 
 def chunks(lst, n):
 	"""Yield successive n-sized chunks from lst."""
@@ -43,6 +45,11 @@ def im2dist(n: complex):
 	return imaginaryCoordToDist(n)
 def im2prod(n: complex):
 	return int(abs(n.real)) * int(abs(n.imag))
+
+def imSub(a, b):
+	x1, y1 = im2tup(a)
+	x2, y2 = im2tup(a)
+	return crd2im(x1-x2, y1-y2)
 
 def tup2im(tup):
 	return tup[0]+1j*tup[1]
@@ -171,3 +178,19 @@ def gridify(input, mapping = None):
 			else:
 				points[x+y*1j] = v
 	return points
+
+def dijkstras(grid, start, end, costFn=lambda x: 1, neighbors = None):
+	if neighbors == None:
+		neighbors = [1,-1,1j,-1j]
+	visited = set()
+	h = Heap([(0, random(), start, [start])])
+	while h:
+		cost, _, pos, path = h.pop()
+		if pos == end:
+			return path, cost
+		if pos in visited:
+			continue
+		visited.add(pos)
+		for n in neighbors:
+			if pos+n in grid and pos+n not in visited:
+				h.push((cost+costFn(pos+n), random(), pos+n, path+[pos+n]))
