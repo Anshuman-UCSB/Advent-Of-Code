@@ -16,12 +16,13 @@ chrono::time_point<std::chrono::steady_clock> day15(input_t& inp){
 		for(int x = side;x<side*5;x++)
 			g[y][x] = (g[y][x-side] == 9)?1:g[y][x-side]+1;
 	
-	vector<list<state>> q(10, list<state>());
-	q[0].push_back(state(0, 0, 0));
+	vector<queue<state>> q(10, queue<state>());
+	q[0].push(state(0, 0, 0));
 	int risk, x, y, x1(side-1), y1(side-1), x2(side*5-1), y2(side*5-1);
 	for(int i = 0;;i++){
-		for(auto& p: q[i%10]){
-			tie(risk, x, y) = p;
+		while(!q[i%10].empty()){
+			tie(risk, x, y) = q[i%10].front();
+			q[i%10].pop();
 			if(x==x1 && y==y1)
 				p1 = risk;
 			else if(x==x2 && y==y2){
@@ -32,15 +33,14 @@ chrono::time_point<std::chrono::steady_clock> day15(input_t& inp){
 				continue;
 			seen[y][x]=1;
 			if(x>0 && seen[y][x-1]==0)
-				q[(risk+g[y][x-1])%10].emplace_back(risk+g[y][x-1], x-1, y);
+				q[(risk+g[y][x-1])%10].emplace(risk+g[y][x-1], x-1, y);
 			if(x<g.size()-1 && seen[y][x+1]==0)
-				q[(risk+g[y][x+1])%10].emplace_back(risk+g[y][x+1], x+1, y);
+				q[(risk+g[y][x+1])%10].emplace(risk+g[y][x+1], x+1, y);
 			if(y>0 && seen[y-1][x]==0)
-				q[(risk+g[y-1][x])%10].emplace_back(risk+g[y-1][x], x, y-1);
+				q[(risk+g[y-1][x])%10].emplace(risk+g[y-1][x], x, y-1);
 			if(y<g.size()-1 && seen[y+1][x]==0)
-				q[(risk+g[y+1][x])%10].emplace_back(risk+g[y+1][x], x, y+1);
+				q[(risk+g[y+1][x])%10].emplace(risk+g[y+1][x], x, y+1);
 		}
-		q[i%10].clear();
 	}
 	done:;
 	
