@@ -32,7 +32,6 @@ def parse(inp):
 				subpackets.append(None)
 				subpackets[-1], spRaw = parse(spRaw)
 			rest = spRaw
-		print(T, subpackets)
 		match T:
 			case "000":
 				subpackets = sum(subpackets)
