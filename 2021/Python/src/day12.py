@@ -1,41 +1,25 @@
 from utils.aocUtils import *
 
-p1 = 0
-p2 = 0
-
-def BFS(paths, path):
-	global p1
-	pos = path[-1]
-	if(pos == 'end'):
-		p1+=1
-		return
-	for n in paths[pos]:
-		if n.islower() and n in path:
-			continue
-		BFS(paths, path+[n])
-
-def abletorevisit(path):
-	c = Counter([p for p in path if p.islower()])
-	return all(v<=1 for v in c.values())
-
-def BFS2(paths, path):
-	global p2
-	pos = path[-1]
-	if(pos == 'end'):
-		p2+=1
-		return
-	for n in paths[pos]:
-		if n == "start":
-			continue
-		if not n.islower() or n not in path or abletorevisit(path):
-			BFS2(paths, path+[n])
-
+p1, p2 = 0, 0
 def main(input:str):
-	paths = defaultdict(list)
-	for l in input.splitlines():
-		start, end = l.split('-')
-		paths[start].append(end)
-		paths[end].append(start)
-	BFS(paths, ["start"])
-	BFS2(paths, ["start"])
-	return (p1, p2)
+	neighbors = defaultdict(list)
+	for l,r in [x.split('-') for x in input.splitlines()]:
+		neighbors[l].append(r)
+		neighbors[r].append(l)
+	def bfs(seen, pos, doublevisit):
+		global p1, p2
+		if pos == "end":
+			p1 += doublevisit == False
+			p2 += 1
+			return
+		if pos in seen:
+			if pos == "start": return
+			if pos.islower():
+				if doublevisit == False:
+					doublevisit = True
+				else:
+					return
+		for n in neighbors[pos]:
+			bfs(seen+[pos], n, doublevisit)
+	bfs([], "start", False)
+	return p1, p2
