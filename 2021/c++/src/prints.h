@@ -6,6 +6,7 @@
 #include <set>
 #include <utility>
 #include <type_traits>
+#include <list>
 
 
 #define RED "\033[31m"
@@ -44,6 +45,17 @@ template <class T, class M>
 ostream& operator<<(ostream& os, const pair<T, M>& p)
 {
 	os<<"("<<p.first<<", "<<p.second<<")";
+    return os;
+}
+template <class T>
+ostream& operator<<(ostream& os, const list<T>& v)
+{
+	string delim = "";
+	os<<"[";
+    for(const T& val: v){
+		os<<delim<<val;
+		delim = "->";
+	}os<<"]";
     return os;
 }
 template <class T>
