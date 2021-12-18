@@ -35,5 +35,3 @@ def main(input:str):
 					queue[(i+access(g, a,b))%20].append((risk+access(g, a,b), a,b))
 		queue[i].clear()
 		i = (i+1)%20
-	return (0,0)
-	# return (dijkstras(g,0, end, lambda x: g[x])[1], dijkstras(g2,0, end2, lambda x: g2[x])[1])
