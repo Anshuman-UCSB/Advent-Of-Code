@@ -1,116 +1,56 @@
 from utils.aocUtils import *
 from itertools import combinations
 
-class Node:
-	def __init__(self, val, depth = 0, parent = None):
-		if type(val) == list:
-			self.pair = True
-			self.left, self.right = Node(val[0], depth+1, self), Node(val[1], depth+1, self)
-		else:
-			self.pair = False
-			self.val = val
-		self.parent = parent
-		self.depth = depth
-
-	def isRight(self):
-		return self.parent and self.parent.right == self
-	def isLeft(self):
-		return self.parent and self.parent.left == self
-
-	def successor(self):
-		p = self
-		while p.parent and p.isRight():
-			p = p.parent
-		p = p.parent
-		if p:
-			p = p.right
-			while p.pair:
-				p = p.left
-			return p
-		return None
-	def predecessor(self):
-		p = self
-		while p.parent and p.isLeft():
-			p = p.parent
-		p = p.parent
-		if p:
-			p = p.left
-			while p.pair:
-				p = p.right
-			return p
-		return None
-	
-	def explode(self):
-		if self.pair and self.depth>=4:
-			p = self.predecessor()
-			if p:
-				p.val+=self.left.val
-			p = self.successor()
-			if p:
-				p.val+=self.right.val
-			self.pair = False
-			self.val = 0
-			return True
-		else:
-			if self.pair:
-				return self.left.explode() or self.right.explode()
-			return False
-
-	def split(self):
-		if self.pair:
-			return self.left.split() or self.right.split()
-		else:
-			if self.val >= 10:
-				self.pair = True
-				self.left = Node(self.val//2, self.depth+1, self)
-				self.right = Node(self.val//2+(self.val%2), self.depth+1, self)
-				return True
-			return False
-
-	def incDepth(self):
-		self.depth+=1
-		if self.pair:
-			self.left.incDepth()
-			self.right.incDepth()
-
-	def update(self):
-		while True:
-			if self.explode():
-				continue
-			if self.split():
-				continue
-			break
-
-	def __str__(self):
-		if self.pair:
-			return f"[{self.left},{self.right}]"
-		else:
-			return str(self.val)
-
-	def magnitude(self):
-		if self.pair:
-			return 3*self.left.magnitude()+2*self.right.magnitude()
-		else:
-			return self.val
-
 def build(inp):
-	return Node(eval(inp))
-
+	out = []
+	level = 0
+	for c in inp:
+		if c in '[]':
+			level+= 1 if c=='[' else -1
+		elif c != ',':
+			out.append([int(c), level])
+	return out
+def split(arr):
+	for i, v in enumerate(arr):
+		if v[0]>=10:
+			arr[i:i+1] = [[v[0]//2, v[1]+1], [v[0]//2+(v[0]%2), v[1]+1]]
+			return True
+def explode(arr):
+	for i, (n, l) in enumerate(arr):
+		if l>=5:
+			if i>0:
+				arr[i-1][0]+=n
+			if i+2<len(arr):
+				arr[i+2][0]+=arr[i+1][0]
+			arr[i:i+2] = [[0, l-1]]
+			return True
+def update(arr):
+	while True:
+		if explode(arr):
+			continue
+		if split(arr):
+			continue
+		break
+def magnitude(t):
+	arr = t
+	while True:
+		for i in range(len(arr)-1):
+			if arr[i][1] == arr[i+1][1]:
+				arr[i:i+2] = [[3*arr[i][0]+2*arr[i+1][0], arr[i][1]-1]]
+				break
+		else:
+			break
+	return arr[0][0]
 def add(a, b):
-	n = Node([None, None])
-	n.left, n.right = a, b
-	n.left.parent, n.right.parent = n, n
-	n.left.incDepth()
-	n.right.incDepth()
-	n.update()
-	return n
-
+	c = [[n, l+1] for n,l in a+b]
+	update(c)
+	return c
 def main(input:str):
 	n = build(input.splitlines()[0])
 	for l in input.splitlines()[1:]:
 		n = add(n, build(l))
-	p1 = n.magnitude()
+	p1 = magnitude(n)
 	p2 = 0
 	for a, b in combinations(input.splitlines(), 2):
-		p2 = max(p2, add(build(b), build(a)).magnitude(), add(build(a), build(b)).magnitude())
+		p2 = max(p2, magnitude(add(build(a), build(b))), magnitude(add(build(b), build(a))))
 	return (p1, p2)
