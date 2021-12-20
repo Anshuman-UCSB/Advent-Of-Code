@@ -11,6 +11,7 @@
 #include <stack>
 #include <queue>
 
+#define ull unsigned long long
 #define pii pair<int, int>
 #define x first
 #define y second

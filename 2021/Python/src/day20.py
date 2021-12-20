@@ -1,5 +1,21 @@
+import numpy as np
+from scipy.ndimage import convolve
+
+# code from /u/4HbQ
+def main(input):
+	algo, _, *img = input.splitlines()
+	algo = np.array([int(p=='#') for p in algo])
+	img = np.pad([[int(p=='#') for p in row] for row in img], (51, 51))
+	bin2dec = 2**np.arange(9).reshape(3,3)
+	for i in range(50):
+		img = algo[convolve(img, bin2dec)]
+		if i==1:
+			p1 = img.sum()
+	return p1, img.sum()
+
+
 from utils.aocUtils import *
-def main(input:str):
+def OLD(input:str):
 	alg, img = input.split("\n\n")
 	img = set(p for p,v in gridify(img).items() if v == '#')
 	neighbors = [-1-1j,-1j,1-1j,-1,0,1,-1+1j,1j,1+1j]
