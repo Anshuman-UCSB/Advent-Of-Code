@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include "prints.h"
+#include <cmath>
 #include <chrono>
 #include <unordered_map>
 #include <unordered_set>

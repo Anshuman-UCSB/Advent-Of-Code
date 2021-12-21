@@ -194,3 +194,17 @@ def dijkstras(grid, start, end, costFn=lambda x: 1, neighbors = None):
 		for n in neighbors:
 			if pos+n in grid and pos+n not in visited:
 				h.push((cost+costFn(pos+n), random(), pos+n, path+[pos+n]))
+
+def dist(a, b):
+	assert(len(a) == len(b))
+	s = 0
+	for x, y in zip(a,b):
+		s+=(y-x)**2
+	return sqrt(s)
+def manhattan(a,b):
+	assert len(a) == len(b)
+	return sum(abs(x-y) for x,y in zip(a,b))
+def add(a,b):
+	return tuple(x+y for x,y in zip(a,b))
+def sub(a,b):
+	return tuple(x-y for x,y in zip(a,b))
