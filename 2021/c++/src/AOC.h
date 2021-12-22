@@ -10,6 +10,7 @@
 #include <functional>
 #include <numeric>
 #include <stack>
+#include <cassert>
 #include <queue>
 
 #define ull unsigned long long
