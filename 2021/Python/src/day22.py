@@ -36,6 +36,5 @@ def main(input:str):
 		cubes = new
 	for c in cubes:
 		p1+=prod(max(0, min(50,c[i][1])-max(-50,c[i][0])+1) for i in range(3))
-		print(prod(c[i][1]-c[i][0]+1 for i in range(3)),"	",cprint(c))
 		p2+=prod(c[i][1]-c[i][0]+1 for i in range(3))
 	return (p1, p2)
