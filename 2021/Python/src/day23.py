@@ -1,6 +1,4 @@
 from utils.aocUtils import *
-from itertools import zip_longest
-from copy import deepcopy
 from heapq import *
 
 def getRoom(letter):
@@ -9,12 +7,12 @@ def getRoom(letter):
 		case 'B': return 4
 		case 'C': return 6
 		case 'D': return 8
-def getMoves(state, room, pos):
+def getMoves(state, room, pos, part1=True):
 	letter = state[room][pos]
 	if letter == 'E':
 		return set()
-	visitable = []
-	for rng in [range(room, -1, -1), range(room+1, len(state))]:
+	visitable = [room]
+	for rng in [range(room-1, -1, -1), range(room+1, len(state))]:
 		for p in rng:
 			if p not in [2,4,6,8] and state[p][0]!='E':
 				break
@@ -22,14 +20,18 @@ def getMoves(state, room, pos):
 	visitable.sort()
 	
 	trg = getRoom(letter)
-	if trg == room and pos == 1:
-		return set() #already big chillin
+	if trg == room and pos == len(state[trg])-1:
+		return set()
+	deepest = -1
 	if trg in visitable:
-		if state[trg][0] == 'E':
-			if state[trg][1] == 'E':
-				return set([(trg, 1)])
-			if state[trg][1] == letter:
-				return set([(trg, 0)])
+		for r in range(len(state[trg])-1,-1,-1):
+			if state[trg][r] == 'E':
+				deepest = max(deepest, r)
+			elif state[trg][r] != letter:
+				break
+		else:
+			if deepest != -1:
+				return set([(trg, deepest)])
 	if room not in [2,4,6,8]: #in corridor, and couldn't go to target room, no moves
 		return set()
 	
@@ -46,43 +48,35 @@ def getCost(letter, rs, ps, re, pe):
 	return cost * 10**(ord(letter)-ord('A'))
 	
 def isSolved(state):
-	return str(state) == "[['E'], ['E'], ['A', 'A'], ['E'], ['B', 'B'], ['E'], ['C', 'C'], ['E'], ['D', 'D'], ['E'], ['E']]"
-		
-def pprint(st):
-	c = [[x if x != 'E' else '.' for x in r] for r in st]
-	for x in [2,4,6,8]:
-		c[x].insert(0,'.')
-	for r in (zip_longest(*c, fillvalue=" ")):
-		print("".join(r))
+	return str(state) == "[['E'], ['E'], ['A', 'A'], ['E'], ['B', 'B'], ['E'], ['C', 'C'], ['E'], ['D', 'D'], ['E'], ['E']]" or \
+		   str(state) == "[['E'], ['E'], ['A', 'A', 'A', 'A'], ['E'], ['B', 'B', 'B', 'B'], ['E'], ['C', 'C', 'C', 'C'], ['E'], ['D', 'D', 'D', 'D'], ['E'], ['E']]"
 	
-def main(inp:str):
-	p1 = p2 = 0
+def solve(inp):
 	matches = re.findall(r"[A-Z]", inp)
 	state = [matches[i::4] for i in range(4)]
 	state = [['E'], ['E'], state[0], ['E'], state[1], ['E'], state[2], ['E'], state[3], ['E'], ['E']]
-	# print(getMoves(state, 1,0))
 	q = [(0, state)]
 	seen = set()
 	while len(q):
 		cost, st = heappop(q)
-		# if random()<.001:
 		if str(st) in seen:
 			continue
 		if isSolved(st):
-			p1 = cost
-			break
-		# input()
+			return cost
 		seen.add(str(st))
 		for r in range(len(st)):
 			pos = 0
-			if r in [2,4,6,8] and st[r][0] == 'E':
+			while r in [2,4,6,8] and pos<len(st[r])-1 and st[r][pos] == 'E':
 				pos+=1
-			for m in getMoves(st, r, pos):
-				if cost == 12513:
-					print(cost)
-					pprint(st)
+			for m in getMoves(st, r, pos, False):
 				ns = [r[:] for r in st]
 				ns[r][pos], ns[m[0]][m[1]]=ns[m[0]][m[1]], ns[r][pos]
 				heappush(q, (cost+getCost(st[r][pos], r, pos, m[0], m[1]), ns))
-	
+
+def main(inp:str):
+	p1 = solve(inp)
+	inp = inp.splitlines()
+	inp.insert(3, "  #D#C#B#A#")
+	inp.insert(4, "  #D#B#A#C#")
+	p2 = solve("\n".join(inp))
 	return (p1, p2)
