@@ -17,7 +17,7 @@ Each year/language I have a goal in mind
 
 2019: Work on library and speed code in Python
 
-2021: Leaderboard spot!
+2021: Leaderboard spot (Python) and total <1s in c++!
 
 To get millisecond-time,
 
