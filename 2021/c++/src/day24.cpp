@@ -43,13 +43,9 @@ chrono::time_point<std::chrono::steady_clock> day24(input_t& inp){
 	string t;
 	vector<block> nums;
 	for(int i = 0;i<18*14;i+=18){
-		stringstream ss;
-		ss = stringstream(inp[i+4]);
-		ss>>t>>t>>a;
-		ss = stringstream(inp[i+5]);
-		ss>>t>>t>>b;
-		ss = stringstream(inp[i+15]);
-		ss>>t>>t>>c;
+		stringstream(inp[i+4])>>t>>t>>a;
+		stringstream(inp[i+5])>>t>>t>>b;
+		stringstream(inp[i+15])>>t>>t>>c;
 		nums.emplace_back(a,b,c);
 	}
 	int level = 0;
@@ -59,12 +55,10 @@ chrono::time_point<std::chrono::steady_clock> day24(input_t& inp){
 		layers[a==26?level--:++level].push_back(i);
 	}
 	map<int, pii> criteria;
-	for(int i = 0;i<layers.size();i++){
-		for(int j = 0;j<layers[i].size();j+=2){
+	for(int i = 0;i<layers.size();i++)
+		for(int j = 0;j<layers[i].size();j+=2)
 			criteria[layers[i][j]] = pii(layers[i][j+1],
 				get<2>(nums[layers[i][j]])+get<1>(nums[layers[i][j+1]]));
-		}
-	}
 	p1 = solve(true,  criteria);
 	p2 = solve(false, criteria);
 	auto done = chrono::steady_clock::now();
