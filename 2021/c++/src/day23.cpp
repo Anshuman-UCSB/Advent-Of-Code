@@ -92,25 +92,50 @@ vector<pii> getMoves(state& s, int p, int y){
 		return out;
 	}
 }
-
 int distance(const pii& st, const pii& en, int n){
-	int out = abs(st.y-en.y)+1; // add one because one is hallway
-	const vector<int> ordering = {0,5,1,6,2,7,3,8,4,9,10};
-	int stpos = find(begin(ordering), end(ordering), st.x) - begin(ordering);
-	int enpos = find(begin(ordering), end(ordering), en.x) - begin(ordering);
-	return pow(10, n-1)*(out+abs(stpos-enpos));
+	static const vector<int> mul = {-1,1,10,100,1000};
+	static const vector<vector<int>> distx = {
+		{0,2,4,6,8,1,3,5,7,9,10},
+		{2,0,2,4,6,1,1,3,5,7,8},
+		{4,2,0,2,4,3,1,1,3,5,6},
+		{6,4,2,0,2,5,3,1,1,3,4},
+		{8,6,4,2,0,7,5,3,1,1,2},
+		{1,1,3,5,7,0,2,4,6,8,9},
+		{3,1,1,3,5,2,0,2,4,6,7},
+		{5,3,1,1,3,4,2,0,2,4,5},
+		{7,5,3,1,1,6,4,2,0,2,3},
+		{9,7,5,3,1,8,6,4,2,0,1},
+		{10,8,6,4,2,9,7,5,3,1,0}
+	//   0 1 2 3 4 5 6 7 8 9 10
+	}; // haha look its efficient coding!
+	return mul[n]*(abs(st.y-en.y)+1+distx[st.x][en.x]);
+}
+
+int heuristic(state& s){
+	int out = 0;
+	for(int i = 0;i<s.size();i++){
+		for(int j =0 ;j<s[i].size();j++){
+			if (s[i][j] && s[i][j] != i){
+				out+=distance(pii(i, j), pii(pii(s[i][j], 0)), s[i][j]);
+			}
+		}
+	}
+	return out;
 }
 
 int solve(state& s){
 	int p1;
-	priority_queue<pair<int,state>, vector<pair<int,state>>, greater<pair<int,state>>> q;
-	q.push(make_pair(0,s));
-	set<ull> seen;
+	int heur;
+	priority_queue<tuple<int, int,state>, vector<tuple<int, int,state>>, greater<tuple<int, int,state>>> q;
+	q.push(make_tuple(0,0,s));
+	unordered_set<ull> seen;
+	int i=0;
 	while(!q.empty()){
-		tie(p1, s) = q.top();
+		tie(heur,p1, s) = q.top();
 		ull hash = hashState(s);
 		q.pop();
-		if(seen.insert(hash).second==false) continue; // already in set
+		if(seen.insert(hash).second==false)	continue; // already in set
+
 		if(solved(s))
 			return p1;
 		for(int i = 0;i<11;i++){
@@ -120,7 +145,8 @@ int solve(state& s){
 				state t = s;
 				int letter = t[i][y];
 				swap(t[m.x][m.y], t[i][y]);
-				q.push(make_pair(p1+distance(m, pii(i,y), letter), t));
+				int nc = p1+distance(m, pii(i,y), letter);
+				q.push(make_tuple(nc+heuristic(t), nc, t));
 			}
 		}
 	}
