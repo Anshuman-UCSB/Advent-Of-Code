@@ -1,10 +1,11 @@
 #include "AOC.h"
 #include <cstdint>
 #include "robin_hood.h"
-#define num uint_fast8_t
+#define num uint8_t
 #define hallway array<num, 7>
 #define toNum(x) (x+1-'A')
 #define toChr(x) (x?x-1+'A':'.')
+#define node tuple<int, int, state>
 
 
 struct state{
@@ -42,8 +43,8 @@ ostream& operator<<(ostream& os, const state& s){
 	return os;
 }
 struct comp{
-	bool operator() (const pair<int, state>& a, const pair<int, state>& b){
-		return a.first>b.first;
+	bool operator() (const node& a, const node& b){
+		return get<0>(a)>get<0>(b) || (get<0>(a)==get<0>(b) && get<1>(a)>get<1>(b));
 	}
 };
 
@@ -98,6 +99,17 @@ int getDistance(const pii& st, const pii& en, num letter){
 		return multiplier[letter]*(rm2hw[st.x-10][en.x]+offset);
 	return multiplier[letter]*(rm2hw[en.x-10][st.x]+offset);
 }
+int heuristic(state& s){
+	int out = 0;
+	for(int i = 0;i<7;i++)
+		if(s.hw[i])
+			out+=getDistance(pii(i,0), pii(s.hw[i]+10,0), s.hw[i]);
+	for(int i = 0;i<4;i++)
+		for(int j = 0;j<4;j++)
+			if(s.rooms[i][j])
+				out += abs(i-s.hw[i])*multiplier[s.hw[i]];
+	return out;
+}
 
 vector<pii> getMoves(state& s, int pos, bool room){
 	vector<pii> out;
@@ -120,13 +132,13 @@ vector<pii> getMoves(state& s, int pos, bool room){
 }
 
 int solve(state& s){
-	priority_queue<pair<int, state>, vector<pair<int, state>>, comp> q;
+	priority_queue<node, vector<node>, comp> q;
 	robin_hood::unordered_set<ull> seen;
-	q.push(make_pair(0,s));
-	int cost;
+	q.push(make_tuple(heuristic(s),0,s));
+	int cost, heur;
 	num letter;
 	while(!q.empty()){
-		tie(cost, s) = q.top();
+		tie(heur, cost, s) = q.top();
 		q.pop();
 		if(seen.insert(s.hash()).second==false) continue;
 		if(solved(s))	return cost;
@@ -136,18 +148,20 @@ int solve(state& s){
 				for(auto& m: getMoves(s, i, false)){
 					state t(s);
 					swap(t.hw[i], t.rooms[m.x-10][m.y]);
-					q.push(make_pair(cost+getDistance(pii(i,0),m, letter), t));
+					int nc = cost+getDistance(pii(i,0), m, letter);
+					q.push(make_tuple(nc+heuristic(t), nc, t));
 				}
 		}
 		for(int i = 0;i<4;i++){
 			int j;
-			for(j=0;j<4&&(s.rooms[i][j]==0);j++);
+			for(j=0;j<3&&(s.rooms[i][j]==0);j++);
 			letter = s.rooms[i][j];
 			if(letter)
 				for(auto& m: getMoves(s, i, true)){
 					state t(s);
 					swap(t.hw[m.x], t.rooms[i][j]);
-					q.push(make_pair(cost+getDistance(pii(i+10,j), m, letter), t));
+					int nc = cost+getDistance(pii(i+10,j), m, letter);
+					q.push(make_tuple(heuristic(t)+nc,nc, t));
 				}
 		}
 	}
