@@ -1,176 +1,175 @@
 #include "AOC.h"
-#define state vector<vector<int>>
+#include <cstdint>
+#define num uint_fast8_t
+#define hallway array<num, 7>
+#define toNum(x) (x+1-'A')
+#define toChr(x) (x?x-1+'A':'.')
 
-ull hashState(const state& s){
-	ull out = 0;
-	for(auto& r: s)
-		for(auto& v: r)
+
+struct state{
+	hallway hw{};
+	array<array<num,4>, 4> rooms;
+	ull hash() const {
+		ull out = 0;
+		for(auto& v: hw)
 			out = (out<<3)+v;
-	return out;
-}
-
-vector<string> pprint(const state& s){
+		for(auto& r: rooms)
+			for(auto& v: r)
+				out = (out<<3)+v;
+		return out;
+	}
+};
+ostream& operator<<(ostream& os, const state& s){
 	vector<string> base = {
 		"#############",
 		"#...........#",
 		"###?#?#?#?###",
 		"  #?#?#?#?#",
+		"  #?#?#?#?#",
+		"  #?#?#?#?#",
 		"  #########"
 	};
-	base[1][1]=s[0][0]?s[0][0]+'A'-1:'.';
-	for(int i = 5;i<10;i++)
-		base[1][(i-5)*2+2]=s[i][0]?'A'-1+s[i][0]:'.';
-	base[1][11]=s[10][0]?s[10][0]+'A'-1:'.';
-	for(int i = 1;i<=4;i++)
-		for(int j = 0;j<2;j++)
-			base[2+j][1+2*i]=s[i][j]?s[i][j]+'A'-1:'.';
-	for(auto& l: base)cout<<l<<endl;
-	return base;
+	for(int i = 0;i<4;i++)
+		for(int j = 0;j<4;j++)
+			base[2+j][3+i*2]=toChr(s.rooms[i][j]);
+	base[1][1]=toChr(s.hw[0]);
+	base[1][11]=toChr(s.hw[6]);
+	for(int i = 1;i<6;i++)
+		base[1][i*2]=toChr(s.hw[i]);
+	for(auto& l:base)
+		os<<l<<endl;
+	return os;
 }
-
-bool solved(state& s){
-	for(int i = 1;i<=4;i++){
-		for(auto& v: s[i])
-			if(v!=i) return false;
+struct comp{
+	bool operator() (const pair<int, state>& a, const pair<int, state>& b){
+		return a.first>b.first;
 	}
+};
+
+bool correctRoom(state& s, int r){
+	for(auto& v: s.rooms[r])
+		if(v != 0 && v != r+1)
+			return false;
 	return true;
 }
 
-inline bool inHallway(int n){
-	return n<1 || n>4;
+bool solved(state& s){
+	for(int i = 0;i<4;i++)
+		for(auto& v: s.rooms[i])
+			if(v != i+1)	return false;
+	return true;
 }
 
-int canMoveRoom(state& s, int n){
-	int i;
-	for(i = s[n].size()-1;i>=0 && s[n][i] == n;i--);
-	if(s[n][i]) return -1;
-	for(int j = 0;j<i;j++)
-		if(s[n][j]) return -1; //blocked
-	return i;
+int roomPosY(state& s, int room){
+	assert(correctRoom(s, room));
+	for(int i = 0;i<4;i++)
+		if(s.rooms[room][i]) return i-1;
+	return 3;
 }
 
-set<int> reachable(state& s, int p){
-	set<int> out = {p};
-	//[ll, r1, r2, r3, r4, l, c1, c2, c3, c4, rr]
-	const vector<int> ordering = {0,5,1,6,2,7,3,8,4,9,10};
-	int pos = find(begin(ordering), end(ordering), p) - begin(ordering);
-	out.insert(ordering[pos]);
-	for(int t = pos+1;t<ordering.size() && (!inHallway(ordering[t]) || !s[ordering[t]][0]); t++)
-		out.insert(ordering[t]);
-	//						    in a room, so can pass or  room is open
-	for(int t = pos-1;t>=0 && (!inHallway(ordering[t]) || !s[ordering[t]][0]); t--)
-		out.insert(ordering[t]);
+bitset<7> visitable(state& s, int p, bool room){
+	bitset<7> out;
+	num t;
+	if(!room){
+		t = s.hw[p];
+		s.hw[p] = 0;
+	}else
+		p++;
+	for(int i = p;i>=0 && s.hw[i]==0;i--)
+		out[i]=true;
+	for(int i = p+1;i<7 && s.hw[i]==0;i++)
+		out[i]=true;
+	s.hw[p] = t;
 	return out;
 }
 
-bool correctRoom(state& s, int p){
-	int i = s[p].size()-1;
-	while(i>=0 && s[p][i]==p)
-		i--;
-	while(i>=0 && s[p][i]==0)
-		i--;
-	return i==-1;
+static int multiplier[5] = {-1,1,10,100,1000};
+static int rm2hw[4][7] = {
+	{3,2,2,4,6,8,9},
+	{5,4,2,2,4,6,7},
+	{7,6,4,2,2,4,5},
+	{9,8,6,4,2,2,3}
+};
+int getDistance(const pii& st, const pii& en, num letter){
+	// assert(st.x>=10 != en.x >= 10); //moving from room to hallway or vice versa
+	int offset = abs(st.y-en.y);
+	if(st.x>=10) // first one is a room
+		return multiplier[letter]*(rm2hw[st.x-10][en.x]+offset);
+	return multiplier[letter]*(rm2hw[en.x-10][st.x]+offset);
 }
 
-vector<pii> getMoves(state& s, int p, int y){
-	int chip = s[p][y];
-	if(chip == 0) return vector<pii>();
-	if(inHallway(p)){
-		int targetY = canMoveRoom(s, chip);
-		if(targetY == -1) return vector<pii>();
-		set<int> reach = reachable(s, p);
-		if(reach.count(chip)==0)
-			return vector<pii>(); //in hallway but can't finish room
-		return vector<pii>{pii(chip, targetY)};
+vector<pii> getMoves(state& s, int pos, bool room){
+	vector<pii> out;
+	if(room){
+		bitset<7> hwVisitable = visitable(s, pos, true);
+		for(int i = 0;i<7;i++)
+			if(hwVisitable[i])
+				out.emplace_back(i, 0);
 	}else{
-		vector<pii> out;
-		if(p==chip && correctRoom(s, p)) return out;
-		for(auto v: reachable(s,p)){
-			if(inHallway(v))
-				out.push_back(pii(v,0));
-		}
-		return out;
-	}
-}
-int distance(const pii& st, const pii& en, int n){
-	static const vector<int> mul = {-1,1,10,100,1000};
-	static const vector<vector<int>> distx = {
-		{0,2,4,6,8,1,3,5,7,9,10},
-		{2,0,2,4,6,1,1,3,5,7,8},
-		{4,2,0,2,4,3,1,1,3,5,6},
-		{6,4,2,0,2,5,3,1,1,3,4},
-		{8,6,4,2,0,7,5,3,1,1,2},
-		{1,1,3,5,7,0,2,4,6,8,9},
-		{3,1,1,3,5,2,0,2,4,6,7},
-		{5,3,1,1,3,4,2,0,2,4,5},
-		{7,5,3,1,1,6,4,2,0,2,3},
-		{9,7,5,3,1,8,6,4,2,0,1},
-		{10,8,6,4,2,9,7,5,3,1,0}
-	//   0 1 2 3 4 5 6 7 8 9 10
-	}; // haha look its efficient coding!
-	return mul[n]*(abs(st.y-en.y)+1+distx[st.x][en.x]);
-}
-
-int heuristic(state& s){
-	int out = 0;
-	for(int i = 0;i<s.size();i++){
-		for(int j =0 ;j<s[i].size();j++){
-			if (s[i][j] && s[i][j] != i){
-				out+=distance(pii(i, j), pii(pii(s[i][j], 0)), s[i][j]);
-			}
+		num letter = s.hw[pos];
+		if(!correctRoom(s, letter-1)) return out;
+		bitset<7> hwVisitable = visitable(s, pos, false);
+		if(hwVisitable[letter] || hwVisitable[letter+1]){
+			int targetY = roomPosY(s, letter-1);
+			if(targetY != -1)
+				out.emplace_back(letter+9, targetY); // rooms are x-10
 		}
 	}
 	return out;
 }
 
 int solve(state& s){
-	int p1;
-	int heur;
-	priority_queue<tuple<int, int,state>, vector<tuple<int, int,state>>, greater<tuple<int, int,state>>> q;
-	q.push(make_tuple(0,0,s));
+	priority_queue<pair<int, state>, vector<pair<int, state>>, comp> q;
 	unordered_set<ull> seen;
-	int i=0;
+	q.push(make_pair(0,s));
+	int cost;
+	num letter;
 	while(!q.empty()){
-		tie(heur,p1, s) = q.top();
-		ull hash = hashState(s);
+		tie(cost, s) = q.top();
 		q.pop();
-		if(seen.insert(hash).second==false)	continue; // already in set
-
-		if(solved(s))
-			return p1;
-		for(int i = 0;i<11;i++){
-			int y;
-			for(y=0;y<s[i].size()-1 && !s[i][y]; y++);
-			for(auto m: getMoves(s, i, y)){
-				state t = s;
-				int letter = t[i][y];
-				swap(t[m.x][m.y], t[i][y]);
-				int nc = p1+distance(m, pii(i,y), letter);
-				q.push(make_tuple(nc+heuristic(t), nc, t));
-			}
+		if(seen.insert(s.hash()).second==false) continue;
+		if(solved(s))	return cost;
+		for(int i = 0;i<7;i++){
+			letter = s.hw[i];
+			if(letter)
+				for(auto& m: getMoves(s, i, false)){
+					state t(s);
+					swap(t.hw[i], t.rooms[m.x-10][m.y]);
+					q.push(make_pair(cost+getDistance(pii(i,0),m, letter), t));
+				}
+		}
+		for(int i = 0;i<4;i++){
+			int j;
+			for(j=0;j<4&&(s.rooms[i][j]==0);j++);
+			letter = s.rooms[i][j];
+			if(letter)
+				for(auto& m: getMoves(s, i, true)){
+					state t(s);
+					swap(t.hw[m.x], t.rooms[i][j]);
+					q.push(make_pair(cost+getDistance(pii(i+10,j), m, letter), t));
+				}
 		}
 	}
 	return -1;
 }
 
 chrono::time_point<std::chrono::steady_clock> day23(input_t& inp){
-	int p1(0), p2(0);
-	state s(11, vector<int>());
-	s[0].push_back(0);
-	for(int i = 5;i<11;i++) s[i].push_back(0);
-	for(int i = 1;i<5;i++) s[i] = {inp[2][1+2*i]-'A'+1, inp[3][1+2*i]-'A'+1};
-	state s2(s);
-	p1 = solve(s);
-	s2[1].insert(begin(s2[1])+1, 4);
-	s2[1].insert(begin(s2[1])+1, 4);
-	s2[2].insert(begin(s2[2])+1, 2);
-	s2[2].insert(begin(s2[2])+1, 3);
-	s2[3].insert(begin(s2[3])+1, 1);
-	s2[3].insert(begin(s2[3])+1, 2);
-	s2[4].insert(begin(s2[4])+1, 3);
-	s2[4].insert(begin(s2[4])+1, 1);
-	p2 = solve(s2);
+	state s, s2;
+	for(int i = 0;i<4;i++)
+		s.rooms[i][2]=s.rooms[i][3]=i+1;
+	for(int i = 0;i<4;i++){
+		s.rooms[i][0]=toNum(inp[2][3+2*i]);		s.rooms[i][1]=toNum(inp[3][3+2*i]);
+		s2.rooms[i][0]=toNum(inp[2][3+2*i]);	s2.rooms[i][3]=toNum(inp[3][3+2*i]);
+	}
+		// #D#C#B#A#
+		// #D#B#A#C#
+	s2.rooms[0][1]=4;	s2.rooms[0][2]=4;
+	s2.rooms[1][1]=3;	s2.rooms[1][2]=2;
+	s2.rooms[2][1]=2;	s2.rooms[2][2]=1;
+	s2.rooms[3][1]=1;	s2.rooms[3][2]=3;
 	
+	int p1(solve(s)), p2(solve(s2));
+
 	auto done = chrono::steady_clock::now();
 	cout<<"[P1] "<<p1<<"\n[P2] "<<p2<<endl;
 	return done;
