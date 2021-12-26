@@ -1,5 +1,6 @@
 #include "AOC.h"
 #include <cstdint>
+#include "robin_hood.h"
 #define num uint_fast8_t
 #define hallway array<num, 7>
 #define toNum(x) (x+1-'A')
@@ -120,7 +121,7 @@ vector<pii> getMoves(state& s, int pos, bool room){
 
 int solve(state& s){
 	priority_queue<pair<int, state>, vector<pair<int, state>>, comp> q;
-	unordered_set<ull> seen;
+	robin_hood::unordered_set<ull> seen;
 	q.push(make_pair(0,s));
 	int cost;
 	num letter;

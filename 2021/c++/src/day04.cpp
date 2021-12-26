@@ -1,6 +1,7 @@
 #include "AOC.h"
+#include "robin_hood.h"
 
-bool winner(const vector<int>& board, const set<int>& called){
+bool winner(const vector<int>& board, const robin_hood::unordered_set<int>& called){
 	for(int i = 0;i<5;i++){
 		for(int j = 0;j<5;j++)
 			if(!called.count(board[i+j*5]))
@@ -16,7 +17,7 @@ bool winner(const vector<int>& board, const set<int>& called){
 	return false;
 }
 
-int score(const vector<int>& board, const set<int>& called){
+int score(const vector<int>& board, const robin_hood::unordered_set<int>& called){
 	int s = 0;
 	for(auto& v: board)
 		if(!called.count(v))
@@ -25,7 +26,7 @@ int score(const vector<int>& board, const set<int>& called){
 }
 
 int p1(const vector<vector<int>>& boards, const vector<int>& nums){
-	set<int> called;
+	robin_hood::unordered_set<int> called;
 	for(auto& n: nums){
 		called.insert(n);
 		for(const auto& b: boards)
@@ -35,7 +36,7 @@ int p1(const vector<vector<int>>& boards, const vector<int>& nums){
 	return -1;
 }
 int p2(vector<vector<int>> boards, const vector<int>& nums){
-	set<int> called;
+	robin_hood::unordered_set<int> called;
 	for(auto& n: nums){
 		called.insert(n);
 		if(boards.size() == 1){
