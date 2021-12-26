@@ -3,17 +3,19 @@
 chrono::time_point<std::chrono::steady_clock> day01(input_t& inp){
 	int p1(0), p2(0);
 
+	int old = 999999, n;
 	vector<int> nums;
-	for(auto& v: inp)
+	for(auto& v: inp){
 		nums.emplace_back(stoi(v));
-
-	for(int i =1;i<inp.size();i++){
-		if(nums[i]>nums[i-1])
-			p1++;
+		p1+=(nums.back()>old);
+		old = nums.back();
 	}
-	for(int i =3;i<inp.size();i++){
-		if(nums[i]+nums[i-1]+nums[i-2]>nums[i-3]+nums[i-1]+nums[i-2])
-			p2++;
+
+	old = nums[0]+nums[1]+nums[2];
+	for(int i =3;i<nums.size();i++){
+		n=old+nums[i]-nums[i-3];
+		p2+=n>old;
+		old+=nums[i-3];
 	}
 	
 	

@@ -5,18 +5,18 @@ chrono::time_point<std::chrono::steady_clock> day03(input_t& inp){
 	int width = inp[0].size();
 
 	int counter;
-	string eps, gam;
+	string eps=inp[0], gam=inp[0];
 	for(int i = 0;i<width;i++){
 		counter = 0;
 		for(auto& w: inp){
 			counter+=w[i]=='1'?1:-1;
 		}
 		if(counter>=0){
-			eps+='1';
-			gam+='0';
+			eps[i]='1';
+			gam[i]='0';
 		}else{
-			eps+='0';
-			gam+='1';
+			eps[i]='0';
+			gam[i]='1';
 		}
 	}
 	p1 = stoi(eps, 0, 2)* stoi(gam, 0, 2);

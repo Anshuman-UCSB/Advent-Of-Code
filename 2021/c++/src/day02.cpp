@@ -1,26 +1,22 @@
 #include "AOC.h"
 
 chrono::time_point<std::chrono::steady_clock> day02(input_t& inp){
-	int p1(0), p2(0);
-
-	int aim = 0;
-	int x = 0;
-	int y = 0;
-	int y2 = 0;
+	int p1(0), p2(0), x(0), y(0),y2(0), dist;
 	string dir;
-	int dist;
 	for(auto& l: inp){
 		stringstream ss(l);
 		ss>>dir>>dist;
-		if(dir == "forward"){
-			x+=dist;
-			y2+=aim*dist;
-		}else if(dir == "down"){
-			y+=dist;
-			aim+=dist;
-		}else{
-			y-=dist;
-			aim-=dist;
+		switch(dir[0]){
+			case 'f':
+				x+=dist;
+				y2+=y*dist;
+				break;
+			case 'd':
+				y+=dist;
+				break;
+			case 'u':
+				y-=dist;
+				break;
 		}
 	}
 	p1 = x*y;
