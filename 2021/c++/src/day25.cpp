@@ -2,28 +2,32 @@
 
 bool iter(vector<vector<char>>& g, const int& w, const int& h){
 	bool changed = false;
-	for(int y = 0;y<h;y++)
-		for(int x = 0;x<w;x++)
-			if(g[y][x] == '>' && g[y][(x+1)%w]=='.')
-				g[y][x] = 'M';
-	for(int y = 0;y<h;y++)
-		for(int x = 0;x<w;x++)
-			if(g[y][x] == 'M'){
-				changed = true;
-				g[y][x] = '.';	
-				g[y][(x+1)%w] = '>';
+	int y,x;
+	char c;
+	for(y = 0;y<h;y++){
+		c = !g[y][0] && g[y][w-1]=='>';
+		for(x = w-1;x>0;x--)
+			if(!g[y][x] && g[y][x-1]=='>'){
+				changed = g[y][x--] = '>';
+				g[y][x] = 0;
 			}
-	for(int y = 0;y<h;y++)
-		for(int x = 0;x<w;x++)
-			if(g[y][x] == 'v' && g[(y+1)%h][x]=='.')
-				g[y][x] = 'M';
-	for(int y = 0;y<h;y++)
-		for(int x = 0;x<w;x++)
-			if(g[y][x] == 'M'){
-				changed = true;
-				g[y][x] = '.';
-				g[(y+1)%h][x] = 'v';
+		if(c){
+			g[y][0] = '>';
+			g[y][w-1]=0;
+		}
+	}
+	for(x = 0;x<w;x++){
+		c = !g[0][x] && g[h-1][x]=='v';
+		for(y = h-1;y>0;y--)
+			if(!g[y][x] && g[y-1][x]=='v'){
+				changed = g[y--][x] = 'v';
+				g[y][x] = 0;
 			}
+		if(c){
+			g[0][x] = 'v';
+			g[h-1][x]=0;
+		}
+	}
 	return changed;
 }
 
@@ -34,7 +38,10 @@ chrono::time_point<std::chrono::steady_clock> day25(input_t& inp){
 	for(auto& l: inp){
 		g.emplace_back();
 		for(auto& c: l)
-			g.back().emplace_back(c);
+			if(c == '.')
+				g.back().emplace_back(0);
+			else
+				g.back().emplace_back(c);
 	}
 	int w = g[0].size();
 	int h = g.size();
