@@ -22,8 +22,7 @@ def update(head, tail):
 			return tail + np.array([-1,1])
 	return None
 
-def main(input:str):
-	p1 = p2 = 0
+def main(input:str):	
 	head, tail = np.zeros(2, dtype = int),np.zeros(2, dtype = int)
 	directions = [np.array(dir) for dir in ([(0,1), (1,0), (0,-1), (-1,0)])]
 	mapping = dict(zip("URDL", directions))
