@@ -1,40 +1,32 @@
 from utils.aocUtils import *
-import numpy as np
-from collections import defaultdict
 
-def norm(vec):
-	return vec/sum(abs(vec))
+def main(input:str):
+	nodes = [0 for _ in range(10)]
+	translation = {"U":1j, "R":1, "D":-1j, "L":-1}
+	update = {}
+	for i in range(-1,2):
+		for k in range(-1,2):
+			update[i+k*1j]=0
+	update[2+2j] 	= update[1+2j] 	= update[2+1j] 	= 1+1j
+	update[2-2j] 	= update[1-2j] 	= update[2-1j] 	= 1-1j
+	update[-2+2j] 	= update[-1+2j] = update[-2+1j] = -1+1j
+	update[-2-2j] 	= update[-1-2j] = update[-2-1j] = -1-1j
+	update[-2] 	= -1
+	update[2] 	= 1
+	update[-2j] = -1j
+	update[2j] 	= 1j
 
-def update(head, tail):
-	if max(abs(head-tail)) <= 1:
-		return tail
-	dir = head-tail
-	if any(head == tail):
-		return tail + norm(dir)
-	else:
-		if all(dir>0): 	# move top right
-			return tail + 1
-		if all(dir<0): 	# move bottom left
-			return tail - 1
-		if dir[0]>0:	# move bottom right
-			return tail + np.array([1,-1])
-		else:			# move bottom right
-			return tail + np.array([-1,1])
-	return None
+	p1 = set()
+	p2 = set()
 
-def main(input:str):	
-	head, tail = np.zeros(2, dtype = int),np.zeros(2, dtype = int)
-	directions = [np.array(dir) for dir in ([(0,1), (1,0), (0,-1), (-1,0)])]
-	mapping = dict(zip("URDL", directions))
-	nodes = [np.zeros(2, dtype=int) for _ in range(10)]
-	tailPos2 = defaultdict(int)
-	tailPos9 = defaultdict(int)
 	for l in input.splitlines():
-		dir, count = l.split()
-		for _ in range(int(count)):
-			nodes[0] += mapping[dir]
+		spl = l.split()
+		dir, count = spl[0], int(spl[1])
+		for _ in range(count):
+			nodes[0]+=translation[dir]
 			for i in range(9):
-				nodes[i+1] = update(nodes[i], nodes[i+1])
-			tailPos2[tuple(nodes[1])]+=1
-			tailPos9[tuple(nodes[9])]+=1
-	return (len(tailPos2), len(tailPos9))
+				nodes[i+1] += update[nodes[i]-nodes[i+1]]
+				p1.add(nodes[1])
+				p2.add(nodes[9])
+	
+	return (len(p1), len(p2))
