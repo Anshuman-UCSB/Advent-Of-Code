@@ -4,7 +4,7 @@ class Grid:
 	def __init__(self,inp):
 		self.xlim = [500,500]
 		self.ylim = [0,0]
-		self.grid = {(500,0):'+'}
+		self.grid = {}
 		for l in inp.splitlines():
 			spl = l.split()
 			for i in range(0,len(spl)-2,2):
@@ -45,17 +45,21 @@ class Grid:
 				return (pos[0], pos[1]-1) != (500,0)
 		self.grid[tuple(pos)] = 'o'
 	def p2init(self):
-		for x in range(self.xlim[0]-self.ylim[1], self.xlim[1]+self.ylim[1]+1):
+		for x in range(self.xlim[0]-self.ylim[1]*2, self.xlim[1]+self.ylim[1]*2+1):
 			self.grid[(x,self.ylim[1]+2)] = '#'
-		self.xlim[0] -= self.ylim[1]
-		self.xlim[1] += self.ylim[1]
+		self.xlim[0] -= self.ylim[1]*2
+		self.xlim[1] += self.ylim[1]*2
+	def iter2(self, x, y):
+		if (x,y) in self.grid: return
+		for dx in range(-1, 2):
+			self.iter2(x+dx, y+1)
+		self.grid[(x,y)] = 'o'
 def main(input:str):
 	p1 = 0
 	grid = Grid(input)
 	while grid.iter():
 		p1+=1
-	p2=p1+1
 	grid.p2init()
-	while grid.iter():
-		p2+=1
+	grid.iter2(500,0)
+	p2 = sum([1 for v in grid.grid.values() if v == 'o'])
 	return (p1, p2)
