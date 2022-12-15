@@ -1,6 +1,34 @@
 from utils.aocUtils import *
 import re
-import numpy as np
+
+def manhattan(x1, y1, x2, y2):
+	return abs(x1-x2)+abs(y1-y2)
+def posLine(sensor):
+	return (sensor[0]+sensor[1]+sensor[2]+1, sensor[0]+sensor[1]-sensor[2]-1)
+def negLine(sensor):
+	return (sensor[0]-sensor[1]+sensor[2]+1, sensor[0]-sensor[1]-sensor[2]-1)
+def intersect(pos,neg):
+	return (x:=((pos+neg)//2), pos-x)
+def isAnswer(x,y, sensors):
+	return (
+		0<=x<=4_000_000 and 
+		0<=y<=4_000_000 and 
+		all(manhattan(sx, sy, x, y) > dist for sx,sy,dist in sensors)
+	)
+
+def p2solve(sensors):
+	for s1 in sensors:
+		for s2 in sensors:
+			for l1 in posLine(s1):
+				for l2 in negLine(s2):
+					p = intersect(l1, l2)
+					if isAnswer(*p, sensors):
+						return p[0]*4_000_000 + p[1]
+			for l1 in negLine(s1):
+				for l2 in posLine(s2):
+					p = intersect(l1, l2)
+					if isAnswer(*p, sensors):
+						return p[0]*4_000_000 + p[1]
 
 def main(input:str):
 	TEST = False
@@ -13,19 +41,18 @@ def main(input:str):
 	blocked = set()
 	inf = float('inf')
 	p1range = [inf, -inf]
-	lines = [[],[]]
+	sensors = []
 	for sx, sy, bx, by in pairs:
-		dist = abs(bx-sx)+abs(by-sy)
-		lines[0].append(sy-sx)
-		lines[1].append(sy+sx)
+		dist = manhattan(sx,sy, bx,by)
+		sensors.append((sx,sy,dist))
 		if sy == y: blocked.add(sx)
 		if by == y: blocked.add(bx)
 		wiggle = dist - abs(y-sy)
 		if wiggle >= 0:
 			p1range[0] = min(p1range[0], sx-wiggle)
 			p1range[1] = max(p1range[1], sx+wiggle)
-	# print(pos1_lines)
-	# print(neg1_lines)
+
 	p1 += p1range[1] - p1range[0] + 1 
 	p1 -= sum(1 for v in blocked if p1range[0]<=v<=p1range[1])
+	p2 = p2solve(sensors)
 	return (p1, p2)
