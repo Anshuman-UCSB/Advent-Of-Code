@@ -7,6 +7,8 @@ def posLine(sensor):
 	return (sensor[0]+sensor[1]+sensor[2]+1, sensor[0]+sensor[1]-sensor[2]-1)
 def negLine(sensor):
 	return (sensor[0]-sensor[1]+sensor[2]+1, sensor[0]-sensor[1]-sensor[2]-1)
+def Line(sensor, isPos):
+	return posLine(sensor) if isPos else negLine(sensor)
 def intersect(pos,neg):
 	return (x:=((pos+neg)//2), pos-x)
 def isAnswer(x,y, sensors):
@@ -19,22 +21,17 @@ def isAnswer(x,y, sensors):
 def p2solve(sensors):
 	for s1 in sensors:
 		for s2 in sensors:
-			for l1 in posLine(s1):
-				for l2 in negLine(s2):
-					p = intersect(l1, l2)
-					if isAnswer(*p, sensors):
-						return p[0]*4_000_000 + p[1]
-			for l1 in negLine(s1):
-				for l2 in posLine(s2):
-					p = intersect(l1, l2)
-					if isAnswer(*p, sensors):
-						return p[0]*4_000_000 + p[1]
+			for dir in (True, False):
+				for l1 in Line(s1, dir):
+					for l2 in Line(s2, not dir):
+						p = intersect(l1, l2)
+						if isAnswer(*p, sensors):
+							return p[0]*4_000_000 + p[1]
 
 def main(input:str):
-	TEST = False
-	y = 10 if TEST else 2_000_000
-
-	p1 = p2 = 0
+	y = 2_000_000
+	p1 = 0
+	
 	nums = list(map(int, re.findall(r'-?\d+', input)))
 	pairs = [nums[i:i+4] for i in range(0,len(nums),4)]
 
@@ -54,5 +51,4 @@ def main(input:str):
 
 	p1 += p1range[1] - p1range[0] + 1 
 	p1 -= sum(1 for v in blocked if p1range[0]<=v<=p1range[1])
-	p2 = p2solve(sensors)
-	return (p1, p2)
+	return (p1, p2solve(sensors))
