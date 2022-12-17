@@ -63,6 +63,8 @@ class Grid:
 			else:
 				self.place(x,y)
 				return
+	def indHash(self):
+		return self.r_ind * (self.j_ind+5)
 	def getState(self, top = 0):
 		top = self.grid[self.highest-top:self.highest]
 		str_hash = ""
@@ -88,6 +90,7 @@ def main(input:str):
 	grid = Grid(input.strip())
 	seen = set()
 	saw_hash = False
+	hash_val = 0
 	for i in range(2022):
 		grid.iter()
 	p1 = grid.highest
@@ -95,13 +98,13 @@ def main(input:str):
 	while i < 1000000000000:
 		grid.iter()
 		if saw_hash == False:
-			if grid.highest > 100 and grid.getState() in seen:
+			if grid.indHash():
 				saw_hash = True
-				str_hash = grid.getState()
 				height = grid.highest
 				placed = grid.placed
+				hash_val = grid.indHash()
 		else:
-			if grid.getState() == str_hash:
+			if grid.indHash() == hash_val:
 				dh = grid.highest - height
 				dp = grid.placed-placed
 				times = (1000000000000-i)//dp
