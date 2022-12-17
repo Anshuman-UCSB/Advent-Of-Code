@@ -2,7 +2,7 @@ from utils.aocUtils import *
 import numpy as np
 from itertools import cycle
 
-GRID_HEIGHT = 10000
+GRID_HEIGHT = 8000
 rocks = [
 	np.array([[1,1,1,1]], dtype=bool),
 	np.array([[0,1,0],[1,1,1],[0,1,0]], dtype=bool),
@@ -113,4 +113,4 @@ def main(input:str):
 		seen.add(grid.getState())
 		i+=1
 	p2+=grid.highest
-	return (p1, p2) # 3056 too high
+	return (p1, p2)
