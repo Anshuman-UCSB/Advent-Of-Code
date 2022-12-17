@@ -63,7 +63,7 @@ class Grid:
 			else:
 				self.place(x,y)
 				return
-	def getState(self, top = 10):
+	def getState(self, top = 0):
 		top = self.grid[self.highest-top:self.highest]
 		str_hash = ""
 		str_hash+=str(self.r_ind)
