@@ -19,6 +19,8 @@ Each year/language I have a goal in mind
 
 2021: Leaderboard spot (Python) and total <1s in c++!
 
+2022: Refresh on coding (Python)
+
 To get millisecond-time,
 
 ```
