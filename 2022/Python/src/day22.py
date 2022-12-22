@@ -32,6 +32,14 @@ def getSquare(grid, pos, dir):
 	else:
 		assert False
 
+neighbors = {
+	0:[5, 1, 2, 3],
+	# 1:[]
+} # TODO: need paper for this
+def p2Translation(sideNo, pos, dir):
+	ind = [-1j, 1, 1j, -1].index(dir)
+	
+
 def main(input:str):
 	p1 = p2 = 0
 	raw, instr = input.split('\n\n')
@@ -62,4 +70,13 @@ def main(input:str):
 	dirScore= [1,1j,-1,-1j]
 	p1 = int(1000*row+4*col+dirScore.index(dir))
 	
+	sideLen = 50
+	offsets = [(1,0),(2,0),(1,1),(0,2),(1,2),(0,3)]
+	sides = []
+	for dx, dy in offsets:
+		sides.append({})
+		for y in range(sideLen):
+			for x in range(sideLen):
+				sides[-1][P(x,y)] = grid[P(dx*sideLen+1+x,dy*sideLen+1+y)]
+	printGrid(sides[2])		
 	return (p1, p2) #132096 too high
