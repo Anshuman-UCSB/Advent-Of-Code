@@ -78,5 +78,5 @@ def main(input:str):
 		for y in range(sideLen):
 			for x in range(sideLen):
 				sides[-1][P(x,y)] = grid[P(dx*sideLen+1+x,dy*sideLen+1+y)]
-	printGrid(sides[2])		
-	return (p1, p2) #132096 too high
+	# printGrid(sides[2])	
+	return (p1, p2)
