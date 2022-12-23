@@ -1,6 +1,14 @@
 from utils.aocUtils import *
 import math
 
+def parseOperation(line):
+	if line == "old * old":
+		return lambda x: pow(x,2)
+	nm = int(line.split()[2])
+	if '+' in line:
+		return lambda x: x+nm
+	elif '*' in line:
+		return lambda x: x*nm
 lcm = 1
 class Monkey:
 	def __init__(self, inp):
@@ -10,7 +18,7 @@ class Monkey:
 		self.items = readNums(lines[1])
 		self.const = nums[-4]
 		self.opString = " ".join(lines[2].split()[-3:])
-		self.operation = lambda old: eval(" ".join(lines[2].split()[-3:]))
+		self.operation = parseOperation(lines[2][19:])
 		self.mod   = nums[-3]
 		self.true  = nums[-2]
 		self.false = nums[-1]
