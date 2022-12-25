@@ -25,6 +25,7 @@ def avg(inp):
 
 def printAnswer(result : tuple):
 	print("[P1]",result[0])
+	if result[1] == None: return
 	print("[P2]",result[1])
 
 def deltas(iter):
