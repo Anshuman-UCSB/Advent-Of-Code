@@ -1,3 +1,4 @@
+#!/usr/bin/env pypy
 import os
 import argparse
 import sys
@@ -8,6 +9,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("day",help="Which day to evaluate, if not given evaluate all",
 					type=int, nargs="?",default=-1,choices=range(1,26))
 parser.add_argument("--test",'-t',help="If used will run output across each testcase (only for individual day)",
+					action='store_true')
+parser.add_argument("--debug",'-d',help="Run test cases but don't run input",
 					action='store_true')
 
 args=parser.parse_args()
@@ -38,13 +41,20 @@ def evalDay(i, isTest):
 				found=True
 				n = int(case[2:])
 				with open(f"{d}/tc{n}",'r') as tc:
-					print(f"TEST CASE {i} - ",end='')
+					print(f"TEST CASE {n} - ",end='')
 					try:
 						print(fn(tc.read()))
 					except Exception as e:
 						print("ERROR:",e)
 		if not found:
 			print("ERROR: No test cases found, test case should be in format \"tc[num]\"")
+		if args.debug == False:
+			with open(d+'/input','r') as f:
+				print(f"INPUT - ",end='')
+				try:
+					print(fn(f.read()))
+				except Exception as e:
+					print("ERROR:",e)
 						
 	return elapsed
 if args.day == -1:
@@ -56,4 +66,4 @@ if args.day == -1:
 
 else:			
 	i=args.day
-	evalDay(i,args.test)
+	evalDay(i,args.test or args.debug)
