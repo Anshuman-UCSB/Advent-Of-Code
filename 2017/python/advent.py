@@ -12,6 +12,9 @@ parser.add_argument("--test",'-t',help="If used will run output across each test
 					action='store_true')
 parser.add_argument("--debug",'-d',help="Run test cases but don't run input",
 					action='store_true')
+parser.add_argument("--case",'-c',help="Run on a specific test case and output everything (only for individual day)",
+					type=int, default=False)
+
 
 args=parser.parse_args()
 def evalDay(i, isTest):
@@ -63,7 +66,12 @@ if args.day == -1:
 	for i in range(1,26):
 		total+=evalDay(i,False)
 	print(f"\nTotal time: {total:.3f}ms")
-
 else:			
 	i=args.day
-	evalDay(i,args.test or args.debug)
+	if args.case:
+		day=__import__(f"day{i}.main")
+		fn = eval(f"day.main.day{i}")
+		with open(f'day{i}/tc{args.case}','r') as tc:
+			print(fn(tc.read()))
+	else:
+		evalDay(i,args.test or args.debug)
