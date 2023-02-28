@@ -1,3 +1,4 @@
+from collections import Counter
 childrenNodes = set()
 class Node:
 	def __init__(self, line):
@@ -8,6 +9,7 @@ class Node:
 		self.children = list(map(lambda x: x.replace(',',''),spl[3:]))
 		childrenNodes|=set(self.children)
 		self.cumWeight = None
+		self.balanced = None
 	def getCumWeight(self):
 		if self.cumWeight == None:
 			self.cumWeight = self.weight
@@ -17,10 +19,10 @@ class Node:
 	def updateChildren(self,T):
 		self.children = [T[c] for c in self.children]
 	def isBalanced(self):
-		childWeights = [c.getCumWeight() for c in self.children]
-		return len(set(childWeights)) <= 1
-	def __repr__(self):
-		return f"Node {self.name} ({self.weight}) with {len(self.children)} children"
+		if self.balanced == None:
+			childWeights = [c.getCumWeight() for c in self.children]
+			self.balanced = len(set(childWeights)) <= 1
+		return self.balanced
 def day7(input):
 	T={}
 	for l in input.splitlines():
@@ -30,18 +32,20 @@ def day7(input):
 		n.updateChildren(T)
 	parent ,= set(T.keys())-childrenNodes
 	p = T[parent]
-	targetWeight = None
+	target=0
 	while not p.isBalanced():
-		balancedChildren = True
+		weights = Counter()
+		weight_nodes = {}
 		for c in p.children:
 			if not c.isBalanced():
 				p = c
-				balancedChildren=False
+				break
 			else:
-				targetWeight = c.getCumWeight()
-		if balancedChildren:
+				weights[c.getCumWeight()]+=1
+				weight_nodes[c.getCumWeight()] = c
+		if sum(weights.values())==len(p.children):
+			# all children nodes were balanced
+			(target,_),(actual,_)=weights.most_common()
+			p2 = target-actual+weight_nodes[actual].weight
 			break
-	
-	print(targetWeight)
-	print(p)
-	return [parent,p.getCumWeight()-targetWeight]
+	return [parent,p2]
