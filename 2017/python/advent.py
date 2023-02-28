@@ -50,7 +50,7 @@ def evalDay(i, isTest):
 			print("ERROR: No test cases found, test case should be in format \"tc[num]\"")
 		if args.debug == False:
 			with open(d+'/input','r') as f:
-				print(f"INPUT - ",end='')
+				print(f"INPUT \t    - ",end='')
 				try:
 					print(fn(f.read()))
 				except Exception as e:
