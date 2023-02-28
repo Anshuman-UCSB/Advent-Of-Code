@@ -1,6 +1,9 @@
+import os
 import argparse
 import sys
 from time import perf_counter
+
+sys.dont_write_bytecode = True
 parser = argparse.ArgumentParser()
 parser.add_argument("day",help="Which day to evaluate, if not given evaluate all",
 					type=int, nargs="?",default=-1,choices=range(1,26))
@@ -11,10 +14,10 @@ args=parser.parse_args()
 def evalDay(i, isTest):
 	d = f"day{i}"
 	elapsed = 0
+	day=__import__(d+".main")
+	fn = eval(f"day.main.day{i}")
 	if isTest == False:
 		with open(d+'/input','r') as f:
-			day=__import__(d+".main")
-			fn = eval(f"day.main.day{i}")
 			start = perf_counter()
 			ans=fn(f.read())
 			elapsed = (perf_counter()-start)*1000
@@ -28,8 +31,17 @@ def evalDay(i, isTest):
 			else:
 				elapsed=0
 	else:
-		for case in os.listdir(d):
-			print()
+		print("Day",i,end=":\n")
+		found=False
+		for case in sorted(os.listdir(d)):
+			if case.startswith('tc'):
+				found=True
+				n = int(case[2:])
+				with open(f"{d}/tc{n}",'r') as tc:
+					print(f"TEST CASE {i} - {fn(tc.read())}")
+		if not found:
+			print("ERROR: No test cases found, test case should be in format \"tc[num]\"")
+						
 	return elapsed
 if args.day == -1:
 	print("-- ADVENT OF CODE 2017 --")
