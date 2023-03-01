@@ -30,9 +30,9 @@ def evalDay(i, isTest):
 			if ans[0]!=None:
 				print("Day",i,end=":\n")
 				if ans[0]!=None:
-					print("[P1]",ans[0])
+					print(" [P1]",ans[0])
 					if ans[1]!=None:
-						print("[P2]",ans[1])
+						print(" [P2]",ans[1])
 				print(f"Took {elapsed:.3f}ms")
 			else:
 				elapsed=0
