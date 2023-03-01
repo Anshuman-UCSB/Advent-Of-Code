@@ -43,7 +43,7 @@ def evalDay(i, isTest):
 			found=True
 			n = int(case[2:])
 			with open(f"{d}/tc{n}",'r') as tc:
-				print(f"TEST CASE {n} - ",end='')
+				print(f"TEST CASE {n}\t- ",end='')
 				try:
 					print(fn(tc.read()))
 				except Exception as e:
@@ -52,7 +52,7 @@ def evalDay(i, isTest):
 			print("ERROR: No test cases found, test case should be in format \"tc[num]\"")
 		if args.debug == False:
 			with open(d+'/input','r') as f:
-				print(f"INPUT \t    - ",end='')
+				print(f"INPUT \t   \t- ",end='')
 				try:
 					print(fn(f.read()))
 				except Exception as e:
