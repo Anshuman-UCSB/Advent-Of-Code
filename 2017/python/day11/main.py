@@ -14,6 +14,5 @@ def day11(input):
 	for c in input.split(','):
 		p+=step[c]
 		p2=max(p2,dist(p))
-	print(p)
 	p1=dist(p)
 	return [p1,p2]
