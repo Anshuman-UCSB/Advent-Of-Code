@@ -1,0 +1,32 @@
+b=81
+c=b
+if a:
+	
+	b=108100
+	c=b
+	c=125100
+
+{	f=1
+	d=2
+	{	e=2
+		{	g=d
+			g*=e
+			g-=b
+			if g=0:
+				f=0
+			e+=1
+			g=e
+			g-=b
+		} while g
+		d+=1
+		g=d
+		g-=b
+	} while g
+	if f=0:
+		h+=1
+	g=b
+	g-=c
+	if g=0:
+		return
+	b+=17
+} loop
