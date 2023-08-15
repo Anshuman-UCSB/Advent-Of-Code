@@ -19,23 +19,32 @@ def runDay(day, test = False):
 		print(f"ERROR: Day {day} was unable to be loaded")
 		return False
 	fn = funcs[day-1].main
+	print("=== DAY",day,"===")
 	if test == True:
 		testDir = f"tests/day{day}"
-		for f in os.listdir(testDir):
+		for f in sorted(os.listdir(testDir)):
 			print(f"{f}:\t{fn(open(os.path.join(testDir, f),'r').read())}")
-	with open(f"input/day{day}",'r') as inp:
-		print("=== DAY",day,"===")
-		before = time_ms()
-		ans = fn(inp.read())
-		after = time_ms()
+	else:
+		with open(f"input/day{day}",'r') as inp:
+			before = time_ms()
+			ans = fn(inp.read())
+			after = time_ms()
 
-		if type(ans) == tuple:
-			print("Part 1:", ans[0])
-			print("Part 2:", ans[1])
-		else:
-			print("Part 1:", ans)
-		print("time elapsed:", after-before,"ms")
+			if type(ans) == tuple:
+				print("Part 1:", ans[0])
+				print("Part 2:", ans[1])
+			else:
+				print("Part 1:", ans)
+			print("time elapsed:", after-before,"ms")
+			return after-before
 
-
-# runDay(1,test=True)
-runDay(1,test="test" in sys.argv)
+try:
+	day = int(sys.argv[1])
+	runDay(day, test="test" in sys.argv)
+except (IndexError, ValueError):
+	# runDay(1,test=True)
+	total_duration = 0
+	for day in range(1,len(funcs)+1):
+		total_duration+=runDay(day,test="test" in sys.argv)
+		print()
+	print("TOTAL TIME:",total_duration,"ms")
