@@ -40,9 +40,11 @@ def runDay(day, test = False):
 
 try:
 	day = int(sys.argv[1])
-	runDay(day, test="test" in sys.argv)
 except (IndexError, ValueError):
-	# runDay(1,test=True)
+	day = None
+if day:
+	runDay(day, test="test" in sys.argv)
+else:
 	total_duration = 0
 	for day in range(1,len(funcs)+1):
 		total_duration+=runDay(day,test="test" in sys.argv)
