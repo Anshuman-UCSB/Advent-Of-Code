@@ -21,6 +21,8 @@ Each year/language I have a goal in mind
 
 2022: Refresh on coding (Python)
 
+2020: Refresh coding again, but also do it with a friend (Python)
+
 To get millisecond-time,
 
 ```
