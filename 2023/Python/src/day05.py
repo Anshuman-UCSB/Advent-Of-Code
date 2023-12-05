@@ -27,6 +27,8 @@ class Range:
 			#      --		intersect
 			#    -----		self
 			return [Range(self.lower, ins.lower), Range(ins.upper, self.upper)]
+	def add(self, offset):
+		return Range(self.lower+offset, self.upper+offset)
 	def __repr__(self):
 		return f"[{self.lower}, {self.upper})"
 
@@ -47,32 +49,28 @@ def getLocation(seed, maps):
 		seed = m.convert(seed)
 	return seed
 
-def p2(seeds, maps):
-	ranges = []
-	for i in range(0,len(seeds),2):
-		ranges.append(Range(seeds[i], seeds[i]+seeds[i+1]))
-	for m in maps:
-		new_ranges = []
-		while ranges:
-			r = ranges.pop(-1)
-			for dest, source, size in m.rules:
-				m_range = Range(source, source+size)
-				ins = r.intersection(m_range)
-				if ins is not None:
-					new_ranges.append(Range(ins.lower+dest-source,ins.upper+dest-source))
-					sub = r.subtract(ins)
-					if sub == []:
-						r = None
-						break
-					if len(sub)==2:
-						ranges.append(sub[1])
-						r = sub[0]
-			if r is not None:
-				new_ranges.append(r)
-		ranges = new_ranges
-	print(ranges)
-	return min([r.lower for r in ranges])
-
+class p2solver:
+	def __init__(self, maps):
+		self.final_ranges = []
+		self.answer = float('inf')
+		self.maps = maps
+	def propogate(self, r: Range, layer: int):
+		if layer == len(self.maps):
+			self.final_ranges.append(r)
+			self.answer = min(self.answer, r.lower)
+			return
+		for dest, source, size in self.maps[layer].rules:
+			map_r = Range(source, source+size)
+			ins = r.intersection(map_r)
+			if ins is not None:
+				self.propogate(ins.add(dest-source), layer+1)
+				sub = r.subtract(ins)
+				if len(sub) == 0:
+					return
+				r = sub[0]
+				if len(sub) == 2:
+					self.propogate(sub[1], layer)
+		self.propogate(r, layer+1)
 
 def solve(seeds, maps):
 	locations = [getLocation(s, maps) for s in seeds]
@@ -82,5 +80,8 @@ def main(input):
 	seeds, *maps = input.split("\n\n")
 	seeds = list(map(int, seeds.split()[1:]))
 	maps = list(map(Map, maps))
+	p2 = p2solver(maps)
+	for i in range(0,len(seeds),2):
+		p2.propogate(Range(seeds[i], seeds[i]+seeds[i+1]), 0)
 
-	return solve(seeds, maps), p2(seeds, maps)
+	return solve(seeds, maps), p2.answer
