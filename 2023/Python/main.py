@@ -29,9 +29,9 @@ def runDay(day, path=None):
 		try:
 			results = days[day].main(inp)
 		except Exception as e:
-			if args.debug:
+			if args.debug or not args.test:
 				traceback.print_exc()
-			results = (str(e),None)
+			results = ("EXCEPTION",None)
 		elapsed = time.time() - start_time
 		if args.submit and results and path.endswith("input"):
 			if results[0]:
