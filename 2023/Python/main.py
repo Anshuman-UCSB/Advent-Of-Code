@@ -21,8 +21,11 @@ if args.debug:
 def runDay(day, path=None):
 	path = path or f"data/day{day:02d}/input"
 	with open(path,'r+') as f:
-		if f.read() == "":
-			f.write(get_data(day=day, year = 2023))
+		try:
+			if f.read() == "":
+				f.write(get_data(day=day, year = 2023))
+		except Exception:
+			return (None, None)
 	with open(path,'r') as f:
 		inp = f.read().strip()
 		start_time = time.time()
