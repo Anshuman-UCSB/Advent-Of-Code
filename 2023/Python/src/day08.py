@@ -26,6 +26,5 @@ def main(input):
 	periods = []
 	for n in filter(lambda x: x[-1] == 'A', net):
 		periods.append(solve(instr, net, n))
-	print(periods)
 
 	return solve(instr, net, "AAA"), lcm(*periods)
