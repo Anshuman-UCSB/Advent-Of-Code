@@ -1,5 +1,13 @@
 import re
-from math import lcm
+try:
+	from math import lcm
+except ImportError:
+	from math import gcd
+	def lcm(*args):
+		lcm = 1
+		for i in args:
+			lcm = lcm*i//gcd(lcm, i)
+		return lcm
 
 def loop(instr):
 	instr = [0 if ins == 'L' else 1 for ins in instr]
