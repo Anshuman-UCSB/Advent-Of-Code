@@ -1,5 +1,3 @@
-P = complex
-
 class Solver:
 	def __init__(self):
 		self.perimeter = 0
@@ -18,11 +16,14 @@ class Solver:
 		for (x1,y1), (x2,y2) in zip(self.points[:-1], self.points[1:]):
 			area += (x2-x1)*(y2+y1)
 		return abs(int(area))//2 + self.perimeter//2 + 1
+
 def main(input):
-	p1,p2 =Solver(), Solver()
+	p1 = Solver()
+	p2 = Solver()
 	for d, l, color in [l.split() for l in input.splitlines()]:
 		p1.addInstruction(d, int(l))
 		length = color[2:-2]
 		direction = color[-2]
-		p2.addInstruction(direction, int(length,16))
-	return p1.solve(),p2.solve()
+		p2.addInstruction(direction, int(length, base=16))
+ 
+	return p1.solve(), p2.solve()
