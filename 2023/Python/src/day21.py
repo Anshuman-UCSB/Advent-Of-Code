@@ -27,6 +27,24 @@ class Grid:
 		self.frontier = newFrontier
 	def wrap(self, p):
 		return P(p.real%self.size, p.imag%self.size)
+	def render(self, name):
+		import matplotlib.pyplot as plt
+		from matplotlib import colors
+		cmap = colors.ListedColormap(['white', 'black', 'green','red'])
+		grids = 5
+		H = np.zeros((self.size*grids,self.size*grids))
+		for p in self.grid:
+			for y in range(grids):
+				for x in range(grids):
+					H[y*self.size + int(p.imag), x*self.size + int(p.real)] = 1
+		for p,parity in self.positions.items():
+			try:
+				H[int(p.imag)+self.size*grids//2- self.size//2, int(p.real)+self.size*grids//2 - self.size//2] = parity*2 + 2
+			except IndexError:
+				...
+		plt.title("Step: "+str(name)+", score: "+str(self.score()))
+		plt.imshow(H, interpolation='none', cmap=cmap)
+		plt.savefig(f"step{name}.png")
 
 def main(input):
 	g = Grid(input)
@@ -36,6 +54,8 @@ def main(input):
 	for s in range(65 + 131*2 + 1):
 		if s%131 == 65:
 			Y.append(g.score())
+		# if s%131 == 65 or s%131 == 0:
+		# 	g.render(s)
 		if s == 64:
 			p1 = g.score()
 		g.step()
