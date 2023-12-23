@@ -28,6 +28,7 @@ class Graph:
 				if n.direction == None: continue
 				if p+n.direction in self.nodes:
 					del self.nodes[p+n.direction].edges[n]
+		self.compress()
 	def compress(self):
 		deleted = []
 		for n in self.nodes.values():
@@ -43,15 +44,9 @@ class Graph:
 		ans = 0
 		S = [(self.start, 0, [])]
 		while S:
-			# print(S)
 			n, dist, seen = S.pop(-1)
 			if n == self.end:
 				ans = max(dist, ans)
-				# print("Found a path:",ans,seen)
-				# for y in range(23):
-				# 	for x in range(23):
-				# 		print("#" if P(x,y) in map(lambda n: n.pos, seen) else '.',end='')
-				# 	print()
 			for e in n.edges:
 				if e not in seen:
 					S.append((e, dist+n.edges[e], seen[:]+[e]))
@@ -75,7 +70,5 @@ def main(input):
 			if y == len(input.splitlines())-1 and v == '.':
 				end = P(x,y)
 	g = Graph(grid, start, end,True)
-	g.compress()
 	g2 = Graph(grid, start, end,False)
-	g2.compress()
 	return g.solve(), g2.solve()
