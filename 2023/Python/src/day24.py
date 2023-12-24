@@ -1,4 +1,5 @@
 import re
+from sympy import Symbol, solve_poly_system
 class Hailstone:
 	def __init__(self,line):
 		x,y,z,vx,vy,vz = map(int,re.findall(r"-?\d+",line))
@@ -37,6 +38,18 @@ class Hailstone:
 		dx = self.v[0]
 		return (nX-x)/dx >= 0
 
+def p2(hailstones):
+	x,y,z,vx,vy,vz = (Symbol(c) for c in "x,y,z,vx,vy,vz".split(','))
+	p = [x,y,z]
+	v = [vx,vy,vz]
+	vars = [*p, *v]
+	eqs = []
+	for i,hs in enumerate(hailstones[:3]):
+		t = Symbol(f"t_{i}")
+		for j in range(3):
+			eqs.append(p[j]+v[j]*t - (hs.p[j] + hs.v[j]*t))
+		vars.append(t)
+	return int(sum(solve_poly_system(eqs, vars)[0][:3]))
 def main(input):
 	test_area = (7,27) if len(input.splitlines())<10 else (200000000000000, 400000000000000)
 	hailstones = [Hailstone(l) for l in input.splitlines()]
@@ -47,4 +60,4 @@ def main(input):
 			if x is None: continue
 			if all((test_area[0]<=v<=test_area[1] for v in (x,y))):
 				p1 += 1
-	return p1, None
+	return p1, p2(hailstones)
