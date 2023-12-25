@@ -4,7 +4,6 @@ class Graph:
 	def __init__(self, G):
 		self.G = G
 		self.parent = {n:None for n in self.G}
-
 	def bfs(self, s, t):
 		self.parent = {n:None for n in self.G}
 		self.parent[s] = s
@@ -25,9 +24,9 @@ class Graph:
 			flow = float('inf')
 			n = t
 			while n != s:
-				flow=min(flow, self.G[self.parent[n]][n])
+				flow = min(flow, self.G[self.parent[n]][n])
 				n = self.parent[n]
-
+			
 			maxFlow+=flow
 
 			v = t
@@ -38,9 +37,9 @@ class Graph:
 				v = u
 		return maxFlow
 	def solve(self):
-		size1 = len({n for n,p in self.parent.items() if p})
-		return (len(self.G)-size1)*size1
-
+		g1 = len({n for n,p in self.parent.items() if p})
+		return (len(self.G)-g1)*g1
+	
 def main(input):
 	G = defaultdict(dict)
 	for l in input.splitlines():
@@ -49,8 +48,8 @@ def main(input):
 			G[lhs][r]=1
 			G[r][lhs]=1
 	graph = Graph(G)
-	s,*other = graph.G
+	s, *other = graph.G
 	for t in other:
-		if graph.minCut(s,t) == 3:
+		if graph.minCut(s, t) == 3:
 			break
 	return graph.solve(), None
