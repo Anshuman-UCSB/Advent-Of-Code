@@ -23,6 +23,8 @@ Each year/language I have a goal in mind
 
 2020: Refresh coding again, but also do it with a friend (Python)
 
+2023: Python, and also record a walkthrough for each day for beginners [playlist](https://www.youtube.com/playlist?list=PLokNDgybC0l0suPc3Pc3WlTlLCOSbiAyd)
+
 To get millisecond-time,
 
 ```
