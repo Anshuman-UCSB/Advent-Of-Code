@@ -25,6 +25,8 @@ Each year/language I have a goal in mind
 
 2023: Python, and also record a walkthrough for each day for beginners [playlist](https://www.youtube.com/playlist?list=PLokNDgybC0l0suPc3Pc3WlTlLCOSbiAyd)
 
+2024: Refresh C++, and also make visualization / do it in JS with React
+
 To get millisecond-time,
 
 ```
