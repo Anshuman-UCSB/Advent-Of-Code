@@ -3,7 +3,7 @@ project (advent2021)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -Ofast -Wfatal-errors -pg -std=c++2a")
 
-add_executable(advent2017
+add_executable(advent2021
 	src/main.cpp
 	src/day01.cpp
 	src/day02.cpp
