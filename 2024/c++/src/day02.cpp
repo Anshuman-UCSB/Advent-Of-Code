@@ -28,6 +28,12 @@ chrono::time_point<std::chrono::steady_clock> day02(input_t &inp) {
         int num;
         while (iss >> num) nums.push_back(num);
         p1 += isSafe(nums);
+        for (int i = 0; i < nums.size(); i++) {
+            if (isSafe(nums, i)) {
+                p2++;
+                break;
+            }
+        }
     }
 
     auto done = chrono::steady_clock::now();
