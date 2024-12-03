@@ -1,17 +1,20 @@
 #include "AOC.h"
 
 bool isSafe(const vector<int> &nums, int skip = -1) {
-    int increasing, diff;
+    int increasing(-1), diff, last(-1);
     for (int i = 0; i < nums.size(); i++) {
-        if (i == 0) {
-            increasing = nums[i + 1] > nums[i];
-        } else {
-            diff = nums[i] - nums[i - 1];
+        if (i == skip) continue;
+        if (last != -1 && increasing == -1) {
+            increasing = nums[i] > last;
+        }
+        if (last != -1) {
+            diff = nums[i] - last;
             if (!(diff && (diff > 0 == increasing) && (abs(diff) >= 1) &&
                   (abs(diff) <= 3))) {
                 return false;
             }
         }
+        last = nums[i];
     }
     return true;
 }
