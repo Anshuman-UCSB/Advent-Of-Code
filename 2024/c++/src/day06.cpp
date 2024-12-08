@@ -8,20 +8,35 @@ bool inBounds(const pii& pos, const pii& highbound) {
 pii rotate_dir(const pii& dir) { return pii(-dir.y, dir.x); }
 
 set<pii> check_loop(const input_t& inp, const set<pii>& blocks, pii pos,
-                    pii dir, pii test_block = pii(-1, -1)) {
+                    pii dir, map<pair<pii, pii>, pair<pii, pii>>& skip_map,
+                    pii test_block = pii(-1, -1)) {
     set<pair<pii, pii>> seen;
     set<pii> visited;
     pii high_bound(inp[0].size(), inp.size());
+
+    bool p1 = test_block.x == -1;
+    pii cache_pos(-2, -2);
 
     while (inBounds(pos, high_bound)) {
         if (seen.count(make_pair(pos, dir))) {
             return set<pii>();
         }
+
         seen.insert(make_pair(pos, dir));
         visited.insert(pos);
+        if (!p1 && pos.x != test_block.x && pos.y != test_block.y &&
+            skip_map.count(make_pair(pos, rotate_dir(dir)))) {
+            tie(pos, dir) = skip_map[make_pair(pos, rotate_dir(dir))];
+            continue;
+        }
         pii candidate(pos.x + dir.x, pos.y + dir.y);
         if (blocks.count(candidate) || candidate == test_block) {
+            if (p1) {
+                skip_map[make_pair(cache_pos, dir)] =
+                    make_pair(pos, rotate_dir(dir));
+            }
             dir = rotate_dir(dir);
+            cache_pos = pos;
         } else {
             pos = candidate;
         }
@@ -33,6 +48,7 @@ chrono::time_point<std::chrono::steady_clock> day06(input_t& inp) {
     int p1, p2(0);
 
     set<pii> blocks, p1visited;
+    map<pair<pii, pii>, pair<pii, pii>> skip_map;
     pii dir(0, -1);
     pii pos;
 
@@ -47,11 +63,11 @@ chrono::time_point<std::chrono::steady_clock> day06(input_t& inp) {
         }
     }
 
-    p1visited = check_loop(inp, blocks, pos, dir);
+    p1visited = check_loop(inp, blocks, pos, dir, skip_map);
     p1 = p1visited.size();
 
     for (const auto& spot : p1visited) {
-        if (check_loop(inp, blocks, pos, dir, spot).empty()) {
+        if (check_loop(inp, blocks, pos, dir, skip_map, spot).empty()) {
             p2++;
         }
     }
