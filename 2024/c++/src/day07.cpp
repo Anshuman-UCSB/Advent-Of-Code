@@ -10,10 +10,10 @@ bool solve(const ull target, const vector<ull>& nums, bool p1,
     if (running_total > target) {
         return false;
     }
-    return solve(target, nums, p1, running_total * nums[pos], pos + 1) ||
-           solve(target, nums, p1, running_total + nums[pos], pos + 1) ||
-           (!p1 &&
-            solve(target, nums, p1, concat(running_total, nums[pos]), pos + 1));
+    return (!p1 && solve(target, nums, p1, concat(running_total, nums[pos]),
+                         pos + 1)) ||
+           solve(target, nums, p1, running_total * nums[pos], pos + 1) ||
+           solve(target, nums, p1, running_total + nums[pos], pos + 1);
 }
 
 chrono::time_point<std::chrono::steady_clock> day07(input_t& inp) {
