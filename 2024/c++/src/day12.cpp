@@ -31,28 +31,23 @@ int countCorners(const set<pii>& points) {
     int corners = 0;
 
     for (auto& [x, y] : points) {
-        bool edges[8] = {
-            !points.contains(pii(x, y + 1)),
-            !points.contains(pii(x - 1, y + 1)),
-            !points.contains(pii(x - 1, y)),
-            !points.contains(pii(x - 1, y - 1)),
-            !points.contains(pii(x, y - 1)),
-            !points.contains(pii(x + 1, y - 1)),
-            !points.contains(pii(x + 1, y)),
-            !points.contains(pii(x + 1, y + 1)),
+        bool sides[8] = {
+            points.contains(pii(x, y + 1)), points.contains(pii(x - 1, y + 1)),
+            points.contains(pii(x - 1, y)), points.contains(pii(x - 1, y - 1)),
+            points.contains(pii(x, y - 1)), points.contains(pii(x + 1, y - 1)),
+            points.contains(pii(x + 1, y)), points.contains(pii(x + 1, y + 1)),
         };
 
         for (int i = 0; i < 8; i += 2) {
-            if (!edges[i] && !edges[(i + 2) % 8]) {
+            if (!sides[i] && !sides[(i + 2) % 8]) {
                 corners++;
             }
-            if (edges[i] && !edges[(i + 1) % 8] && edges[(i + 2) % 8]) {
+            if (sides[i] && !sides[(i + 1) % 8] && sides[(i + 2) % 8]) {
                 corners++;
             }
         }
-
-        return corners;
     }
+    return corners;
 }
 
 chrono::time_point<std::chrono::steady_clock> day12(input_t& inp) {
@@ -65,10 +60,9 @@ chrono::time_point<std::chrono::steady_clock> day12(input_t& inp) {
                 p = 0;
                 set<pii> points;
                 DFS(inp, x, y, inp[y][x], p, points);
-                cout << points << endl;
                 clean(inp, points);
                 p1 += points.size() * p;
-                cout << "Faces on this shape: " << countCorners(points) << endl;
+                p2 += points.size() * countCorners(points);
             }
         }
     }
