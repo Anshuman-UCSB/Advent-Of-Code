@@ -1,19 +1,21 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include "prints.h"
-#include <cmath>
+#include <bitset>
+#include <cassert>
 #include <chrono>
+#include <cmath>
+#include <fstream>
+#include <functional>
+#include <iostream>
+#include <numeric>
+#include <queue>
+#include <sstream>
+#include <stack>
 #include <unordered_map>
 #include <unordered_set>
-#include <bitset>
-#include <functional>
-#include <numeric>
-#include <stack>
-#include <cassert>
-#include <queue>
+
+#include "prints.h"
 
 #define ull unsigned long long
+#define ll long long
 #define pii pair<int, int>
 #define x first
 #define y second
@@ -22,9 +24,9 @@
 
 using namespace std;
 
-struct advent{
-	chrono::time_point<std::chrono::steady_clock> (*fn)(input_t&);
-	string input_file;
+struct advent {
+    chrono::time_point<std::chrono::steady_clock> (*fn)(input_t&);
+    string input_file;
 };
 
 chrono::time_point<std::chrono::steady_clock> day01(input_t&);
