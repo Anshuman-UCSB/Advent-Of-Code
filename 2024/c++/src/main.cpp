@@ -22,7 +22,7 @@ static const advent adventDays[] = {
 
 static input_t loadInput(const string &path) {
     fstream file(STR(SOURCE_DIR) + path);
-    cout << "Loading file " << path << endl;
+    // cout << "Loading file " << path << endl;
     string line;
     input_t out;
     while (getline(file, line)) out.push_back(line);
