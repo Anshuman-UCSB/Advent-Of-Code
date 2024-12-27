@@ -44,11 +44,20 @@ chrono::time_point<std::chrono::steady_clock> day15(input_t& inp) {
     ull p1(0), p2(0);
 
     int i, j;
+    vector<vector<char>> board;
 
     // Cursed syntax lol
     do i++;
     while (!inp[i].empty());
     j = i;
+
+    // for (int y = 0; y < inp.size(); y++) {
+    //     for (int x = 0; x < inp[0].size(); x++) {
+    //         if (inp[y][x] != '.') {
+    //             p1 += y * 100 + x;
+    //         }
+    //     }
+    // }
 
     string instrs;
     for (i++; i < inp.size(); i++) {
