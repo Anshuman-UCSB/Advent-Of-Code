@@ -40,10 +40,51 @@ ull solve_p1(input_t& grid) {
     return -1;
 }
 
-int solve_p2(input_t& inp, int target) {
-    set<pii> valid;
+pii step(const pii& p, const int dir) {
+    return pii(p.x + dx[dir], p.y + dy[dir]);
+}
 
-    return 1;
+bool DFS(input_t& inp, set<pii>& valid, map<tuple<int, int, int>, int>& seen,
+         pii pos, int dir, pii dest, int remaining) {
+    auto [x, y] = pos;
+    if (inp[y][x] == '#') return false;
+    if (remaining < 0) return false;
+    if (pos == dest) {
+        assert(remaining == 0);
+        valid.insert(pos);
+        return true;
+    }
+    if (remaining > seen[make_tuple(x, y, dir)]) {
+        seen[make_tuple(x, y, dir)];
+    } else if (remaining < seen[make_tuple(x, y, dir)]) {
+        return false;
+    } else {
+        return valid.count(make_tuple(x, y, dir));
+    }
+
+    bool good = false;
+    if (DFS(inp, valid, seen, step(pos, dir), dir, dest, remaining - 1)) {
+        valid.insert(pos);
+        good = true;
+    }
+    if (DFS(inp, valid, seen, pos, (dir + 1) % 4, dest, remaining - 1000)) {
+        valid.insert(pos);
+        good = true;
+    }
+    if (DFS(inp, valid, seen, pos, (dir + 3) % 4, dest, remaining - 1000)) {
+        valid.insert(pos);
+        good = true;
+    }
+    return good;
+}
+
+int solve_p2(input_t& grid, int target) {
+    set<pii> valid;
+    map<tuple<int, int, int>, int> seen;
+    assert(DFS(grid, valid, seen, pii(1, grid.size() - 2), 1,
+               pii(grid[1].size() - 2, 1), target));
+
+    return valid.size();
 }
 
 chrono::time_point<std::chrono::steady_clock> day16(input_t& inp) {
