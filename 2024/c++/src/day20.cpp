@@ -4,6 +4,10 @@
 typedef tuple<int, pii> rev_state;
 vector<pii> dirs = {pii(-1, 0), pii(0, -1), pii(1, 0), pii(0, 1)};
 
+bool inBounds(const input_t& inp, pii p) {
+    return 0 <= p.x && p.x < inp[0].size() && 0 <= p.y && p.y < inp.size();
+}
+
 chrono::time_point<std::chrono::steady_clock> day20(input_t& inp) {
     int p1(0), p2(0);
 
@@ -44,20 +48,21 @@ chrono::time_point<std::chrono::steady_clock> day20(input_t& inp) {
         for (int x = 1; x < inp.size() - 1; x++) {
             if (inp[y][x] != '#') {
                 for (const auto& dir : dirs) {
-                    if (inp[y + dir.y][x + dir.x] == '#' && y + dir.y > 0 &&
-                        y + dir.y < inp.size() - 1 && x + dir.x > 0 &&
-                        x + dir.x < inp.size() - 1 &&
-                        inp[y + dir.y * 2][x + dir.x * 2] != '#') {
+                    pii step2(pii(x + dir.x * 2, y + dir.y * 2));
+                    if (inp[y + dir.y][x + dir.x] == '#' &&
+                        inBounds(inp, step2) && inp[step2.y][step2.x] != '#') {
                         // skip found
                         int timeSave =
                             rev_dist[pii(x, y)] -
                             rev_dist[pii(x + dir.x * 2, y + dir.y * 2)] - 2;
+
                         // -2 because you need to cheat through wall
                         // if (timeSave >= 0) {
                         //     cout << "Shortcut from " << pii(x, y) << " to "
                         //          << pii(x + dir.x * 2, y + dir.y * 2)
                         //          << " saves " << timeSave << endl;
                         // }
+
                         if (timeSave >= 100) {
                             p1++;
                         }
