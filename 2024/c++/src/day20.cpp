@@ -5,7 +5,8 @@ typedef tuple<int, pii> rev_state;
 vector<pii> dirs = {pii(-1, 0), pii(0, -1), pii(1, 0), pii(0, 1)};
 
 bool inBounds(const input_t& inp, pii p) {
-    return 0 <= p.x && p.x < inp[0].size() && 0 <= p.y && p.y < inp.size();
+    return 0 < p.x && p.x < inp[0].size() - 1 && 0 < p.y &&
+           p.y < inp.size() - 1;
 }
 
 chrono::time_point<std::chrono::steady_clock> day20(input_t& inp) {
@@ -47,24 +48,28 @@ chrono::time_point<std::chrono::steady_clock> day20(input_t& inp) {
     for (int y = 1; y < inp.size() - 1; y++) {
         for (int x = 1; x < inp.size() - 1; x++) {
             if (inp[y][x] != '#') {
-                for (const auto& dir : dirs) {
-                    pii step2(pii(x + dir.x * 2, y + dir.y * 2));
-                    if (inp[y + dir.y][x + dir.x] == '#' &&
-                        inBounds(inp, step2) && inp[step2.y][step2.x] != '#') {
-                        // skip found
-                        int timeSave =
-                            rev_dist[pii(x, y)] -
-                            rev_dist[pii(x + dir.x * 2, y + dir.y * 2)] - 2;
+                for (int dx = -20; dx <= 20; dx++) {
+                    for (int dy = -20; dy <= 20; dy++) {
+                        int dist = abs(dx) + abs(dy);
+                        if (dist > 20) continue;
+                        pii skip(x + dx, y + dy);
+                        if (!inBounds(inp, skip)) continue;
+                        if (inp[skip.y][skip.x] == '#') continue;
+                        int timeSave = rev_dist[pii(x, y)] - rev_dist[skip] - 2;
+                        if (dist == 2 && (x == skip.x || y == skip.y) &&
+                            timeSave >= 100) {
+                            p1++;
+                            // if (timeSave >= 40) {
+                            // cout << "Shortcut from " << pii(x, y) << " to
+                            // "
+                            //  << skip << " saves " << timeSave << endl;
+                            // }
+                        }
 
                         // -2 because you need to cheat through wall
-                        // if (timeSave >= 0) {
-                        //     cout << "Shortcut from " << pii(x, y) << " to "
-                        //          << pii(x + dir.x * 2, y + dir.y * 2)
-                        //          << " saves " << timeSave << endl;
-                        // }
 
                         if (timeSave >= 100) {
-                            p1++;
+                            p2++;
                         }
                     }
                 }
