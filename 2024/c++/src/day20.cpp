@@ -55,17 +55,17 @@ chrono::time_point<std::chrono::steady_clock> day20(input_t& inp) {
                         pii skip(x + dx, y + dy);
                         if (!inBounds(inp, skip)) continue;
                         if (inp[skip.y][skip.x] == '#') continue;
-                        int timeSave = rev_dist[pii(x, y)] - rev_dist[skip] - 2;
+                        int timeSave =
+                            rev_dist[pii(x, y)] - rev_dist[skip] - dist;
                         if (dist == 2 && (x == skip.x || y == skip.y) &&
                             timeSave >= 100) {
                             p1++;
-                            // if (timeSave >= 40) {
-                            // cout << "Shortcut from " << pii(x, y) << " to
-                            // "
-                            //  << skip << " saves " << timeSave << endl;
-                            // }
                         }
 
+                        // if (timeSave == 76) {
+                        //     cout << "Shortcut from " << pii(x, y) << " to "
+                        //          << skip << " saves " << timeSave << endl;
+                        // }
                         // -2 because you need to cheat through wall
 
                         if (timeSave >= 100) {
@@ -80,9 +80,10 @@ chrono::time_point<std::chrono::steady_clock> day20(input_t& inp) {
     // for (int y = 0; y < inp.size(); y++) {
     //     for (int x = 0; x < inp[0].size(); x++) {
     //         if (inp[y][x] == '#') {
-    //             cout << '#';
+    //             cout << "## ";
     //         } else {
-    //             cout << rev_dist[pii(x, y)] % 10;
+    //             cout << (rev_dist[pii(x, y)] < 10 ? " " : "")
+    //                  << rev_dist[pii(x, y)] << " ";
     //         }
     //     }
     //     cout << endl;
