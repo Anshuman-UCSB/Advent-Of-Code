@@ -2,7 +2,9 @@
 
 // dist, pos
 typedef tuple<int, pii> rev_state;
+namespace day20_ns {
 vector<pii> dirs = {pii(-1, 0), pii(0, -1), pii(1, 0), pii(0, 1)};
+};  // namespace day20_ns
 
 bool inBounds(const input_t& inp, pii p) {
     return 0 < p.x && p.x < inp[0].size() - 1 && 0 < p.y &&
@@ -35,7 +37,7 @@ chrono::time_point<std::chrono::steady_clock> day20(input_t& inp) {
         q.pop();
         if (rev_dist.count(p)) continue;
         rev_dist[p] = d;
-        for (auto& dir : dirs) {
+        for (auto& dir : day20_ns::dirs) {
             pii t(p.x + dir.x, p.y + dir.y);
             if (inp[t.y][t.x] != '#') {
                 q.emplace(d + 1, t);
