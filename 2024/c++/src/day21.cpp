@@ -49,16 +49,14 @@ tuple<bool, bool, string> checkMatch(const string MAP[], string inp,
     return make_tuple(gen_string == out, true, gen_string);
 }
 
-string solve_p1(string target) { return "fail"; }
-
-string solve_numpad(string target) {
+string solve_pad(const string PAD[], string target) {
     queue<string> q;
     size_t farthest = 0;
     q.emplace("");
     while (!q.empty()) {
         string inp = q.front();
         q.pop();
-        auto [full, partial, gen] = checkMatch(NUMPAD, inp, target);
+        auto [full, partial, gen] = checkMatch(PAD, inp, target);
         if (!partial) continue;
         farthest = max(gen.size(), farthest);
         if (gen.size() < farthest) continue;
@@ -66,6 +64,8 @@ string solve_numpad(string target) {
         if (full) return inp;
         if (partial) {
             for (auto& c : {'A', '<', '^', 'v', '>'}) {
+                q.emplace(inp + c + c + c);
+                q.emplace(inp + c + c);
                 q.emplace(inp + c);
             }
         }
@@ -73,13 +73,24 @@ string solve_numpad(string target) {
     return "FAIL";
 }
 
+ull solve_p1(string target) {
+    string numpad_sol = solve_pad(NUMPAD, target);
+    // cout << numpad_sol << endl;
+
+    string kp1_sol = solve_pad(KEYPAD, numpad_sol);
+    // cout << kp1_sol << endl;
+
+    string kp2_sol = solve_pad(KEYPAD, kp1_sol);
+    // cout << kp2_sol << endl;
+
+    return kp2_sol.size() * stoi(target.substr(0, 3));
+}
+
 chrono::time_point<std::chrono::steady_clock> day21(input_t& inp) {
-    int p1(0), p2(0);
-    // for (auto& l : inp) {
-    //     cout << l << ": " << solve_p1(l) << endl;
-    // }
-    cout << checkMatch(NUMPAD, "<A^A>^^AvvA", "029A") << endl;
-    cout << solve_numpad("029A") << endl;
+    ull p1(0), p2(0);
+    for (auto& l : inp) {
+        p1 += solve_p1(l);
+    }
 
     auto done = chrono::steady_clock::now();
     cout << "[P1] " << p1 << "\n[P2] " << p2 << endl;
