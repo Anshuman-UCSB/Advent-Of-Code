@@ -74,6 +74,8 @@ string solve_pad(const string PAD[], string target) {
 }
 
 ull solve_p1(string target) {
+    // cout << "TARGET: " << target << endl;
+
     string numpad_sol = solve_pad(NUMPAD, target);
     // cout << numpad_sol << endl;
 
@@ -86,10 +88,22 @@ ull solve_p1(string target) {
     return kp2_sol.size() * stoi(target.substr(0, 3));
 }
 
+map<tuple<int, char, char>, ull> day21_cache;
+ull required_num_chars(int level, char f, char t) {
+    // TODO
+    return 69;
+}
+
 chrono::time_point<std::chrono::steady_clock> day21(input_t& inp) {
     ull p1(0), p2(0);
     for (auto& l : inp) {
         p1 += solve_p1(l);
+    }
+
+    cout << solve_pad(NUMPAD, "029A") << endl;
+    for (auto c : solve_pad(NUMPAD, "029A")) {
+        cout << "c: " << c << endl;
+        p2 += required_num_chars(1, 'A', c);
     }
 
     auto done = chrono::steady_clock::now();
