@@ -22,15 +22,15 @@ void calc_cliques(const map<string, vector<string>>& adj,
 string find_13_clique(const map<string, vector<string>>& adj,
                       const set<string>& nodes) {
     map<string, set<string>> adj_s;
-    // for (auto& [k, v] : adj) {
-    //     adj_s[k] = set<string>(v.begin(), v.end());
-    //     cout << k << ",  " << adj_s[k] << endl;
-    // }
+    for (auto& [k, v] : adj) {
+        adj_s[k] = set<string>(v.begin(), v.end());
+        // cout << k << ",  " << adj_s[k] << endl;
+    }
 
     for (auto& n : nodes) {
         set<string> cq = {n};
         set<string> candidates(adj.at(n).begin(), adj.at(n).end());
-        cout << cq << ", " << candidates << endl;
+        // cout << cq << ", " << candidates << endl;
         for (auto& e : adj.at(n)) {
             if (candidates.count(e) == 0) continue;
             set<string> tmp;
@@ -38,12 +38,21 @@ string find_13_clique(const map<string, vector<string>>& adj,
                              adj_s[e].begin(), adj_s[e].end(),
                              inserter(tmp, tmp.begin()));
             candidates = tmp;
-            cout << candidates << endl;
+            // cout << candidates << endl;
             cq.insert(e);
         }
-        cout << cq << endl;
+        if (cq.size() >= 13) {
+            // cout << "we made: " << cq << " with size " << cq.size() << endl;
+            stringstream ss;
+            string delim = "";
+            for (auto v : cq) {
+                ss << delim << v;
+                delim = ",";
+            }
+            return ss.str();
+        }
     }
-    return "idK";
+    return "failed";
 }
 
 chrono::time_point<std::chrono::steady_clock> day23(input_t& inp) {
