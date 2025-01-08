@@ -29,6 +29,8 @@ class Component {
     Component() {}
     Component(string line);
     void update();
+
+    bool operator<(const Component& other) { return this->type < other.type; }
 };
 
 map<string, Wire*> wires;
@@ -107,7 +109,11 @@ void Component::update() {
 }
 
 ostream& operator<<(ostream& os, const Component& c) {
-    os << "<" << c.a->rep() << " " << c.type << " " << c.b->rep() << " -> "
+    Wire *ca(c.a), *cb(c.b);
+    if (c.a->annot < c.b->annot) {
+        swap(ca, cb);
+    }
+    os << "<" << ca->rep() << " " << c.type << " " << cb->rep() << " -> "
        << c.out->rep() << ">";
     return os;
 }
@@ -143,10 +149,13 @@ chrono::time_point<std::chrono::steady_clock> day24(input_t& inp) {
     for (int i = 0; i < inp.size() && !inp[i].empty(); i++) {
         wires[inp[i].substr(0, 3)]->update(inp[i].back() == '1');
     }
+    for (auto& [k, v] : wires) {
+        sort(v->connections.begin(), v->connections.end());
+    }
 
     // part 2 reset
 
-        vector<Wire*> X, Y, Z, OTHER;
+    vector<Wire*> X, Y, Z, OTHER;
 
     for (auto& [k, v] : wires) {
         switch (k[0]) {
@@ -215,6 +224,7 @@ chrono::time_point<std::chrono::steady_clock> day24(input_t& inp) {
         Component c_and = y->connections[0];
         Component c_xor = y->connections[1];
         if (c_and.type != "AND") {
+            cout << "WTF THIS IS NOT RIGHT" << endl;
             swap(c_and, c_xor);
         }
         // if (c_and.out->name[0] == 'z') {
@@ -222,19 +232,31 @@ chrono::time_point<std::chrono::steady_clock> day24(input_t& inp) {
         //     // Found z05 is wrong
         //     cout << c_and.out->connections << endl;
         // }
-        c_and.out->annot = "x and " + y->name;
-        c_xor.out->annot = "x xor " + y->name;
+        c_and.out->annot = "XY_AND" + y->name.substr(1);
+        c_xor.out->annot = "XY_XOR" + y->name.substr(1);
         if (c_and.out->connections.size() == 1) {
-            c_and.out->connections[0].out->annot = "Cout" + y->name.substr(1);
+            c_and.out->connections[0].out->annot = "cin" + y->name.substr(1);
         }
         if (c_xor.out->connections.size() == 2) {
+            cout << c_xor.out->connections << endl;
             Component c = c_xor.out->connections[0];
-            c_and.out->connections[0].out->annot = "Cout" + y->name.substr(1);
+            if (c.type == "AND") {
+                c.out->annot = "old_carry" + y->name.substr(1);
+            }
         }
     }
 
-    for (auto& o : OTHER) {
-        cout << *o << endl;
+    // for (auto& o : OTHER) {
+    //     cout << *o << endl;
+    // }
+
+    for (auto& z : Z) {
+        cout << z->name << " comes from " << source[z->name] << endl;
+    }
+    for (auto& c : components) {
+        if (c.type == "OR") {
+            cout << c << endl;
+        }
     }
 
     for (auto& [k, v] : wires) {
@@ -245,3 +267,23 @@ chrono::time_point<std::chrono::steady_clock> day24(input_t& inp) {
     cout << "[P1] " << p1 << "\n[P2] " << p2 << endl;
     return done;
 }
+
+/*
+    NOTES
+UNANNOTATED:
+gqf should be Cout36
+bvc should be cin05
+hhh should be cin20
+dkr should be XY_AND05
+htp should be old_carry15
+
+
+
+WRONGLY ANNOTATED:
+z05 (XY_AND05)
+z15(Cout15)
+z20(Cout20)
+ggk(XY_AND36)
+rhv(XY_XOR36)
+
+*/
