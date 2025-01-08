@@ -4,6 +4,7 @@ class Component;
 class Wire {
    public:
     string name;
+    string annot;
     bool val;
     bool defined;
     vector<Component> connections;
@@ -13,6 +14,10 @@ class Wire {
 
     void update(bool value);
     void reset();
+    string rep() {
+        if (!annot.empty()) return name + "(" + annot + ")";
+        return name;
+    }
 };
 
 class Component {
@@ -21,7 +26,7 @@ class Component {
     Wire *a, *b, *out;
     bool completed;
 
-    Component();
+    Component() {}
     Component(string line);
     void update();
 };
@@ -51,6 +56,9 @@ Component::Component(string line) : completed(false) {
     stringstream ss(line);
     string na, nb, nout;
     ss >> na >> type >> nb >> nout >> nout;
+    if (na > nb) {
+        swap(na, nb);
+    }
 
     if (wires.find(na) == wires.end()) wires[na] = new Wire(na);
     if (wires.find(nb) == wires.end()) wires[nb] = new Wire(nb);
@@ -65,7 +73,12 @@ Component::Component(string line) : completed(false) {
 }
 
 ostream& operator<<(ostream& os, const Wire& w) {
-    os << "(" << w.name << "-";
+    os << "(" << w.name;
+    if (!w.annot.empty()) {
+        os << " \"" << w.annot << "\" ";
+    }
+
+    os << "-";
     if (!w.defined) {
         os << "X";
     } else {
@@ -94,8 +107,8 @@ void Component::update() {
 }
 
 ostream& operator<<(ostream& os, const Component& c) {
-    os << "<" << c.a->name << " " << c.type << " " << c.b->name << " -> "
-       << c.out->name << ">";
+    os << "<" << c.a->rep() << " " << c.type << " " << c.b->rep() << " -> "
+       << c.out->rep() << ">";
     return os;
 }
 
@@ -121,8 +134,10 @@ chrono::time_point<std::chrono::steady_clock> day24(input_t& inp) {
     }
 
     vector<Component> components;
+    map<string, Component> source;
     for (; i < inp.size(); i++) {
         components.emplace_back(inp[i]);
+        source[components.back().out->name] = components.back();
     }
 
     for (int i = 0; i < inp.size() && !inp[i].empty(); i++) {
@@ -130,7 +145,9 @@ chrono::time_point<std::chrono::steady_clock> day24(input_t& inp) {
     }
 
     // part 2 reset
-    vector<Wire*> X, Y, Z;
+
+        vector<Wire*> X, Y, Z, OTHER;
+
     for (auto& [k, v] : wires) {
         switch (k[0]) {
             case 'x':
@@ -142,23 +159,83 @@ chrono::time_point<std::chrono::steady_clock> day24(input_t& inp) {
             case 'z':
                 Z.push_back(v);
                 break;
+            default:
+                OTHER.push_back(v);
+                break;
         }
     }
     p1 = output(Z);
-    for (auto& v : X) v->reset();
-    for (auto& v : Y) v->reset();
+    for (auto& v : X) v->update(0);
+    for (auto& v : Y) v->update(0);
 
     // for (auto& v : Z) {
     //     cout << *v << endl;
     // }
 
-    for (int i = 0; i < X.size(); i++) {
+    for (ull i = 0; i < X.size(); i++) {
         if (i > 0) X[i - 1]->update(0);
         X[i]->update(1);
+        if ((ull)1 << i != output(Z))
+            cout << 'X' << i << '\t' << ((ull)1 << i) << "\t" << output(Z)
+                 << endl;
     }
+    X.back()->update(0);
+    cout << endl;
+
+    for (ull i = 0; i < Y.size(); i++) {
+        if (i > 0) Y[i - 1]->update(0);
+        Y[i]->update(1);
+        if ((ull)1 << i != output(Z))
+            cout << 'Y' << i << '\t' << ((ull)1 << i) << "\t" << output(Z)
+                 << endl;
+    }
+    Y.back()->update(0);
+    cout << endl;
+
+    for (ull i = 0; i < Y.size(); i++) {
+        if (i > 0) {
+            Y[i - 1]->update(0);
+            X[i - 1]->update(0);
+        }
+        Y[i]->update(1);
+        X[i]->update(1);
+        if ((ull)1 << (i + 1) != output(Z))
+            cout << "XY" << i << '\t' << ((ull)1 << i) << "\t" << output(Z)
+                 << endl;
+    }
+    Y.back()->update(0);
+    X.back()->update(0);
+    cout << endl;
 
     // cout << wires["x00"]->connections << endl;
+    // cout << X[4]->connections << endl;
     // cout << wires["x01"]->connections << endl;
+
+    for (auto& y : Y) {
+        Component c_and = y->connections[0];
+        Component c_xor = y->connections[1];
+        if (c_and.type != "AND") {
+            swap(c_and, c_xor);
+        }
+        // if (c_and.out->name[0] == 'z') {
+        //     cout << "WRONG c.out " << *c_and.out << endl;
+        //     // Found z05 is wrong
+        //     cout << c_and.out->connections << endl;
+        // }
+        c_and.out->annot = "x and " + y->name;
+        c_xor.out->annot = "x xor " + y->name;
+        if (c_and.out->connections.size() == 1) {
+            c_and.out->connections[0].out->annot = "Cout" + y->name.substr(1);
+        }
+        if (c_xor.out->connections.size() == 2) {
+            Component c = c_xor.out->connections[0];
+            c_and.out->connections[0].out->annot = "Cout" + y->name.substr(1);
+        }
+    }
+
+    for (auto& o : OTHER) {
+        cout << *o << endl;
+    }
 
     for (auto& [k, v] : wires) {
         delete v;
