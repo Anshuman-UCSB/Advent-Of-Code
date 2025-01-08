@@ -73,21 +73,6 @@ string solve_pad(const string PAD[], string target) {
     return "FAIL";
 }
 
-ull solve_p1(string target) {
-    // cout << "TARGET: " << target << endl;
-
-    string numpad_sol = solve_pad(NUMPAD, target);
-    // cout << numpad_sol << endl;
-
-    string kp1_sol = solve_pad(KEYPAD, numpad_sol);
-    // cout << kp1_sol << endl;
-
-    string kp2_sol = solve_pad(KEYPAD, kp1_sol);
-    // cout << kp2_sol << endl;
-
-    return kp2_sol.size() * stoi(target.substr(0, 3));
-}
-
 map<pair<char, char>, string> keypad_cache;
 string calc_step(char from, char to) {
     if (keypad_cache.count(make_pair(from, to))) {
