@@ -88,22 +88,57 @@ ull solve_p1(string target) {
     return kp2_sol.size() * stoi(target.substr(0, 3));
 }
 
+map<pair<char, char>, string> keypad_cache;
+string calc_step(char from, char to) {
+    if (keypad_cache.count(make_pair(from, to))) {
+        return keypad_cache[make_pair(from, to)];
+    }
+    string full_str = solve_pad(KEYPAD, string(1, from) + string(1, to));
+    string delta_str = full_str.substr(full_str.find('A') + 1);
+
+    keypad_cache[make_pair(from, to)] = delta_str;
+    return delta_str;
+}
+
 map<tuple<int, char, char>, ull> day21_cache;
 ull required_num_chars(int level, char f, char t) {
-    // TODO
-    return 69;
+    if (level == 0) {
+        return 1;
+    }
+    if (day21_cache.count(make_tuple(level, f, t))) {
+        return day21_cache[make_tuple(level, f, t)];
+    }
+
+    string seq = calc_step(f, t);
+    ull req = 0;
+    char prev = 'A';
+    for (auto c : seq) {
+        req += required_num_chars(level - 1, prev, c);
+        prev = c;
+    }
+
+    day21_cache[make_tuple(level, f, t)] = req;
+    return req;
+}
+
+ull solve(string target, int level) {
+    ull ans = 0;
+    string l0_keypad = solve_pad(NUMPAD, target);
+
+    char prev = 'A';
+    for (auto c : l0_keypad) {
+        ans += required_num_chars(level, prev, c);
+        prev = c;
+    }
+
+    return ans * stoi(target.substr(0, 3));
 }
 
 chrono::time_point<std::chrono::steady_clock> day21(input_t& inp) {
     ull p1(0), p2(0);
     for (auto& l : inp) {
-        p1 += solve_p1(l);
-    }
-
-    cout << solve_pad(NUMPAD, "029A") << endl;
-    for (auto c : solve_pad(NUMPAD, "029A")) {
-        cout << "c: " << c << endl;
-        p2 += required_num_chars(1, 'A', c);
+        p1 += solve(l, 2);
+        p2 += solve(l, 25);
     }
 
     auto done = chrono::steady_clock::now();
