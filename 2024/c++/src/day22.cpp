@@ -14,18 +14,48 @@ ull evolve(ull num) {
     return num;
 }
 
-ull evolve_iters(ull initial, int rounds) {
-    while (rounds--) {
-        initial = evolve(initial);
+typedef tuple<int, int, int, int> quad;
+void process(ull& n, map<quad, ull>& values) {
+    // vector<set<quad>> bins(10);
+    deque<int> seq;
+    set<quad> seen;
+
+    int val = n % 10, delta;
+    for (int i = 0; i < 2000; i++) {
+        n = evolve(n);
+        delta = n % 10 - val;
+        val = n % 10;
+
+        seq.push_back(delta);
+        if (seq.size() >= 5) seq.pop_front();
+        if (seq.size() != 4) continue;
+
+        // cout << seq << "\t" << val << endl;
+        quad t = make_tuple(seq[0], seq[1], seq[2], seq[3]);
+
+        if (seen.insert(t).second == false) continue;
+
+        // bins[val].insert(t);
+        values[t] += val;
     }
-    return initial;
+    // for (int i = 0; i < 10; i++) {
+    //     cout << "Val " << i << ": " << bins[i] << endl;
+    // }
+    // cout << bins << endl;
 }
 
 chrono::time_point<std::chrono::steady_clock> day22(input_t& inp) {
     ull p1(0), p2(0);
 
+    map<quad, ull> val;
     for (auto& l : inp) {
-        p1 += evolve_iters(stoi(l), 2000);
+        ull n = stoi(l);
+        process(n, val);
+        p1 += n;
+    }
+
+    for (auto& [k, v] : val) {
+        p2 = max(p2, v);
     }
 
     auto done = chrono::steady_clock::now();
