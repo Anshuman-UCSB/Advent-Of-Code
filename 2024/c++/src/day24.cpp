@@ -167,12 +167,24 @@ string p2Analysis(vector<Component>& components, map<string, Component> source,
         if (!isLetter(g.out) && !isLetter(g.a) && !isLetter(g.b)) {
             ans.insert(g.out->name);
         }
+
+        if (!isLetter(g.out)) {
+            // cout << g.out->connections << endl;
+            if (g.out->connections.size() == 1 &&
+                g.out->connections[0].type == "OR") {
+                ans.insert(g.out->name);
+            }
+        }
     }
 
     for (auto& g : gates["AND"]) {
-        cout << g << endl;
         Wire out = *g.out;
-        cout << out.connections << endl;
+        if (g.a->name.ends_with("00")) continue;
+        if (out.connections.size() != 1 || out.connections[0].type != "OR") {
+            // cout << g << endl;
+            // cout << out.connections << endl;
+            ans.insert(out.name);
+        }
     }
 
     // // annotate inputs, guaranteed not switched
@@ -412,4 +424,5 @@ rhv(XY_XOR36)
 
 
 dkr,ggk,hhh,htp,rhv,wsg,z05,z15,z20 is wrong
+dkr,ggk,hhh,htp,wsg,z05,z15,z20     is wrong
 */
