@@ -137,74 +137,100 @@ ull output(vector<Wire*>& Z) {
     return out;
 }
 
+bool isLetter(Wire* w) {
+    switch (w->name[0]) {
+        case 'x':
+        case 'y':
+        case 'z':
+            return true;
+    }
+    return false;
+}
+
 string p2Analysis(vector<Component>& components, map<string, Component> source,
                   vector<Wire*> X, vector<Wire*> Y, vector<Wire*> Z,
                   vector<Wire*> OTHER) {
     set<string> ans;
 
-    map<string, vector<Component>> gates;
-
     // create map of all gates
+    map<string, vector<Component>> gates;
     for (auto& c : components) {
         gates[c.type].push_back(c);
     }
 
-    // annotate inputs, guaranteed not switched
-    for (auto& V : {X, Y}) {
-        for (auto& c : V) {
-            c->annot_in = "IN_" + c->name;
-            c->annot_out = "IN_" + c->name;
+    for (auto& z : Z) {
+        if (z == Z.back()) continue;  // last one is an OR
+        if (source[z->name].type != "XOR") ans.insert(z->name);
+    }
+
+    for (auto& g : gates["XOR"]) {
+        if (!isLetter(g.out) && !isLetter(g.a) && !isLetter(g.b)) {
+            ans.insert(g.out->name);
         }
     }
 
-    // Annotate the XOR from inputs, could be mislabeled
-    for (auto& c : gates["XOR"]) {
-        if (c.a->isAnnot("IN") && c.b->isAnnot("IN")) {
-            c.out->annot_in = "AB_SUM_" + c.a->name.substr(1);
-            // cout << c << endl;
-        }
+    for (auto& g : gates["AND"]) {
+        cout << g << endl;
+        Wire out = *g.out;
+        cout << out.connections << endl;
     }
 
-    // OR should always come from two AND gates, if not then that wire's swapped
-    for (auto& c : gates["OR"]) {
-        c.out->annot_in = "COUT_?";
-        for (auto& t : {c.a, c.b}) {
-            if (source[t->name].type != "AND") {
-                ans.insert(t->name);
-                cout << ans << endl;
-            }
-        }
-    }
+    // // annotate inputs, guaranteed not switched
+    // for (auto& V : {X, Y}) {
+    //     for (auto& c : V) {
+    //         c->annot_in = "IN_" + c->name;
+    //         c->annot_out = "IN_" + c->name;
+    //     }
+    // }
 
-    for (auto& c : gates["XOR"]) {
-        if (!c.a->isAnnot("IN") || !c.b->isAnnot("IN")) {
-            cout << c << endl;
-            if (c.out->name[0] != 'z') {
-                ans.insert(c.out->name);
-                Wire* tmp = c.a;
-                if (!tmp->isAnnot("AB_SUM")) {
-                    tmp = c.b;
-                }
-                ans.insert("z" +
-                           tmp->annot_in.substr(tmp->annot_in.size() - 2));
-                // cout << c << endl;
-            }
-            for (auto& t : {c.a, c.b}) {
-                if (t->annot_in.empty()) {
-                    // must be mislabeled
-                    ans.insert(t->name);
-                }
-            }
-        }
-    }
+    // // Annotate the XOR from inputs, could be mislabeled
+    // for (auto& c : gates["XOR"]) {
+    //     if (c.a->isAnnot("IN") && c.b->isAnnot("IN")) {
+    //         c.out->annot_in = "AB_SUM_" + c.a->name.substr(1);
+    //         // cout << c << endl;
+    //     }
+    // }
 
-    // Annotate the AND from inputs, could be mislabeled
-    for (auto& c : gates["AND"]) {
-        if (c.a->isAnnot("IN") && c.b->isAnnot("IN")) {
-            c.out->annot_in = "AB_CARRY_" + c.a->name.substr(1);
-            // cout << c << endl;
-        }
-    }
+    // // OR should always come from two AND gates, if not then that wire's
+    // swapped for (auto& c : gates["OR"]) {
+    //     c.out->annot_in = "COUT_?";
+    //     for (auto& t : {c.a, c.b}) {
+    //         if (source[t->name].type != "AND") {
+    //             ans.insert(t->name);
+    //             cout << ans << endl;
+    //         }
+    //     }
+    // }
+
+    // for (auto& c : gates["XOR"]) {
+    //     if (!c.a->isAnnot("IN") || !c.b->isAnnot("IN")) {
+    //         cout << c << endl;
+    //         if (c.out->name[0] != 'z') {
+    //             ans.insert(c.out->name);
+    //             Wire* tmp = c.a;
+    //             if (!tmp->isAnnot("AB_SUM")) {
+    //                 tmp = c.b;
+    //             }
+    //             ans.insert("z" +
+    //                        tmp->annot_in.substr(tmp->annot_in.size() - 2));
+    //             // cout << c << endl;
+    //         }
+    //         for (auto& t : {c.a, c.b}) {
+    //             if (t->annot_in.empty()) {
+    //                 // must be mislabeled
+    //                 ans.insert(t->name);
+    //             }
+    //         }
+    //     }
+    // }
+
+    // // Annotate the AND from inputs, could be mislabeled
+    // for (auto& c : gates["AND"]) {
+    //     if (c.a->isAnnot("IN") && c.b->isAnnot("IN")) {
+    //         c.out->annot_in = "AB_CARRY_" + c.a->name.substr(1);
+    //         // cout << c << endl;
+    //     }
+    // }
 
     // wsg = AB_CARRY_0
     // cout << X[0]->connections << endl;
